@@ -123,7 +123,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
         remapAxis(AXIS_MAP_CONFIG_BYTE, AXIS_MAP_SIGN_BYTE);
     }
 
-    private void remapAxis(byte AXIS_MAP_CONFIG_BYTE, byte AXIS_MAP_SIGN_BYTE) throws InterruptedException {
+    public void remapAxis(byte AXIS_MAP_CONFIG_BYTE, byte AXIS_MAP_SIGN_BYTE) throws InterruptedException {
 
       // Setăm senzorul pe Configuration Mode
       write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.CONFIG.bVal & 0x0F);
@@ -131,10 +131,10 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
       sleep(100);
 
       // Modificăm registrul AXIS_MAP_CONFIG cu configurația dorită
-      write8(BNO055IMU.Register.AXIS_MAP_CONFIG,AXIS_MAP_CONFIG_BYTE & 0x3F);
+      write8(BNO055IMU.Register.AXIS_MAP_CONFIG,AXIS_MAP_CONFIG_BYTE & 0x0F);
 
       // Modificăm registrul AXIS_MAP_SIGN cu configurația dorită
-      write8(BNO055IMU.Register.AXIS_MAP_SIGN,AXIS_MAP_SIGN_BYTE & 0x7);
+      write8(BNO055IMU.Register.AXIS_MAP_SIGN,AXIS_MAP_SIGN_BYTE & 0x0F);
 
       // Setăm Senzorul pe IMU Mode
       write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.IMU.bVal & 0x0F);
@@ -165,6 +165,11 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
         RemapAxis(int value){
             this.value = value;
         }
+    }
+
+    // Detect Axis
+    public void detectAxis() {
+
     }
 
     // TODO: DETECT AXIS, IMU CALIBRATION MODE
