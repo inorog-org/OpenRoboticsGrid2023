@@ -109,11 +109,6 @@ public interface IMUInterface {
     Orientation getAngularOrientation();
 
     /**
-     * Funcția returnează unghiurile de orientatre a senzorului cu Parametri Predefiniți
-     * */
-    Orientation getAngularOrientationParamPredef();
-
-    /**
      *  Funcția returnează unghiurile de orientare a senzorului
      *
      * @param reference - tipul unghiurilor returnate (INTRINSIC SAU EXTRINSIC)
