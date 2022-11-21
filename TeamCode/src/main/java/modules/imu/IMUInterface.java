@@ -71,21 +71,6 @@ public interface IMUInterface {
     boolean isSystemCalibrated();
 
     /**
-     *  Funcția setează unitatea de măsură a unghiului de pe senzor (RADIANI SAU GRADE)
-     * */
-    void setAngleUnit(BNO055IMU.AngleUnit angleUnit);
-
-    /**
-     *  Funcția setează unitatea de măsură a accelerației de pe senzor (METRI/S^2 SAU earthGravity/1000)
-     * */
-    void setAccelUnit(BNO055IMU.AccelUnit accelUnit);
-
-    /**
-     *  Funcția setează unitatea de măsură a temperaturei de pe senzor (CELSIUS SAU FARENHEIT)
-     */
-    void setTemperatureUnit(BNO055IMU.TempUnit temperatureUnit);
-
-    /**
      *  Funcția care setează ordinea axelor
      * */
     void setAxesOrder(AxesOrder axesOrder);
@@ -107,6 +92,11 @@ public interface IMUInterface {
      *  Funcția returnează unghiurile de orientare a senzorului
      * */
     Orientation getAngularOrientation();
+
+    /**
+     * Funcția returnează unghiurile de orientatre a senzorului cu Parametri Predefiniți
+     * */
+    Orientation getAngularOrientationDefault();
 
     /**
      *  Funcția returnează unghiurile de orientare a senzorului
