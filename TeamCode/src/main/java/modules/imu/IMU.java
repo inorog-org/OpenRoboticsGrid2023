@@ -142,18 +142,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
       sleep(100);
     }
 
-    // Sign for Maping Axis
-    public enum Sign {
-        POSITIVE(0),
-        NEGATIVE(1);
-
-        public final int sign;
-
-        Sign(int sign){
-            this.sign = sign;
-        }
-    }
-
+    // Axis for Remap
     public enum RemapAxis{
         X(0x00),
         Y(0x01),
@@ -164,6 +153,18 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
 
         RemapAxis(int value){
             this.value = value;
+        }
+    }
+
+    // Sign for Maping Axis
+    public enum Sign {
+        POSITIVE(0),
+        NEGATIVE(1);
+
+        public final int sign;
+
+        Sign(int sign){
+            this.sign = sign;
         }
     }
 
