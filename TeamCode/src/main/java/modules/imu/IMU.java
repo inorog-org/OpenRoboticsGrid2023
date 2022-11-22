@@ -314,9 +314,14 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
                 break;
         }
 
+        int zByte = 3 - zAxisIndex;
+        int yByte = 3 - yAxisIndex;
+        int xByte = 3 - xAxisIndex;
+
         opMode.telemetry.addLine(zAxisIndex + " angle is for Z-axis.");
         opMode.telemetry.addLine(yAxisIndex + " angle is for Y-axis.");
         opMode.telemetry.addLine(xAxisIndex + " angle is for X-axis.");
+        opMode.telemetry.addData("Map Byte ", "0x" + Integer.toHexString((zByte << 4) | (yByte << 2) | xByte));
         opMode.telemetry.update();
 
         /*
