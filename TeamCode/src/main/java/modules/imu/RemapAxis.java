@@ -6,10 +6,10 @@ public interface RemapAxis {
 
     // Axis for Remap
     enum Axis{
-        X(0x00),
-        Y(0x01),
-        Z(0x10),
-        INVALID(0x11);
+        X(0x0),
+        Y(0x1),
+        Z(0x2),
+        INVALID(0x3);
 
         public final int value;
 
