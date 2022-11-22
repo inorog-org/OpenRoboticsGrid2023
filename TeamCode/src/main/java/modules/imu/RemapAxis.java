@@ -30,7 +30,24 @@ public interface RemapAxis {
         }
     }
 
+    /**
+     *  Remaparea axelor folosing înlcouirea axelor și a sensurilor în mod direct
+     *
+     * @param xAxis - Axa X de pe ControlHub devinde axa xAxis
+     * @param yAxis - Axa Y de pe ControlHub devinde axa yAxis
+     * @param zAxis - Axa Z de pe ControlHub devinde axa zAxis
+     *
+     * @param xSign - Schimbarea semnului axei X
+     * @param ySign - Schimbarea semnului axei Y
+     * @param zSign - Schimbarea semnului axei X
+     * */
     void remapAxis(@NonNull Axis xAxis, @NonNull Axis yAxis, @NonNull Axis zAxis, @NonNull Sign xSign, @NonNull Sign ySign, @NonNull Sign zSign);
 
+    /**
+     *  Configurarea axelor folosing modificarea biților în mod direct
+     *
+     * @param AXIS_MAP_CONFIG_BYTE - byte-ul pentru remaparea axelor XYZ
+     * @param AXIS_MAP_SIGN_BYTE   - byte-ul pentru schimbarea sensurilor axelor XYZ
+     * */
     void remapAxis(int AXIS_MAP_CONFIG_BYTE, int AXIS_MAP_SIGN_BYTE);
 }

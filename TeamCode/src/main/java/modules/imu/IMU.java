@@ -151,6 +151,11 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis{
     // Detect Axis
     public void detectAxis() {
 
+        // Verificăm Axa Z
+
+        // Verificăm Axa X
+
+        // Verificăm Axa Y
     }
 
     // TODO: DETECT AXIS, IMU CALIBRATION MODE
