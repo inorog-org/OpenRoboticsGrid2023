@@ -317,8 +317,28 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         opMode.telemetry.addLine(zAxisIndex + " angle is for Z-axis.");
         opMode.telemetry.addLine(yAxisIndex + " angle is for Y-axis.");
         opMode.telemetry.addLine(xAxisIndex + " angle is for X-axis.");
+        opMode.telemetry.update();
 
-        opMode.telemetry.addLine();
+        /*
+         firstAngle(index 1)  - bit-ul 4 și 5 - normal e axa Z
+         secondAngle(index 2) - bit-ul 2 și 3 - normal e axa Y
+         thirdAngle(index 3)  - bit-ul 0 și 1 - nromal e axa X
+
+         firstAngle  - zIndex este axa nouă pentru Z
+         secondAngle - yIndex este axa nouă pentru Y
+         thirdAngle  - xIndex este axa nouă pentru X
+
+         Valoare pentru set Axa X: 0x0
+         Valoare pentru set Axa Y: 0x1
+         Valoare pentru set Axa Z: 0x2
+
+         Functie:
+
+          * Noua Axa X = Axa reală X detectată
+          * Noua Axa Y = Axa reală Y detectată
+          * Noua Axa Z = Axa reală Z detectată
+
+        */
     }
 
     // IMU Calibration
@@ -353,5 +373,5 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         }
     }
 
-    // TODO: DETECT AXIS, IMU CALIBRATION MODE
+    // TODO: IMU CALIBRATION MODE
 }
