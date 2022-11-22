@@ -1,6 +1,7 @@
 package modules.imu;
 
-import static java.lang.Thread.sleep;
+
+import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
@@ -10,18 +11,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Axis;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class IMU extends BNO055IMUImpl implements IMUInterface{
+public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis{
 
     private final LinearOpMode opMode;
 
-    private BNO055IMU.AngleUnit angleUnit;
-    private BNO055IMU.AccelUnit accelUnit;
+    private final BNO055IMU.AngleUnit angleUnit;
+    private final BNO055IMU.AccelUnit accelUnit;
 
     private AxesOrder axesOrder;
     private AxesReference axesReference;
+
+    private final int AXIS_MAP_BYTE = 0x24;
+    private final int SIGN_MAP_BYTE = 0x0;
 
     // Constructors
     public IMU(LinearOpMode opMode, BNO055IMU.AngleUnit angleUnit, BNO055IMU.AccelUnit accelUnit) {
@@ -40,7 +43,9 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
         setAxesOrder(axesOrder);
         setAxesRefrence(axesReference);
 
-        parametersInit(angleUnit,accelUnit);
+        parametersInit(angleUnit, accelUnit);
+
+        remapAxis(AXIS_MAP_BYTE, SIGN_MAP_BYTE);
     }
 
     // Init
@@ -114,7 +119,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
     }
 
     // Remap Axis
-    public void remapAxis(RemapAxis xAxis, RemapAxis yAxis, RemapAxis zAxis, Sign xSign, Sign ySign, Sign zSign) {
+    public void remapAxis(@NonNull Axis xAxis,@NonNull Axis yAxis,@NonNull Axis zAxis,@NonNull Sign xSign,@NonNull Sign ySign,@NonNull Sign zSign) {
 
         byte AXIS_MAP_CONFIG_BYTE = (byte) (xAxis.value | (yAxis.value << 2) | (zAxis.value << 4));
 
@@ -123,7 +128,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
         remapAxis(AXIS_MAP_CONFIG_BYTE, AXIS_MAP_SIGN_BYTE);
     }
 
-    public void remapAxis(byte AXIS_MAP_CONFIG_BYTE, byte AXIS_MAP_SIGN_BYTE) {
+    public void remapAxis(int AXIS_MAP_CONFIG_BYTE, int AXIS_MAP_SIGN_BYTE) {
 
       // Setăm senzorul pe Configuration Mode
       write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.CONFIG.bVal & 0x0F);
@@ -131,42 +136,16 @@ public class IMU extends BNO055IMUImpl implements IMUInterface{
       opMode.sleep(100);
 
       // Modificăm registrul AXIS_MAP_CONFIG cu configurația dorită
-      write8(BNO055IMU.Register.AXIS_MAP_CONFIG,AXIS_MAP_CONFIG_BYTE);
+      write8(BNO055IMU.Register.AXIS_MAP_CONFIG, AXIS_MAP_CONFIG_BYTE);
 
       // Modificăm registrul AXIS_MAP_SIGN cu configurația dorită
-      write8(BNO055IMU.Register.AXIS_MAP_SIGN,AXIS_MAP_SIGN_BYTE);
+      write8(BNO055IMU.Register.AXIS_MAP_SIGN, AXIS_MAP_SIGN_BYTE);
 
       // Setăm Senzorul pe IMU Mode
       write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.IMU.bVal & 0x0F);
 
       opMode.sleep(100);
 
-    }
-
-    // Axis for Remap
-    public enum RemapAxis{
-        X(0x00),
-        Y(0x01),
-        Z(0x10),
-        INVALID(0x11);
-
-        public final int value;
-
-        RemapAxis(int value){
-            this.value = value;
-        }
-    }
-
-    // Sign for Maping Axis
-    public enum Sign {
-        POSITIVE(0),
-        NEGATIVE(1);
-
-        public final int sign;
-
-        Sign(int sign){
-            this.sign = sign;
-        }
     }
 
     // Detect Axis
