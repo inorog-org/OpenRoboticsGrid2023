@@ -368,14 +368,19 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis, Detec
     // IMU Calibration
     public void calibrateIMU() {
 
-        // Get the calibration data
-        BNO055IMU.CalibrationData calibrationData = readCalibrationData();
+        while(!opMode.gamepad1.a) {
+            // Get the calibration data
+            BNO055IMU.CalibrationData calibrationData = readCalibrationData();
 
-        // Save the calibration data
-        String filename = "BNO055IMUCalibration.json";
+            // Save the calibration data
+            String filename = "BNO055IMUCalibration.json";
 
-        File file = AppUtil.getInstance().getSettingsFile(filename);
-        ReadWriteFile.writeFile(file, calibrationData.serialize());
+            File file = AppUtil.getInstance().getSettingsFile(filename);
+            ReadWriteFile.writeFile(file, calibrationData.serialize());
+
+            opMode.telemetry.addLine("Apasa A pentru a termina calibrarea!");
+            opMode.telemetry.update();
+        }
 
     }
 
