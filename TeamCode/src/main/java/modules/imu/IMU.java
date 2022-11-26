@@ -153,12 +153,11 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         // Each Detection
         byte zDetect;
         byte yDetect;
-        byte xDetect;
 
         // Index for each Axis
         byte zAxisIndex;
-        byte yAxisIndex = 0;
-        byte xAxisIndex = 0;
+        byte yAxisIndex;
+        byte xAxisIndex;
 
         // Sign for each Axis
         byte zSign;
@@ -203,6 +202,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         ySign      = (byte) Math.signum(yDetect);
 
         // Verificăm Axa X
+        xAxisIndex = (byte) (6 - (zAxisIndex + yAxisIndex));
+        xSign      = (byte) thirdDetection(initOrientation, xAxisIndex);
 
         // Facem Calculele aferente și afișăm
 
@@ -210,11 +211,16 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         int yByte = 3 - yAxisIndex;
         int xByte = 3 - xAxisIndex;
 
+        xSign = (byte) ((xSign == 1) ? 0 : 1);
+        ySign = (byte) ((ySign == 1) ? 0 : 1);;
+        zSign = (byte) ((zSign == 1) ? 0 : 1);;
+
         opMode.telemetry.addLine(zAxisIndex + " angle is for Z-axis.");
         opMode.telemetry.addLine(yAxisIndex + " angle is for Y-axis.");
         opMode.telemetry.addLine(xAxisIndex + " angle is for X-axis.");
         opMode.telemetry.addLine();
-        opMode.telemetry.addData("Map Byte ", "0x" + Integer.toHexString((zByte << 4) | (yByte << 2) | xByte));
+        opMode.telemetry.addData("Map Byte ",  "0x"  + Integer.toHexString((zByte << 4) | (yByte << 2) | xByte));
+        opMode.telemetry.addData("Sign Byte ", "0x"  + Integer.toHexString((xSign << 3) | (ySign << 2) | zSign));
         opMode.telemetry.update();
 
     }
@@ -291,6 +297,42 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
 
             if (Math.abs(deltaThird) >= 45) {
                 return (byte) (3 * Math.signum(deltaThird));
+            }
+        }
+    }
+
+    private byte thirdDetection(Orientation initOrientation, int xAxisIndex){
+        while (true) {
+
+            // Mesaj pentru rotirea robotului
+            opMode.telemetry.addLine("Rotește robotul la 45 de grade la POZITIV pe Axa X");
+
+            // Citim Datele
+            Orientation orientation = getAngularOrientation();
+
+            double delta = 0;
+            // Afisam Datele
+            switch (xAxisIndex){
+                case 1: {
+                    opMode.telemetry.addData("First Angle ", orientation.firstAngle);
+                    delta = getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle);
+                }
+                    break;
+                case 2: {
+                    opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
+                    delta = getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle);
+                }
+                    break;
+                case 3: {
+                    opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
+                    delta = getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle);
+                }
+                    break;
+            }
+            opMode.telemetry.update();
+
+            if(Math.abs(delta) >= 45){
+                return (byte) Math.signum(delta);
             }
         }
     }
