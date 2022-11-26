@@ -31,7 +31,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis, Detec
 
     // Constructors
     public IMU(LinearOpMode opMode, BNO055IMU.AngleUnit angleUnit, BNO055IMU.AccelUnit accelUnit) {
-        this(opMode, angleUnit, accelUnit, AxesOrder.XYZ, AxesReference.EXTRINSIC);
+        this(opMode, angleUnit, accelUnit, AxesOrder.ZYX, AxesReference.EXTRINSIC);
     }
 
     public IMU(LinearOpMode opMode, BNO055IMU.AngleUnit angleUnit, BNO055IMU.AccelUnit accelUnit, AxesOrder axesOrder, AxesReference axesReference) {
