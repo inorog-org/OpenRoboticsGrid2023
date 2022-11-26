@@ -185,6 +185,16 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         zAxisIndex = (byte) Math.abs(zDetect);
         zSign      = (byte) Math.signum(zDetect);
 
+        // Mesaj
+        opMode.telemetry.addLine("Poziționează robotul în poziția de inițiere");
+        opMode.telemetry.addLine();
+        opMode.telemetry.addLine("Apasă A pentru a începe detecția");
+        opMode.telemetry.update();
+
+        // Wait press A
+        while (!opMode.gamepad1.a) ;
+        opMode.sleep(500);
+
         // Verificăm Axa Y
         switch (zAxisIndex) {
             case 1: // Ne mai rămân de scanat secondAngle și thirdAngle
@@ -200,6 +210,16 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         }
         yAxisIndex = (byte) Math.abs(yDetect);
         ySign      = (byte) Math.signum(yDetect);
+
+        // Mesaj
+        opMode.telemetry.addLine("Poziționează robotul în poziția de inițiere");
+        opMode.telemetry.addLine();
+        opMode.telemetry.addLine("Apasă A pentru a începe detecția");
+        opMode.telemetry.update();
+
+        // Wait press A
+        while (!opMode.gamepad1.a) ;
+        opMode.sleep(500);
 
         // Verificăm Axa X
         xAxisIndex = (byte) (6 - (zAxisIndex + yAxisIndex));
@@ -221,8 +241,12 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         opMode.telemetry.addLine();
         opMode.telemetry.addData("Map Byte ",  "0x"  + Integer.toHexString((zByte << 4) | (yByte << 2) | xByte));
         opMode.telemetry.addData("Sign Byte ", "0x"  + Integer.toHexString((xSign << 3) | (ySign << 2) | zSign));
+        opMode.telemetry.addLine();
+        opMode.telemetry.addLine("Apasă A pentru a FINALIZA");
         opMode.telemetry.update();
 
+        // Wait press A
+        while (!opMode.gamepad1.a);
     }
 
     private byte firstDetect(Orientation initOrientation){
