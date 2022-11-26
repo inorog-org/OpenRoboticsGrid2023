@@ -7,10 +7,14 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+
+import java.io.File;
 
 public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
 
@@ -364,9 +368,18 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
     // IMU Calibration
     public void calibrateIMU() {
 
+        // Get the calibration data
+        BNO055IMU.CalibrationData calibrationData = readCalibrationData();
+
+        // Save the calibration data
+        String filename = "BNO055IMUCalibration.json";
+
+        File file = AppUtil.getInstance().getSettingsFile(filename);
+        ReadWriteFile.writeFile(file, calibrationData.serialize());
 
     }
 
+    // Shortest Angle
     private double getShortestAngleDEGREES(double current, double target) {
 
         double angle = target - current;
