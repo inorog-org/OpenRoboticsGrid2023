@@ -204,6 +204,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
 
         // Verificăm Axa X
 
+        // Facem Calculele aferente și afișăm
+
         int zByte = 3 - zAxisIndex;
         int yByte = 3 - yAxisIndex;
         int xByte = 3 - xAxisIndex;
