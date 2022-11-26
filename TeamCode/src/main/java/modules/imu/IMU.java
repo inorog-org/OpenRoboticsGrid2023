@@ -1,8 +1,5 @@
 package modules.imu;
 
-
-import static com.qualcomm.hardware.bosch.BNO055IMU.AngleUnit.DEGREES;
-
 import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -153,166 +150,59 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
     // Detect Axis
     public void detectAxis() {
 
+        // Each Detection
+        byte zDetect;
+        byte yDetect;
+        byte xDetect;
+
         // Index for each Axis
-        byte zAxisIndex = 0;
+        byte zAxisIndex;
         byte yAxisIndex = 0;
         byte xAxisIndex = 0;
+
+        // Sign for each Axis
+        byte zSign;
+        byte ySign;
+        byte xSign;
 
         // Mapăm axele să fie DEFAULT
         remapAxis(0x24, 0x0);
 
         // Mesaj Init
         opMode.telemetry.addLine("Poziționează robotul într-o poziție de inițiere");
+        opMode.telemetry.addLine();
         opMode.telemetry.addLine("Apasă A pentru a inițializa poziția");
         opMode.telemetry.update();
 
         // Wait press A
         while (!opMode.gamepad1.a) ;
-        opMode.sleep(1000);
+        opMode.sleep(500);
 
         // Citire Unghi Init
-        Orientation initOrientation = getAngularOrientation(axesReference, axesOrder, org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES);
-
-        boolean notDetected = true;
+        Orientation initOrientation = getAngularOrientation();
 
         /// Verificăm Axa Z
-        while (notDetected) {
+        zDetect    =  firstDetect(initOrientation);
+        zAxisIndex = (byte) Math.abs(zDetect);
+        zSign      = (byte) Math.signum(zDetect);
 
-            // Mesaj pentru rotirea robotului
-            opMode.telemetry.addLine("Rotește robotul la 90 de grade la POZITIV pe Axa Z");
-
-            // Citim Datele
-            Orientation orientation = getAngularOrientation(axesReference, axesOrder, org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES);
-
-            // Afisam Datele
-            opMode.telemetry.addData("First Angle ", orientation.firstAngle);
-            opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
-            opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
-            opMode.telemetry.update();
-
-            // Vedem diferenta de grade dintre orientarea curentă și cea inițială
-            double deltaFirst = Math.abs(getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle));
-            double deltaSecond = Math.abs(getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle));
-            double deltaThird = Math.abs(getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle));
-
-            // Verificăm care e primul unghi care execută 90 de grade
-            if (deltaFirst >= 90) {
-                notDetected = false;
-                zAxisIndex = 1;
-            }
-
-            if (deltaSecond >= 90) {
-                notDetected = false;
-                zAxisIndex = 2;
-            }
-
-            if (deltaThird >= 90) {
-                notDetected = false;
-                zAxisIndex = 3;
-            }
-
-            // Axa care execută prima 90 de grade este axa Z
-        }
-
-        notDetected = true;
-
-        // Verificăm Axa Y și Axa rămasă din urma scanării va fi axa X
-
+        // Verificăm Axa Y
         switch (zAxisIndex) {
             case 1: // Ne mai rămân de scanat secondAngle și thirdAngle
-                while(notDetected){
-                    // Mesaj pentru rotirea robotului
-                    opMode.telemetry.addLine("Rotește robotul la 45 de grade la POZITIV pe Axa Y");
-
-                    // Citim Datele
-                    Orientation orientation = getAngularOrientation(axesReference, axesOrder, org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES);
-
-                    // Afisam Datele
-                    opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
-                    opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
-                    opMode.telemetry.update();
-
-                    // Vedem diferenta de grade dintre orientarea curentă și cea inițială
-                    double deltaSecond = Math.abs(getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle));
-                    double deltaThird = Math.abs(getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle));
-
-                    // Verificăm care e primul unghi care execută 45 de grade
-                    if (deltaSecond >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 2;
-                        xAxisIndex = 3;
-                    }
-
-                    if (deltaThird >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 3;
-                        xAxisIndex = 2;
-                    }
-                }
+                yDetect = secondDetection(initOrientation, 1);
                 break;
             case 2: // Ne mai rămân de scanat firstAngle și thirdAngle
-                while(notDetected){
-                    // Mesaj pentru rotirea robotului
-                    opMode.telemetry.addLine("Rotește robotul la 45 de grade la POZITIV pe Axa Y");
-
-                    // Citim Datele
-                    Orientation orientation = getAngularOrientation(axesReference, axesOrder, org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES);
-
-                    // Afisam Datele
-                    opMode.telemetry.addData("First Angle ", orientation.firstAngle);
-                    opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
-                    opMode.telemetry.update();
-
-                    // Vedem diferenta de grade dintre orientarea curentă și cea inițială
-                    double deltaFirst = Math.abs(getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle));
-                    double deltaThird = Math.abs(getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle));
-
-                    // Verificăm care e primul unghi care execută 45 de grade
-                    if (deltaFirst >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 1;
-                        xAxisIndex = 3;
-                    }
-
-                    if (deltaThird >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 3;
-                        xAxisIndex = 1;
-                    }
-                }
+                yDetect = secondDetection(initOrientation, 2);
                 break;
             case 3: // Ne mai rămân de scanat firstAngle și secondAngle
-                while(notDetected){
-                    // Mesaj pentru rotirea robotului
-                    opMode.telemetry.addLine("Rotește robotul la 45 de grade la POZITIV pe Axa Y");
-
-                    // Citim Datele
-                    Orientation orientation = getAngularOrientation(axesReference, axesOrder, org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES);
-
-                    // Afisam Datele
-                    opMode.telemetry.addData("First Angle ", orientation.firstAngle);
-                    opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
-                    opMode.telemetry.update();
-
-                    // Vedem diferenta de grade dintre orientarea curentă și cea inițială
-                    double deltaFirst = Math.abs(getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle));
-                    double deltaSecond = Math.abs(getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle));
-
-                    // Verificăm care e primul unghi care execută 45 de grade
-                    if (deltaFirst >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 1;
-                        xAxisIndex = 2;
-                    }
-
-                    if (deltaSecond >= 45) {
-                        notDetected = false;
-                        yAxisIndex = 2;
-                        xAxisIndex = 1;
-                    }
-                }
+                yDetect = secondDetection(initOrientation, 3);
                 break;
+            default: yDetect = 0; break;
         }
+        yAxisIndex = (byte) Math.abs(yDetect);
+        ySign      = (byte) Math.signum(yDetect);
+
+        // Verificăm Axa X
 
         int zByte = 3 - zAxisIndex;
         int yByte = 3 - yAxisIndex;
@@ -321,29 +211,86 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         opMode.telemetry.addLine(zAxisIndex + " angle is for Z-axis.");
         opMode.telemetry.addLine(yAxisIndex + " angle is for Y-axis.");
         opMode.telemetry.addLine(xAxisIndex + " angle is for X-axis.");
+        opMode.telemetry.addLine();
         opMode.telemetry.addData("Map Byte ", "0x" + Integer.toHexString((zByte << 4) | (yByte << 2) | xByte));
         opMode.telemetry.update();
 
-        /*
-         firstAngle(index 1)  - bit-ul 4 și 5 - normal e axa Z
-         secondAngle(index 2) - bit-ul 2 și 3 - normal e axa Y
-         thirdAngle(index 3)  - bit-ul 0 și 1 - nromal e axa X
+    }
 
-         firstAngle  - zIndex este axa nouă pentru Z
-         secondAngle - yIndex este axa nouă pentru Y
-         thirdAngle  - xIndex este axa nouă pentru X
+    private byte firstDetect(Orientation initOrientation){
 
-         Valoare pentru set Axa X: 0x0
-         Valoare pentru set Axa Y: 0x1
-         Valoare pentru set Axa Z: 0x2
+        /// Verificăm Axa Z
+        while (true) {
 
-         Functie:
+            // Mesaj pentru rotirea robotului
+            opMode.telemetry.addLine("Rotește robotul la 90 de grade la POZITIV pe Axa Z");
 
-          * Noua Axa X = Axa reală X detectată
-          * Noua Axa Y = Axa reală Y detectată
-          * Noua Axa Z = Axa reală Z detectată
+            // Citim Datele
+            Orientation orientation = getAngularOrientation();
 
-        */
+            // Afisam Datele
+            opMode.telemetry.addData("First Angle ", orientation.firstAngle);
+            opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
+            opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
+            opMode.telemetry.update();
+
+            // Vedem diferenta de grade dintre orientarea curentă și cea inițială
+            double deltaFirst  = getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle);
+            double deltaSecond = getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle);
+            double deltaThird  = getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle);
+
+            // Verificăm care e primul unghi care execută 90 de grade
+            // Axa care execută prima 90 de grade este axa Z
+            // Vom returna Indexul Axei, dar și semnul acesteia
+
+            if (Math.abs(deltaFirst) >= 90) {
+                return (byte) (1 * Math.signum(deltaFirst));
+            }
+
+            if (Math.abs(deltaSecond) >= 90) {
+                return (byte) (2 * Math.signum(deltaSecond));
+            }
+
+            if (Math.abs(deltaThird) >= 90) {
+                return (byte) (3 * Math.signum(deltaThird));
+            }
+        }
+    }
+
+    private byte secondDetection(Orientation initOrientation, int zAxisIndex){
+        while (true){
+
+            // Mesaj pentru rotirea robotului
+            opMode.telemetry.addLine("Rotește robotul la 45 de grade la POZITIV pe Axa Y");
+
+            // Citim Datele
+            Orientation orientation = getAngularOrientation();
+
+            // Afisam Datele
+            if (zAxisIndex != 1) opMode.telemetry.addData("First Angle ", orientation.firstAngle);
+            if (zAxisIndex != 2) opMode.telemetry.addData("Second Angle ", orientation.secondAngle);
+            if (zAxisIndex != 3) opMode.telemetry.addData("Third Angle ", orientation.thirdAngle);
+            opMode.telemetry.update();
+
+            // Vedem diferenta de grade dintre orientarea curentă și cea inițială
+            double deltaFirst  = (zAxisIndex != 1) ? getShortestAngleDEGREES(initOrientation.firstAngle, orientation.firstAngle)   : 0;
+            double deltaSecond = (zAxisIndex != 2) ? getShortestAngleDEGREES(initOrientation.secondAngle, orientation.secondAngle) : 0;
+            double deltaThird  = (zAxisIndex != 3) ? getShortestAngleDEGREES(initOrientation.thirdAngle, orientation.thirdAngle)   : 0;
+
+            // Verificăm care e primul unghi care execută 45 de grade
+            // Vom returna Indexul Axei, dar și semnul acesteia
+            if (Math.abs(deltaFirst) >= 45) {
+                return (byte) (1 * Math.signum(deltaFirst));
+            }
+
+            if (Math.abs(deltaSecond) >= 45) {
+                return (byte) (2 * Math.signum(deltaSecond));
+            }
+
+            if (Math.abs(deltaThird) >= 45) {
+                return (byte) (3 * Math.signum(deltaThird));
+            }
+        }
     }
 
     // IMU Calibration
@@ -366,7 +313,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
         return (angle + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
     }
 
-    private double getShortestAngle(double current, double target, AngleUnit angleUnit) {
+    private double getShortestAngle(double current, double target, @NonNull AngleUnit angleUnit) {
 
         switch (angleUnit) {
             case DEGREES:
