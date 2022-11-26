@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
 import java.io.File;
 
-public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
+public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis, DetectAxis {
 
     private final LinearOpMode opMode;
 
@@ -405,6 +405,4 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis {
                 return 0;
         }
     }
-
-    // TODO: IMU CALIBRATION MODE
 }
