@@ -57,13 +57,38 @@ public class OdometryEncoders {
          absoluteTheta =     startPosition.theta       +    (deltaGlobalLeft - deltaGlobalRight) / (leftLength + rightLength);
                              (orientarea la start)     +                         (orientarea față de start)
 
-     2.
+     2. Calculăm diferența de unghi dintre orientarea anterioară și cea actuală
 
-     3.
+         deltaTheta    = absoluteTheta - previousAbsoluteTheta;
 
-     4.
+     3. Vom avea 2 cazuri pentru a calcula Poziția:
+        - Cazul deltaTheta == 0
+        - Cazul deltaTheta <> 0
 
-     5.
+     4. Cazul deltaTheta == 0
+        - Practic robotul merge pe o traiectorie liniară
+        - Principiul e același cu descompunerea forțelor la fizică
+        - Vom lua distanța parcursă pe axa X și pe axa Y
+
+                x = deltaCentral;
+                y = deltaRight;
+
+        - Coorodnatele x și y sunt relative față de poziția anterioară
+        - Pentru 'a expune' deplasările de pe axele x și y în sistemul Global de referință
+        vom fi nevoiți să folosim o matrice de rotație și să mapăm coordonatele
+        - Vom roti coordonatele cu unghiul relativ față de teren - absoluteDelta
+
+              deltaX = x * cos(absoluteDelta) - y * sin(absoluteDelta);
+              deltaY = x * sin(absoluteDelta) + y * cos(absoluteDelta);
+
+     5. Cazul deltaTheta <> 0
+        - Practic robotul merge pe o traiectorie curbilinie - arc de cerc
+        -
+
+
+     6. Incrementăm Delta-urile
+        currentPosition.x     += deltaX;
+        currentPosition.y     += deltaY;
 
     */
     public void updatePosition(){
@@ -76,7 +101,7 @@ public class OdometryEncoders {
         // Get Delta Encoders Value
         double deltaLeft    = leftEncoder.getDeltaDistance();
         double deltaRight   = rightEncoder.getDeltaDistance();
-        double deltaHeading = centralEncoder.getDeltaDistance();
+        double deltaCentral = centralEncoder.getDeltaDistance();
 
         // Get Global Delta Encoders Value
         double deltaGlobalLeft    = leftEncoder.getGlobalDelta();
@@ -95,21 +120,34 @@ public class OdometryEncoders {
 
         // Compute Incremental Values for Position Update
         if(deltaTheta == 0) {
-            deltaX = deltaHeading;
-            deltaY = deltaRight;
 
+            double x = deltaCentral;
+            double y = deltaRight;
 
+            double cos = Math.cos(absoluteTheta);
+            double sin = Math.sin(absoluteTheta);
+
+            deltaX = x * cos - y * sin;
+            deltaY = x * sin + y * cos;
 
         } else {
+
             double s = 2 * Math.sin(absoluteTheta / 2);
-            deltaX   = s * (deltaHeading / deltaTheta + headingLength);
-            deltaY   = s * (deltaRight   / deltaTheta + rightLength);
+
+            double x   = s * (deltaCentral / deltaTheta + headingLength);
+            double y   = s * (deltaRight   / deltaTheta + rightLength);
+
+            double cos = Math.cos(absoluteTheta + deltaTheta / 2);
+            double sin = Math.sin(absoluteTheta + deltaTheta / 2);
+
+            deltaX = x * cos - y * sin;
+            deltaY = x * sin + y * cos;
         }
 
         // Update Position
         currentPosition.x     += deltaX;
         currentPosition.y     += deltaY;
-        currentPosition.theta = absoluteTheta;
+        currentPosition.theta  = absoluteTheta;
     }
 
     // Getters
