@@ -4,8 +4,8 @@ package modules.imu;
 public interface IMUDetectAxis {
 
     /**
-     *     Funcția va avea rol de a deteca axele și sensul lor de rotație și va afișa în final configurația
-     *  pe bytes a IMU pentru a remapa axele și sensul de rotație
+     *  Funcția va avea rol în a deteca axele și sensul lor de rotație și va afișa în final configurația
+     *  pe bytes a IMU pentru a remapa axele și sensul de rotație.
      * */
     void detectAxis();
 
