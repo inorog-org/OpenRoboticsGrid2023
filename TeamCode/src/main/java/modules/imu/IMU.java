@@ -26,8 +26,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, IM
     private AxesOrder axesOrder;
     private AxesReference axesReference;
 
-    private final int AXIS_MAP_BYTE = 0x24;
-    private final int SIGN_MAP_BYTE = 0x0;
+    private final int DEFAULT_AXIS_MAP_BYTE = 0x24;
+    private final int DEFAULT_SIGN_MAP_BYTE = 0x0;
 
     // Constructors
     public IMU(LinearOpMode opMode, BNO055IMU.AngleUnit angleUnit, BNO055IMU.AccelUnit accelUnit) {
@@ -48,7 +48,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, IM
 
         parametersInit(angleUnit, accelUnit);
 
-        remapAxis(AXIS_MAP_BYTE, SIGN_MAP_BYTE);
+        remapAxis(DEFAULT_AXIS_MAP_BYTE, DEFAULT_SIGN_MAP_BYTE);
     }
 
     // Init

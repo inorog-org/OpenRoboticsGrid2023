@@ -1,11 +1,9 @@
 package modules.odometry;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 
-public class Encoder {
-
-    private final DcMotorEx encoder;
+public class Encoder extends DcMotorImplEx {
 
     private final int ENCODER_TICKS = 8192;
 
@@ -13,24 +11,24 @@ public class Encoder {
 
     private final double TICKS_PER_CM = ENCODER_TICKS / (WHEEL_DIAMETER * Math.PI);
 
-    private double previousPosition = 0.0;
+    private double encoderPosition = 0.0;
 
     private double deltaPosition = 0.0;
 
-    public Encoder(HardwareMap hardwareMap, String name){
+    public Encoder(DcMotorEx encoder){
 
-        encoder = hardwareMap.get(DcMotorEx.class, name);
+        super(encoder.getController(), encoder.getPortNumber());
 
-        encoder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        encoder.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void updateValues() {
-        double currentPosition = encoder.getCurrentPosition(); // Tinem minte pozitia curenta
+        double currentPosition = getCurrentPosition(); // Tinem minte pozitia curenta
 
-        deltaPosition    = currentPosition - previousPosition; // Aflam delta
+        deltaPosition    = currentPosition - encoderPosition; // Aflam delta
 
-        previousPosition = currentPosition; // Pozitia veche devine pozitia noua (Update Value)
+        encoderPosition = currentPosition; // Pozitia veche devine pozitia noua (Update Value)
     }
 
     public double getDeltaDistance() {
@@ -40,6 +38,6 @@ public class Encoder {
 
     public double getGlobalDelta() {
 
-        return previousPosition * TICKS_PER_CM;
+        return encoderPosition * TICKS_PER_CM;
     }
 }
