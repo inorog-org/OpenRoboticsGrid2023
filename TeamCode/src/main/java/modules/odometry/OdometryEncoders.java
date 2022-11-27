@@ -11,7 +11,7 @@ public class OdometryEncoders {
     private Position startPosition;
     private Position currentPosition;
 
-    private double previousAbsoluteTheta ;
+    private double previousAbsoluteTheta;
 
     // --- Distance from Robot Center --- //
     private final double leftLength    = 17.5;  // 17.5 cm

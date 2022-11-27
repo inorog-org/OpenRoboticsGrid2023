@@ -20,10 +20,16 @@ public class Position {
         new Position(0, 0,0);
     }
 
-    public void updatePosition(double x, double y, double theta){
+    public void updatePosition(double x, double y, double theta) {
         this.x = x;
         this.y = y;
         this.theta = theta;
+    }
+
+    public void incrementPosition(double x, double y, double theta) {
+        this.x += x;
+        this.y += y;
+        this.theta += theta;
     }
 
 }
