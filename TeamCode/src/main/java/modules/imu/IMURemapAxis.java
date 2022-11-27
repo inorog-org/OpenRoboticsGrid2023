@@ -2,7 +2,7 @@ package modules.imu;
 
 import androidx.annotation.NonNull;
 
-public interface RemapAxis {
+public interface IMURemapAxis {
 
     // Axis for Remap
     enum Axis{

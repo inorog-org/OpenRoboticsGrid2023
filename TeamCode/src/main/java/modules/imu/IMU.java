@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 
 import java.io.File;
 
-public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis, DetectAxis {
+public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, IMUDetectAxis {
 
     private final LinearOpMode opMode;
 
@@ -381,7 +381,6 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, RemapAxis, Detec
             opMode.telemetry.addLine("Apasa A pentru a termina calibrarea!");
             opMode.telemetry.update();
         }
-
     }
 
     // Shortest Angle
