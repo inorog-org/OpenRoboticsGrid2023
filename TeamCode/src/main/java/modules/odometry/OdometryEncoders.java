@@ -83,7 +83,6 @@ public class OdometryEncoders {
 
      5. Cazul deltaTheta <> 0
         - Practic robotul merge pe o traiectorie curbilinie - arc de cerc
-        -
 
 
      6. Incrementăm Delta-urile
@@ -91,7 +90,7 @@ public class OdometryEncoders {
         currentPosition.y     += deltaY;
 
     */
-    public void updatePosition(){
+    public Position updatePosition(){
 
         // Update Encoder Values
         leftEncoder.updateValues();
@@ -148,6 +147,8 @@ public class OdometryEncoders {
         currentPosition.x     += deltaX;
         currentPosition.y     += deltaY;
         currentPosition.theta  = absoluteTheta;
+
+        return currentPosition;
     }
 
     // Getters
