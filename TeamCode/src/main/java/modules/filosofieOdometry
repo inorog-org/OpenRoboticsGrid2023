@@ -32,10 +32,13 @@
 
        Position: currentPosition.x, currentPosition.y, currenPosition.theta;
 
-       Velocity Axis: currentInertials.velX, currentInertials.velY,
+       Inertials:
 
-       Acceleration Axis: currentInertials.accX, currentInertials.accY,
+       - Velocity Axis: currentInertials.velX, currentInertials.velY,
 
-       Angle Inertials: currentInertials.velTheta, currentInertials.accTheta
+       - Acceleration Axis: currentInertials.accX, currentInertials.accY,
 
-       Position Inertials: currentInertials.velocity, currentInertials.acceleration
+       - Angle Inertials: currentInertials.velTheta, currentInertials.accTheta
+
+       - Position Inertials: currentInertials.velocity, currentInertials.acceleration
+
