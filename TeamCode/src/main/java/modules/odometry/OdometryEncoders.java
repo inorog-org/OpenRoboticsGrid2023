@@ -50,46 +50,8 @@ public class OdometryEncoders {
      * previousAbsoluteTheta - orientarea globală precedentă a robotului - Previous Heading
      * deltaTheta - diferența de orientare dintre precedentă și cea actuală
 
-        ALGORITM
+     */
 
-     1. Aflam orientarea actuală a robotului - Heading-ul
-
-         absoluteTheta =     startPosition.theta       +    (deltaGlobalLeft - deltaGlobalRight) / (leftLength + rightLength);
-                             (orientarea la start)     +                         (orientarea față de start)
-
-     2. Calculăm diferența de unghi dintre orientarea anterioară și cea actuală
-
-         deltaTheta    = absoluteTheta - previousAbsoluteTheta;
-
-     3. Vom avea 2 cazuri pentru a calcula Poziția:
-        - Cazul deltaTheta == 0
-        - Cazul deltaTheta <> 0
-
-     4. Cazul deltaTheta == 0
-        - Practic robotul merge pe o traiectorie liniară
-        - Principiul e același cu descompunerea forțelor la fizică
-        - Vom lua distanța parcursă pe axa X și pe axa Y
-
-                x = deltaCentral;
-                y = deltaRight;
-
-        - Coorodnatele x și y sunt relative față de poziția anterioară
-        - Pentru 'a expune' deplasările de pe axele x și y în sistemul Global de referință
-        vom fi nevoiți să folosim o matrice de rotație și să mapăm coordonatele
-        - Vom roti coordonatele cu unghiul relativ față de teren - absoluteDelta
-
-              deltaX = x * cos(absoluteDelta) - y * sin(absoluteDelta);
-              deltaY = x * sin(absoluteDelta) + y * cos(absoluteDelta);
-
-     5. Cazul deltaTheta <> 0
-        - Practic robotul merge pe o traiectorie curbilinie - arc de cerc
-
-
-     6. Incrementăm Delta-urile
-        currentPosition.x     += deltaX;
-        currentPosition.y     += deltaY;
-
-    */
     public Position updatePosition(){
 
         // Update Encoder Values
