@@ -36,7 +36,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, IM
 
     public IMU(LinearOpMode opMode, BNO055IMU.AngleUnit angleUnit, BNO055IMU.AccelUnit accelUnit, AxesOrder axesOrder, AxesReference axesReference) {
 
-        super(opMode.hardwareMap.i2cDeviceSynch.get("IMU"));
+        super(opMode.hardwareMap.get(BNO055IMUImpl.class, "IMU").getDeviceClient());
 
         this.opMode = opMode;
 
