@@ -7,16 +7,17 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-import java.io.File;
+import modules.odometry.Coordinates;
+import modules.odometry.Heading;
 
-public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis {
+public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, Heading, Coordinates {
 
     private final LinearOpMode opMode;
 
@@ -148,5 +149,18 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis {
         write8(BNO055IMU.Register.OPR_MODE, BNO055IMU.SensorMode.IMU.bVal & 0x0F);
 
         opMode.sleep(100);
+    }
+
+    @Override
+    public double getHeading() {
+        return getAngularOrientation().firstAngle;
+    }
+
+    @Override
+    public void initPositionTracker() {
+    }
+
+    public Position getCoordinates() {
+        return getPosition();
     }
 }

@@ -1,15 +1,15 @@
-package modules.odometry;
+package modules.odometry.encoders;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 
 public class Encoder extends DcMotorImplEx {
 
-    private final int ENCODER_TICKS = 8192;
+    public static final int ENCODER_TICKS = 8192;
 
-    private final double WHEEL_DIAMETER = 3.8; // 3.8 cm - 1.5 inch
+    public static final double WHEEL_DIAMETER = 3.81; // 3.81 cm - 1.5 inch
 
-    private final double TICKS_PER_CM = ENCODER_TICKS / (WHEEL_DIAMETER * Math.PI);
+    public static final double TICKS_PER_CM = ENCODER_TICKS / (WHEEL_DIAMETER * Math.PI);
 
     private double encoderPosition = 0.0;
 
@@ -36,7 +36,7 @@ public class Encoder extends DcMotorImplEx {
         return deltaPosition * TICKS_PER_CM;
     }
 
-    public double getGlobalDelta() {
+    public double getGlobalDistance() {
 
         return encoderPosition * TICKS_PER_CM;
     }
