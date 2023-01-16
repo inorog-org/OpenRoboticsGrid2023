@@ -1,4 +1,4 @@
- ALGORITM
+ ALGORITM - Comunitate
 
      1. Aflam orientarea actuală a robotului - Heading-ul
 
@@ -29,6 +29,23 @@
         currentPosition.y     += deltaY;
 
      7. Returnăm datele de Odometrie
+
+ALGORITM - Vectorial
+
+  1. Aflam orientarea actuală a robotului - Heading-ul
+
+  2. Aflam Delta Central
+
+  3. Aflam Delta Distance - Distanta perpendiculara pe Delta Central
+
+  4. Calculam valorile pentru incrementare
+
+          deltaX = deltaCentral * cos(deltaTheta) - deltaDistance * sin(deltaTheta);
+          deltaY = deltaCentral * sin(deltaTheta) + deltaDistance * cos(deltaTheta);
+
+  5. Incrementăm Delta-urile de poziție
+          currentPosition.x     += deltaX;
+          currentPosition.y     += deltaY;
 
        Position: currentPosition.x, currentPosition.y, currenPosition.theta; (BIFAT!)
 
