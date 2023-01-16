@@ -1,6 +1,20 @@
 package modules.odometry;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import modules.odometry.encoders.Encoder;
+import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.OdometryEncoders;
+
+/**
+
+ Clasa poate da handle la următoarele tipuri de Odometrii:
+   - 2 Encodere + IMU (Community/Vectorial)
+   - 2 Encodere + Heading inițiat separat cu Encodere - practic inițiere cu 3 Encodere (Community/Vectorial)
+   - 3 Encodere (Community/Vectorial)
+
+ * */
+
 
 public class Odometry {
 
@@ -15,63 +29,103 @@ public class Odometry {
     private Position currentPosition;
 
     // --- Previous Heading --- //
-    private double previousAbsoluteTheta;
+    private double currentAbsoluteTheta;
+
+    // --- Inertial --- //
+    public final Inertials headingInertials;
+    public final Inertials xAxisInertials;
+    public final Inertials yAxisInertials;
+    public final Inertials positionInertials;
 
     /// --- Constructors --- ///
-    public Odometry(Heading heading){
-       this(new Position(), heading);
+    public Odometry(Heading heading, DcMotorEx leftEncoder, DcMotorEx rightEncoder,DcMotorEx centralEncoder) throws EncodersExceptions {
+       this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
     }
 
-    public Odometry(Position startPosition, Heading heading){
+    public Odometry(Position startPosition, Heading heading, DcMotorEx leftEncoder, DcMotorEx rightEncoder, DcMotorEx centralEncoder) throws EncodersExceptions {
+
         this.startPosition   = startPosition;
         this.currentPosition = new Position();
 
-        this.previousAbsoluteTheta = startPosition.theta;
+        this.headingInertials = new Inertials();
+        this.xAxisInertials   = new Inertials();
+        this.yAxisInertials   = new Inertials();
+        this.positionInertials = new Inertials();
+
+        this.currentAbsoluteTheta = startPosition.theta;
 
         this.heading = heading;
+
+        this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
     }
 
-    /*   CONVENȚIE
+    public Odometry(Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
+        this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
+    }
 
-     * deltaLeft    - distanta parcursa de roata stanga față de poziția anterioară
-     * deltaRight   - distanta parcursa de roata dreaptă față de poziția anterioară
-     * deltaHeading - distanta parcursa de roata din spata/față față de poziția anterioară
+    public Odometry(Position startPosition, Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
 
-     * deltaGlobalLeft  - distanța parcursă de encoderul stânga față de poziția de reset
-     * deltaGlobalRight - distanța parcursă de encoderul dreapta față de poziția de reset
+        this.startPosition   = startPosition;
+        this.currentPosition = new Position();
 
-     * absoluteTheta - orientarea robotului față de orientarea globală - Heading
-     * previousAbsoluteTheta - orientarea globală precedentă a robotului - Previous Heading
-     * deltaTheta - diferența de orientare dintre precedentă și cea actuală
+        this.headingInertials = new Inertials();
+        this.xAxisInertials   = new Inertials();
+        this.yAxisInertials   = new Inertials();
+        this.positionInertials = new Inertials();
 
-     */
+        this.currentAbsoluteTheta = startPosition.theta;
 
-    public Position updatePosition(){
+        this.heading = heading;
+
+        this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
+    }
+
+    // Update Position
+    public Position updatePosition() {
 
         // Update Encoder Values
         encoders.updateEncodersValues();
 
         // Get Delta Encoders Value
-        double deltaLeft    = encoders.leftEncoder.getDeltaDistance();
-        double deltaRight   = encoders.rightEncoder.getDeltaDistance();
         double deltaCentral = encoders.centralEncoder.getDeltaDistance();
 
-        // Get Heading
-        double absoluteTheta = startPosition.theta + heading.getHeading();
+        // Get Heading + Update Inertials
+        double headingValue  = heading.getHeading();
+        double absoluteTheta = startPosition.theta + headingValue;
+        headingInertials.updateInertials(headingValue);
 
         // Compute Delta Theta & Remember Absolute Theta for next Iterations
-        double deltaTheta = absoluteTheta - previousAbsoluteTheta;
-        previousAbsoluteTheta = absoluteTheta;
+        double deltaTheta = absoluteTheta - currentAbsoluteTheta;
+        currentAbsoluteTheta = absoluteTheta;
 
-        // Values for Increment
-        double deltaX;
-        double deltaY;
+        communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral);
+        vectorialOdometryEquation(deltaTheta, deltaCentral, encoders.getDeltaDistance(deltaTheta));
+
+        // Update Inertials - X & Y Axis
+        xAxisInertials.updateInertials(deltaX);
+        yAxisInertials.updateInertials(deltaY);
+        positionInertials.updateInertials(Math.hypot(deltaX, deltaY));
+
+        // Update Position
+        currentPosition.x     += deltaX;
+        currentPosition.y     += deltaY;
+        currentPosition.theta  = absoluteTheta;
+
+        return currentPosition;
+    }
+
+    // Values for Increment
+    private double deltaX = 0;
+    private double deltaY = 0;
+
+    // Ecuatii de Odometrie
+    private void communityOdometryEquation(double absoluteTheta, double deltaTheta, double deltaCentral) {
 
         // Compute Incremental Values for Position Update
         if(deltaTheta == 0) {
 
             double x = deltaCentral;
-            double y = deltaRight;
+            double y = encoders.getDeltaLateral();
 
             double cos = Math.cos(absoluteTheta);
             double sin = Math.sin(absoluteTheta);
@@ -83,8 +137,8 @@ public class Odometry {
 
             double s = 2 * Math.sin(absoluteTheta / 2);
 
-            double x   = s * (deltaCentral / deltaTheta + OdometryEncoders.headingLength);
-            double y   = s * (deltaRight   / deltaTheta + OdometryEncoders.rightLength);
+            double x   = s * (deltaCentral / deltaTheta   + OdometryEncoders.centralLength);
+            double y   = s * encoders.getLateralRadius(deltaTheta);
 
             double cos = Math.cos(absoluteTheta + deltaTheta / 2);
             double sin = Math.sin(absoluteTheta + deltaTheta / 2);
@@ -93,16 +147,16 @@ public class Odometry {
             deltaY = x * sin + y * cos;
         }
 
-        // Update Position
-        currentPosition.x     += deltaX;
-        currentPosition.y     += deltaY;
-        currentPosition.theta  = absoluteTheta;
+    }
 
-        return currentPosition;
+    private void vectorialOdometryEquation(double deltaTheta, double deltaCentral, double deltaDistance) {
+
+        deltaX = deltaCentral * Math.cos(deltaTheta) - deltaDistance * Math.sin(deltaTheta);
+        deltaY = deltaCentral * Math.sin(deltaTheta) + deltaDistance * Math.cos(deltaTheta);
     }
 
     // Getters
-    public Position getPosition(){
+    public Position getPosition() {
 
         return currentPosition;
     }

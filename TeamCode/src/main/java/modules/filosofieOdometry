@@ -30,15 +30,15 @@
 
      7. Returnăm datele de Odometrie
 
-       Position: currentPosition.x, currentPosition.y, currenPosition.theta;
+       Position: currentPosition.x, currentPosition.y, currenPosition.theta; (BIFAT!)
 
        Inertials:
 
-       - Velocity Axis: currentInertials.velX, currentInertials.velY,
+       - Velocity Axis: currentInertials.velX, currentInertials.velY, (BIFAT!)
 
-       - Acceleration Axis: currentInertials.accX, currentInertials.accY,
+       - Acceleration Axis: currentInertials.accX, currentInertials.accY, (BIFAT!)
 
-       - Angle Inertials: currentInertials.velTheta, currentInertials.accTheta
+       - Angle Inertials: currentInertials.velTheta, currentInertials.accTheta (BIFAT!)
 
-       - Position Inertials: currentInertials.velocity, currentInertials.acceleration
+       - Position Inertials: currentInertials.velocity, currentInertials.acceleration (BIFAT!)
 

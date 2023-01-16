@@ -162,5 +162,6 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
 
     public Position getCoordinates() {
         return getPosition();
+
     }
 }
