@@ -32,4 +32,9 @@ public class Position {
         this.theta += theta;
     }
 
+    public void incrementPosition(double x, double y) {
+        this.x += x;
+        this.y += y;
+    }
+
 }

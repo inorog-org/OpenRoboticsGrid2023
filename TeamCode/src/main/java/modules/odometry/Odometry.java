@@ -19,14 +19,14 @@ import modules.odometry.encoders.OdometryEncoders;
 public class Odometry {
 
     // --- Odometry Encoders --- //
-    private OdometryEncoders encoders;
+    private final OdometryEncoders encoders;
 
     // --- Heading --- //
-    private Heading heading;
+    private final Heading heading;
 
     // --- Postion --- //
-    private Position startPosition;
-    private Position currentPosition;
+    private final Position startPosition;
+    private final Position currentPosition;
 
     // --- Previous Heading --- //
     private double currentAbsoluteTheta;
@@ -116,8 +116,7 @@ public class Odometry {
         positionInertials.updateInertials(Math.hypot(deltaX, deltaY));
 
         // Update Position
-        currentPosition.x     += deltaX;
-        currentPosition.y     += deltaY;
+        currentPosition.incrementPosition(deltaX, deltaY);
         currentPosition.theta  = absoluteTheta;
 
         return currentPosition;
@@ -133,14 +132,13 @@ public class Odometry {
         // Compute Incremental Values for Position Update
         if(deltaTheta == 0) {
 
-            double x = deltaCentral;
             double y = encoders.getDeltaLateral();
 
             double cos = Math.cos(absoluteTheta);
             double sin = Math.sin(absoluteTheta);
 
-            deltaX = x * cos - y * sin;
-            deltaY = x * sin + y * cos;
+            deltaX = deltaCentral * cos - y * sin;
+            deltaY = deltaCentral * sin + y * cos;
 
         } else {
 
