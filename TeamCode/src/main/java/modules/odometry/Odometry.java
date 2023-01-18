@@ -37,6 +37,8 @@ public class Odometry {
     public final Inertials yAxisInertials;
     public final Inertials positionInertials;
 
+    private MODE odometryMode = MODE.VECTORIAL;
+
     /// --- Constructors --- ///
     public Odometry(Heading heading, DcMotorEx leftEncoder, DcMotorEx rightEncoder,DcMotorEx centralEncoder) throws EncodersExceptions {
        this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
@@ -80,6 +82,11 @@ public class Odometry {
         this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
     }
 
+    // Set Mode
+    public void setOdometryMode(MODE odometryMode) {
+        this.odometryMode = odometryMode;
+    }
+
     // Update Position
     public Position updatePosition() {
 
@@ -98,8 +105,10 @@ public class Odometry {
         double deltaTheta = absoluteTheta - currentAbsoluteTheta;
         currentAbsoluteTheta = absoluteTheta;
 
-        communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral);
-        vectorialOdometryEquation(deltaTheta, deltaCentral, encoders.getDeltaDistance(deltaTheta));
+        switch (odometryMode) {
+            case COMMUNITY:   communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral); break;
+            case VECTORIAL:   vectorialOdometryEquation(deltaTheta, deltaCentral, encoders.getDeltaDistance(deltaTheta)); break;
+        }
 
         // Update Inertials - X & Y Axis
         xAxisInertials.updateInertials(deltaX);
@@ -168,4 +177,10 @@ public class Odometry {
 
         return Math.sqrt(dX * dX + dY * dY);
     }
+
+    enum MODE {
+        COMMUNITY,
+        VECTORIAL
+    }
+
 }
