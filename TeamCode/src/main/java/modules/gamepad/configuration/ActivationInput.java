@@ -1,4 +1,4 @@
-package modules.gamepad;
+package modules.gamepad.configuration;
 
 public enum ActivationInput {
     ACTIVE,
