@@ -1,4 +1,4 @@
-package modules.gamepad.configuration;
+package modules.gamepad.configuration.buttons;
 
 public enum ButtonInput {
     STICKY_BUTTON,

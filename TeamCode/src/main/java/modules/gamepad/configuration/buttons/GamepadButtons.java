@@ -1,10 +1,11 @@
-package modules.gamepad.configuration;
+package modules.gamepad.configuration.buttons;
 
 import modules.gamepad.buttons.Button;
 import modules.gamepad.buttons.DefaultButton;
 import modules.gamepad.buttons.StickyButton;
 import modules.gamepad.buttons.SwitchButton;
 import modules.gamepad.buttons.TimeButton;
+import modules.gamepad.configuration.buttons.ButtonInput;
 
 public class GamepadButtons {
 

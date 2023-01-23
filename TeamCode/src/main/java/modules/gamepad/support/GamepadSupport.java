@@ -1,17 +1,22 @@
 package modules.gamepad.support;
 
 import android.os.Build;
+import android.util.Base64DataException;
 
 import androidx.annotation.RequiresApi;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import modules.gamepad.Input;
 import modules.gamepad.buttons.Button;
-import modules.gamepad.configuration.GamepadButtons;
+import modules.gamepad.configuration.buttons.GamepadButtons;
+import modules.gamepad.configuration.sticks.GamepadSticks;
+import modules.gamepad.sticks.Stick;
+import modules.gamepad.sticks.equations.PolarCoordinates;
 
 public class GamepadSupport {
 
@@ -31,6 +36,13 @@ public class GamepadSupport {
     private final Button bumper_right;
     private final Button bumper_left;
 
+    // Sticks
+    private Stick _right_stick;
+    private Stick _left_stick;
+
+    public PolarCoordinates left_stick;
+    public PolarCoordinates right_stick;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public GamepadSupport(Gamepad gamepad) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
 
@@ -46,6 +58,37 @@ public class GamepadSupport {
 
         bumper_right = GamepadButtons.getButtonType(GamepadButtons.bumper_right).getDeclaredConstructor(Supplier.class).newInstance((Supplier<Boolean>)() -> gamepad.right_bumper);
         bumper_left  = GamepadButtons.getButtonType(GamepadButtons.bumper_left).getDeclaredConstructor(Supplier.class).newInstance((Supplier<Boolean>)()  -> gamepad.left_bumper);
+
+        switch (GamepadSticks.RIGHT_STICK) {
+            case AXIS:
+                _right_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                                            .getDeclaredConstructor(Supplier.class, BiFunction.class, Double.class)
+                                            .newInstance((Supplier<Double>)() -> (double) gamepad.right_stick_x, GamepadSticks.getDriftEquation(GamepadSticks.RIGHT_EQUATION), GamepadSticks.RIGHT_DRIFT); break;
+            case POLAR:
+                _right_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                                            .getDeclaredConstructor(Supplier.class, Supplier.class, BiFunction.class, Double.class)
+                                            .newInstance((Supplier<Double>)() -> (double)  gamepad.right_stick_x,
+                                                                 (Supplier<Double>)() -> (double) -gamepad.right_stick_y,
+                                                                 GamepadSticks.getDriftEquation(GamepadSticks.RIGHT_EQUATION),
+                                                                 GamepadSticks.RIGHT_DRIFT); break;
+        }
+
+        switch (GamepadSticks.LEFT_STICK) {
+            case AXIS:
+                _left_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                                           .getDeclaredConstructor(Supplier.class, BiFunction.class, Double.class)
+                                           .newInstance((Supplier<Double>)() -> (double) gamepad.left_stick_x, GamepadSticks.getDriftEquation(GamepadSticks.LEFT_EQUATION),  GamepadSticks.LEFT_DRIFT); break;
+            case POLAR:
+                _left_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                                           .getDeclaredConstructor(Supplier.class, Supplier.class, BiFunction.class, Double.class)
+                                           .newInstance((Supplier<Double>)() -> (double)  gamepad.left_stick_x,
+                                                                (Supplier<Double>)() -> (double) -gamepad.left_stick_y,
+                                                                GamepadSticks.getDriftEquation(GamepadSticks.LEFT_EQUATION),
+                                                                GamepadSticks.LEFT_DRIFT); break;
+        }
+
+        left_stick  = _left_stick.getPolar();
+        right_stick = _right_stick.getPolar();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -105,7 +148,21 @@ public class GamepadSupport {
         input.dpad_up    = getDpadUp();
         input.dpad_right = getDpadRight();
         input.dpad_left  = getDpadLeft();
+    }
 
+    public void updateLeftStick() {
+
+        _left_stick.updateData();
+    }
+
+    public void updateRightStick() {
+
+        _right_stick.updateData();
+    }
+
+    public void updateSticks() {
+        _left_stick.updateData();
+        _right_stick.updateData();
     }
 
 }

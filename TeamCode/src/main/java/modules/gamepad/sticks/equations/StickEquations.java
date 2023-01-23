@@ -1,4 +1,4 @@
-package modules.gamepad.sticks;
+package modules.gamepad.sticks.equations;
 
 import java.util.function.BiFunction;
 
