@@ -15,8 +15,10 @@ import modules.gamepad.Input;
 import modules.gamepad.buttons.Button;
 import modules.gamepad.configuration.buttons.GamepadButtons;
 import modules.gamepad.configuration.sticks.GamepadSticks;
+import modules.gamepad.configuration.triggers.GamepadTriggers;
 import modules.gamepad.sticks.Stick;
 import modules.gamepad.sticks.equations.PolarCoordinates;
+import modules.gamepad.triggers.Trigger;
 
 public class GamepadSupport {
 
@@ -40,8 +42,12 @@ public class GamepadSupport {
     private Stick _right_stick;
     private Stick _left_stick;
 
-    public PolarCoordinates left_stick;
-    public PolarCoordinates right_stick;
+    public final PolarCoordinates left_stick;
+    public final PolarCoordinates right_stick;
+
+    // Triggers
+    private final Trigger left_trigger;
+    private final Trigger right_trigger;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public GamepadSupport(Gamepad gamepad) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
@@ -89,6 +95,9 @@ public class GamepadSupport {
 
         left_stick  = _left_stick.getPolar();
         right_stick = _right_stick.getPolar();
+
+        left_trigger   = GamepadTriggers.getTriggerType(GamepadTriggers.left_trigger).getDeclaredConstructor(Supplier.class).newInstance((Supplier<Double>)() -> (double) gamepad.left_trigger);
+        right_trigger  = GamepadTriggers.getTriggerType(GamepadTriggers.right_trigger).getDeclaredConstructor(Supplier.class).newInstance((Supplier<Double>)() -> (double) gamepad.right_trigger);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -139,6 +148,16 @@ public class GamepadSupport {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean getBumperLeft() {
         return bumper_left.listen();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public double getLeftTrigger() {
+        return left_trigger.listen();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public double getRightTrigger() {
+        return right_trigger.listen();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
