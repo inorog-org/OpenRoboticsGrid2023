@@ -13,7 +13,7 @@ public class StickEquations {
     -1       -D 0 D        1   - NORMAL STICK WITH DRIFT (D = drift)
 
     */
-    public static final BiFunction<Double,Double,Double> FROM_ZERO  = (x, drift) -> drift;
+    public static final BiFunction<Double,Double,Double> FROM_ZERO  = (x, drift) -> (x - Math.signum(x) * drift) / (1 - drift) * (Math.signum(Math.abs(x) - drift) + 1) / 2;
 
     /*   FROM DRIFT - STICK
 
@@ -22,10 +22,9 @@ public class StickEquations {
     -1       -D 0 D        1   - NORMAL STICK WITH DRIFT (D = drift)
 
     */
-    public static final BiFunction<Double,Double,Double> FROM_DRIFT = (x, drift) -> drift;
+    public static final BiFunction<Double,Double,Double> FROM_DRIFT = (x, drift) -> x * (Math.signum(Math.abs(x) - drift) + 1) / 2 * Math.signum(Math.abs(x) - drift);
 
     // -- Ecuatii pentru Polar Stick -- //
-
 
 
 }
