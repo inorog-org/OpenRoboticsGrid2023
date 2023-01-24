@@ -13,8 +13,10 @@ import modules.gamepad.configuration.GamepadActivation;
 import modules.gamepad.configuration.GamepadType;
 import modules.gamepad.configuration.PrioritiesGamepad;
 import modules.gamepad.configuration.lightbar.GamepadLightbar;
+import modules.gamepad.configuration.sticks.AxisInput;
 import modules.gamepad.configuration.sticks.GamepadSticks;
 import modules.gamepad.lightbar.LightbarSupport;
+import modules.gamepad.sticks.equations.PolarCoordinates;
 import modules.gamepad.support.GamepadSupport;
 import modules.gamepad.touchpad.TouchpadSupport;
 
@@ -102,7 +104,7 @@ public class GamepadDrive {
                     break;
             }
         }
-        // Buttons: Locker + Boost + Memorate Position + Execute to Position
+        // Buttons: Locker + Boost + Memorate Position + Execute to Position + SpeedChanger
         driveInput.locked = isLocked();
         booster();
         realign();
@@ -111,11 +113,13 @@ public class GamepadDrive {
         updateLight();
     }
 
-    private void movementJoystick() {  // TODO
+    private void movementJoystick() {
         if (GamepadActivation.MOVEMENT_JOYSTICK == ActivationInput.ACTIVE) {
             GamepadSticks.STICK_MAPPING = GamepadSticks.getMappingType(gamepadType);
-
-
+            PolarCoordinates polars  = getMovement();
+            driveInput.magnitude     = polars.magnitude;
+            driveInput.angle         = polars.angle;
+            driveInput.movementStick = polars.magnitude != 0;
         }
     }
 
@@ -143,9 +147,12 @@ public class GamepadDrive {
         }
     }
 
-    private void rotationJoystick() {  // TODO
+    private void rotationJoystick() {
         if (GamepadActivation.ROTATION_JOYSTICK == ActivationInput.ACTIVE) {
-
+            PolarCoordinates polars  = getRotation();
+            driveInput.rotate        = polars.magnitude;
+            driveInput.angle         = 0;
+            driveInput.rotationStick = polars.magnitude != 0;
         }
     }
 
@@ -164,10 +171,10 @@ public class GamepadDrive {
                     lightbar.updateLightbarColor(GamepadLightbar.TOUCHPAD);
                 } else {
                     lightbar.updateLightbarColor(driveInput.magnitude);
-                    driveInput.HUE = lightbar.HUE;
-                    driveInput.RED = lightbar.color.r;
+                    driveInput.HUE   = lightbar.HUE;
+                    driveInput.RED   = lightbar.color.r;
                     driveInput.GREEN = lightbar.color.g;
-                    driveInput.BLUE = lightbar.color.b;
+                    driveInput.BLUE  = lightbar.color.b;
                 }
             } else lightbar.turnOff();
         }
@@ -194,6 +201,34 @@ public class GamepadDrive {
             driveInput.memoratePosition = gamepad.getBumperLeft();
             driveInput.approachPosition = gamepad.getBumperRight();
         }
+    }
+
+    private PolarCoordinates getMovement() {
+        if(GamepadSticks.LEFT_STICK == AxisInput.POLAR) {
+            gamepad.updateLeftStick();
+            return gamepad.left_stick;
+        }
+
+        if(GamepadSticks.RIGHT_STICK == AxisInput.POLAR) {
+            gamepad.updateRightStick();
+            return gamepad.right_stick;
+        }
+
+        return null;
+    }
+
+    private PolarCoordinates getRotation() {
+        if(GamepadSticks.RIGHT_STICK == AxisInput.AXIS) {
+            gamepad.updateRightStick();
+            return gamepad.right_stick;
+        }
+
+        if(GamepadSticks.LEFT_STICK == AxisInput.AXIS) {
+            gamepad.updateLeftStick();
+            return gamepad.left_stick;
+        }
+
+        return null;
     }
 
     // CHANGED
