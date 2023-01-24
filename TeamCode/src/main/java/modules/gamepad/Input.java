@@ -35,6 +35,10 @@ public class Input {
     public boolean boost  = false;
     public boolean locked = false;
 
+    // SpeedChanger
+    public boolean increment = false;
+    public boolean decrement = false;
+
     // Lightbar
     public double HUE = 0;
     public double RED   = 0;

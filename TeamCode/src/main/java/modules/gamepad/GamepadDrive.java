@@ -106,6 +106,7 @@ public class GamepadDrive {
         }
         // Buttons: Locker + Boost + Memorate Position + Execute to Position + SpeedChanger
         driveInput.locked = isLocked();
+        speedchanger();
         booster();
         realign();
 
@@ -116,10 +117,11 @@ public class GamepadDrive {
     private void movementJoystick() {
         if (GamepadActivation.MOVEMENT_JOYSTICK == ActivationInput.ACTIVE) {
             GamepadSticks.STICK_MAPPING = GamepadSticks.getMappingType(gamepadType);
-            PolarCoordinates polars  = getMovement();
-            driveInput.magnitude     = polars.magnitude;
-            driveInput.angle         = polars.angle;
-            driveInput.movementStick = polars.magnitude != 0;
+            PolarCoordinates polar  = getMovement();
+            assert polar != null : "Movement polar is null!";
+            driveInput.magnitude     = polar.magnitude;
+            driveInput.angle         = polar.angle;
+            driveInput.movementStick = polar.magnitude != 0;
         }
     }
 
@@ -149,10 +151,11 @@ public class GamepadDrive {
 
     private void rotationJoystick() {
         if (GamepadActivation.ROTATION_JOYSTICK == ActivationInput.ACTIVE) {
-            PolarCoordinates polars  = getRotation();
-            driveInput.rotate        = polars.magnitude;
+            PolarCoordinates polar  = getRotation();
+            assert polar != null : "Rotational polar is null!";
+            driveInput.rotate        = polar.magnitude;
             driveInput.angle         = 0;
-            driveInput.rotationStick = polars.magnitude != 0;
+            driveInput.rotationStick = polar.magnitude != 0;
         }
     }
 
@@ -200,6 +203,19 @@ public class GamepadDrive {
         if (GamepadActivation.REALIGN == ActivationInput.ACTIVE) {
             driveInput.memoratePosition = gamepad.getBumperLeft();
             driveInput.approachPosition = gamepad.getBumperRight();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void speedchanger() {
+        if(GamepadActivation.SPEEDCHANGER == ActivationInput.ACTIVE) {
+
+            if(!isDpadChanged()) {
+               gamepad.getDigitalPads(driveInput);
+            }
+
+            driveInput.increment = driveInput.dpad_up;
+            driveInput.decrement = driveInput.dpad_down;
         }
     }
 

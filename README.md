@@ -5,7 +5,7 @@
 ## Status Report
 
 - [x] Odometry
-- [ ] Gamepad
+- [x] Gamepad
 - [ ] Drive System
 - [ ] HyperDrive Control
 - [ ] Project Gravitron **#TOP-SECRET**
