@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.lang.reflect.InvocationTargetException;
 
-import modules.gamepad.configuration.touchpad.GamepadTouchpad;
+import modules.gamepad.configuration.GamepadType;
 import modules.gamepad.lightbar.LightbarSupport;
 import modules.gamepad.support.GamepadSupport;
 import modules.gamepad.touchpad.TouchpadSupport;
@@ -21,6 +21,7 @@ public class GamepadDrive {
       private final TouchpadSupport touchpad;
       private final LightbarSupport lightbar;
 
+      private final Gamepad _gamepad;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public GamepadDrive(Gamepad gamepad) {
 
@@ -40,8 +41,24 @@ public class GamepadDrive {
 
         // Init Input
         this.driveInput = new Input();
+
+        // Init Gamepad
+        this._gamepad = gamepad;
     }
 
+    private GamepadType detectGamepadType() {
+        switch (_gamepad.type) {
+            case XBOX_360:
+            case LOGITECH_F310:
+                return GamepadType.XBOX;
+            case SONY_PS4:
+            case SONY_PS4_SUPPORTED_BY_KERNEL:
+                return GamepadType.DUALSHOCK;
+            case UNKNOWN:
+                return GamepadType.DUALSENSE;
+        }
+        return GamepadType.XBOX;
+    }
 
 
 }
