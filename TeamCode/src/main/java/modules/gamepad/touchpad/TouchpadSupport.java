@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import modules.gamepad.configuration.touchpad.GamepadTouchpad;
 import modules.gamepad.touchpad.equations.TouchpadEquations;
 
-public class TouchbarSupport {
+public class TouchpadSupport {
 
     private final Supplier<Double> xAxis;
     private final Supplier<Double> yAxis;
@@ -21,7 +21,7 @@ public class TouchbarSupport {
     public double magnitude = 0;
     public boolean isTouched = false;
 
-    public TouchbarSupport (Supplier<Double> xAxis, Supplier<Double> yAxis, Supplier<Boolean> touch) {
+    public TouchpadSupport(Supplier<Double> xAxis, Supplier<Double> yAxis, Supplier<Boolean> touch) {
 
        this.xAxis = xAxis;
        this.yAxis = yAxis;
