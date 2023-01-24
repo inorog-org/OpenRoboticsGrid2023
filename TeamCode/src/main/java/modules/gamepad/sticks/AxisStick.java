@@ -16,7 +16,7 @@ public class AxisStick implements Stick {
   private final PolarCoordinates coordinates;
   private final double DRIFT;
 
-  public AxisStick(Supplier<Double> stick, BiFunction<Double, Double, Double> equation, double drift) {
+  public AxisStick(Supplier<Double> stick, BiFunction<Double, Double, Double> equation, Double drift) {
 
       this.stick    = stick;
       this.equation = equation;

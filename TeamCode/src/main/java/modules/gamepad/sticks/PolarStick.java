@@ -18,7 +18,7 @@ public class PolarStick implements Stick {
     private final PolarCoordinates coordinates;
     private final double DRIFT;
 
-    public PolarStick(Supplier<Double> xAxis, Supplier<Double> yAxis, BiFunction<Double, Double, Double> equation, double drift) {
+    public PolarStick(Supplier<Double> xAxis, Supplier<Double> yAxis, BiFunction<Double, Double, Double> equation, Double drift) {
          this.xAxis = xAxis;
          this.yAxis = yAxis;
          this.equation = equation;
