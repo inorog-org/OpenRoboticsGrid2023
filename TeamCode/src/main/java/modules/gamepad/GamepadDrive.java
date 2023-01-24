@@ -60,5 +60,16 @@ public class GamepadDrive {
         return GamepadType.XBOX;
     }
 
+    public void updateInput() {
+
+        // Movement Input: LeftStick + Touchpad + Digital Pads
+
+        // Rotation Input: RightStick + Triggers
+
+        // Buttons: Locker + SpeedChanger + Memorate Position + Execute to Position
+
+        // Update Lightbar (if it is the Case)
+
+    }
 
 }
