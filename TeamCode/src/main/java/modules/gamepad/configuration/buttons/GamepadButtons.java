@@ -11,7 +11,7 @@ public class GamepadButtons {
 
     // Buttons
     public static ButtonInput a = ButtonInput.STICKY_BUTTON;
-    public static ButtonInput b = ButtonInput.STICKY_BUTTON;
+    public static ButtonInput b = ButtonInput.TIME_BUTTON;
     public static ButtonInput x = ButtonInput.STICKY_BUTTON;
     public static ButtonInput y = ButtonInput.STICKY_BUTTON;
 

@@ -47,6 +47,17 @@ public class GamepadSticks {
 
     }
 
+    public static StickMapping getMappingType(GamepadType gamepadType) {
+        switch (gamepadType) {
+            case XBOX:
+                return StickMapping.BOX;
+            case DUALSHOCK:
+            case DUALSENSE:
+                return StickMapping.CIRCLE;
+        }
+        return StickMapping.CIRCLE;
+    }
+
     public static BiFunction<Double, Double,Double> getMappingEquation(StickMapping stickMapping) {
 
         switch(stickMapping) {

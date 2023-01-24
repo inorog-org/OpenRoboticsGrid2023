@@ -6,7 +6,7 @@ import modules.gamepad.touchpad.equations.TouchpadEquations;
 
 public class GamepadTouchpad {
 
-    public static TouchpadMapping TOUCHPAD_MAPPING = TouchpadMapping.SQUARE;
+    public static TouchpadMapping TOUCHPAD_MAPPING = TouchpadMapping.RECTANGULAR;
 
     public static Function<Double,Double> getMappingEquation(TouchpadMapping stickMapping, String string) {
 

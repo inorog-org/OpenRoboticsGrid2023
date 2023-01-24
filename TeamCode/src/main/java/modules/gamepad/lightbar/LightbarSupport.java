@@ -9,7 +9,7 @@ import modules.gamepad.lightbar.color.RGB;
 public class LightbarSupport {
 
     private final Gamepad gamepad;
-    private final RGB color;
+    public final RGB color;
 
     public double HUE;
 
@@ -24,6 +24,13 @@ public class LightbarSupport {
          Color.HSVtoRGB(HUE, 1.0, 1.0, color);
 
          gamepad.setLedColor(color.r, color.g, color.b, Gamepad.LED_DURATION_CONTINUOUS);
+    }
+
+    public void updateLightbarColor(Color.ColorHue color) {
+         HUE = Color.colorToHue(color);
+         Color.HSVtoRGB(HUE, 1.0, 1.0, this.color);
+
+        gamepad.setLedColor(this.color.r, this.color.g, this.color.b, Gamepad.LED_DURATION_CONTINUOUS);
     }
 
     public void turnOff() {

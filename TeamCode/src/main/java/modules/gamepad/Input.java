@@ -29,14 +29,56 @@ public class Input {
     public boolean dpad_down  = false;
     public boolean dpad_right = false;
     public boolean dpad_left  = false;
+    public boolean movement_dpad = false;
 
     // Buttons
     public boolean boost  = false;
-    public boolean locker = false;
+    public boolean locked = false;
 
     // Lightbar
     public double HUE = 0;
     public double RED   = 0;
     public double GREEN = 0;
     public double BLUE  = 0;
+
+    public void reset() {
+
+        // Stick Movement - Angle and Magnitude
+        angle     = 0;
+        magnitude = 0;
+        movementStick = false;
+
+        // Rotation - Magnitude
+        rotate = 0;
+        rotationStick = false;
+
+        // Spin - Magnitude
+        spin = 0;
+        spinTriggers  = false;
+
+        // Touchpad Movement - Angle and Magnitude
+        angleTouchpad  = 0;
+        magnitudeTouch = 0;
+        touchpad  = false;
+
+        // Automated Position Buttons
+        memoratePosition = false;
+        approachPosition = false;
+
+        // Digital Pad
+        dpad_up    = false;
+        dpad_down  = false;
+        dpad_right = false;
+        dpad_left  = false;
+
+        // Buttons
+        boost  = false;
+        locked = false;
+
+        // Lightbar
+        HUE   = 0;
+        RED   = 0;
+        GREEN = 0;
+        BLUE  = 0;
+    }
 }
