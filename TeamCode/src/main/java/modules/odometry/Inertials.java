@@ -1,5 +1,8 @@
 package modules.odometry;
 
+
+// Velocity - cm/s
+// Acceleration - cm/s^2
 public class Inertials {
 
    private double value = 0;
@@ -15,7 +18,7 @@ public class Inertials {
    public void updateInertials(double newValue) {
 
       long readingTime = System.currentTimeMillis();
-      long deltaTime   = readingTime - timeFrame;
+      long deltaTime   = (readingTime - timeFrame) * 1000;
 
       timeFrame = readingTime;
 

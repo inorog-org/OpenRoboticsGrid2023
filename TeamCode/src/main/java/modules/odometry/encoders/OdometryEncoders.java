@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import modules.odometry.Heading;
+import modules.odometry.configuration.OdometryConstants;
 
 public class OdometryEncoders {
 
@@ -12,11 +13,6 @@ public class OdometryEncoders {
     public final Encoder leftEncoder;
     public final Encoder rightEncoder;
     public final Encoder centralEncoder;
-
-    // --- Distance from Robot Center --- //
-    public static final double leftLength    = 17.5;  // 17.5 cm
-    public static final double rightLength   = 17.5;  // 17.5 cm
-    public static final double centralLength = 17.25; // 17.25 cm
 
     // --- Constructors --- //
     public OdometryEncoders(DcMotorEx leftEncoder, DcMotorEx rightEncoder, @NonNull DcMotorEx centralEncoder, Heading heading) throws EncodersExceptions {
@@ -86,23 +82,23 @@ public class OdometryEncoders {
 
     public double getLateralRadius(double deltaTheta) {
         if(rightEncoder != null)
-            return getDeltaLateral() / deltaTheta + OdometryEncoders.rightLength;
+            return getDeltaLateral() / deltaTheta + OdometryConstants.rightLength;
 
         if (leftEncoder != null)
-            return getDeltaLateral() / deltaTheta - OdometryEncoders.leftLength;
+            return getDeltaLateral() / deltaTheta - OdometryConstants.leftLength;
 
         return 0;
     }
 
     public double getDeltaDistance(double deltaTheta) {
         if(rightEncoder != null && leftEncoder != null)
-            return (leftEncoder.getDeltaDistance() * rightLength + rightEncoder.getDeltaDistance() * leftLength) / (leftLength + rightLength);
+            return (leftEncoder.getDeltaDistance() * OdometryConstants.rightLength + rightEncoder.getDeltaDistance() * OdometryConstants.leftLength) / (OdometryConstants.leftLength + OdometryConstants.rightLength);
 
         if(rightEncoder != null)
-            return rightEncoder.getDeltaDistance() - rightLength * deltaTheta;
+            return rightEncoder.getDeltaDistance() - OdometryConstants.rightLength * deltaTheta;
 
         if(leftEncoder  != null)
-            return leftEncoder.getDeltaDistance() + leftLength * deltaTheta;
+            return leftEncoder.getDeltaDistance() + OdometryConstants.leftLength * deltaTheta;
 
         return 0;
     }

@@ -1,6 +1,7 @@
 package modules.odometry.encoders;
 
 import modules.odometry.Heading;
+import modules.odometry.configuration.OdometryConstants;
 
 public class HeadingEncoders implements Heading {
 
@@ -18,7 +19,7 @@ public class HeadingEncoders implements Heading {
 
     @Override
     public double getHeading() {
-        return (leftEncoder.getGlobalDistance() - rightEncoder.getGlobalDistance()) / (OdometryEncoders.leftLength + OdometryEncoders.rightLength);
+        return (leftEncoder.getGlobalDistance() - rightEncoder.getGlobalDistance()) / (OdometryConstants.leftLength + OdometryConstants.rightLength);
     }
 
 }

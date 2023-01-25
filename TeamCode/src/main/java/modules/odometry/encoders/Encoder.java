@@ -5,13 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import modules.odometry.configuration.OdometryConstants;
+
 public class Encoder extends DcMotorImplEx {
 
-    public static final int ENCODER_TICKS = 8192;
-
-    public static final double WHEEL_DIAMETER = 3.81; // 3.81 cm - 1.5 inch
-
-    public static final double TICKS_PER_CM = ENCODER_TICKS / (WHEEL_DIAMETER * Math.PI);
+    public static final double TICKS_PER_CM = OdometryConstants.ENCODER_TICKS / (OdometryConstants.WHEEL_DIAMETER * Math.PI);
 
     private double encoderPosition = 0.0;
 

@@ -2,6 +2,7 @@ package modules.odometry;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import modules.odometry.configuration.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.OdometryEncoders;
@@ -144,7 +145,7 @@ public class Odometry {
 
             double s = 2 * Math.sin(absoluteTheta / 2);
 
-            double x   = s * (deltaCentral / deltaTheta   + OdometryEncoders.centralLength);
+            double x   = s * (deltaCentral / deltaTheta   + OdometryConstants.centralLength);
             double y   = s * encoders.getLateralRadius(deltaTheta);
 
             double cos = Math.cos(absoluteTheta + deltaTheta / 2);
