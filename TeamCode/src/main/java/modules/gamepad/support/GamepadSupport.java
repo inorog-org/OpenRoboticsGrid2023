@@ -81,11 +81,11 @@ public class GamepadSupport {
 
         switch (GamepadSticks.LEFT_STICK) {
             case AXIS:
-                _left_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                _left_stick = GamepadSticks.getStickType(GamepadSticks.LEFT_STICK)
                                            .getDeclaredConstructor(Supplier.class, BiFunction.class, Double.class)
                                            .newInstance((Supplier<Double>)() -> (double) gamepad.left_stick_x, GamepadSticks.getDriftEquation(GamepadSticks.LEFT_EQUATION),  GamepadSticks.LEFT_DRIFT); break;
             case POLAR:
-                _left_stick = GamepadSticks.getStickType(GamepadSticks.RIGHT_STICK)
+                _left_stick = GamepadSticks.getStickType(GamepadSticks.LEFT_STICK)
                                            .getDeclaredConstructor(Supplier.class, Supplier.class, BiFunction.class, Double.class)
                                            .newInstance((Supplier<Double>)() -> (double)  gamepad.left_stick_x,
                                                                 (Supplier<Double>)() -> (double) -gamepad.left_stick_y,
