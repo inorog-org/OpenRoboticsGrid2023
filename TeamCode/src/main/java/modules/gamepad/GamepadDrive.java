@@ -131,9 +131,11 @@ public class GamepadDrive {
             if (GamepadActivation.MOVEMENT_TOUCHPAD == ActivationInput.ACTIVE) {
                 touchpad.updateData();
 
-                driveInput.magnitudeTouch = touchpad.magnitude;
-                driveInput.angleTouchpad = touchpad.angle;
-                driveInput.touchpad = touchpad.isTouched;
+                if(touchpad.isTouched) {
+                    driveInput.magnitudeTouch = touchpad.magnitude;
+                    driveInput.angleTouchpad = touchpad.angle;
+                    driveInput.touchpad = true;
+                }
             }
         }
     }
