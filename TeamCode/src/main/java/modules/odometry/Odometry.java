@@ -19,7 +19,7 @@ import modules.odometry.encoders.OdometryEncoders;
 public class Odometry {
 
     // --- Odometry Encoders --- //
-    private final OdometryEncoders encoders;
+    public final OdometryEncoders encoders;
 
     // --- Heading --- //
     private final Heading heading;
@@ -176,7 +176,7 @@ public class Odometry {
         return Math.sqrt(dX * dX + dY * dY);
     }
 
-    enum MODE {
+    public enum MODE {
         COMMUNITY,
         VECTORIAL
     }

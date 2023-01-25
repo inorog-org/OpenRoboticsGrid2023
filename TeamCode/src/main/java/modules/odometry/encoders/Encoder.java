@@ -1,7 +1,9 @@
 package modules.odometry.encoders;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Encoder extends DcMotorImplEx {
 
@@ -40,4 +42,5 @@ public class Encoder extends DcMotorImplEx {
 
         return encoderPosition * TICKS_PER_CM;
     }
+
 }
