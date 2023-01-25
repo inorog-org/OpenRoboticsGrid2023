@@ -79,8 +79,12 @@ public class Input {
         boost  = false;
         locked = false;
 
+        // Speedchanger
         increment = false;
         decrement = false;
+
+        // DPAD Movement
+        movement_dpad = false;
 
         // Lightbar
         HUE   = 0;

@@ -156,7 +156,6 @@ public class GamepadDrive {
             PolarCoordinates polar  = getRotation();
             assert polar != null : "Rotational polar is null!";
             driveInput.rotate        = polar.magnitude;
-            driveInput.angle         = 0;
             driveInput.rotationStick = polar.magnitude != 0;
         }
     }

@@ -33,45 +33,54 @@ public class GamepadDriveTest extends LinearOpMode {
 
             gamepadDrive.updateInput();
 
-            telemetry.addData("Movement Magnitude ", gamepadDrive.driveInput.magnitude);
-            telemetry.addData("Movement Angle ", Math.toDegrees(gamepadDrive.driveInput.angle));
-            telemetry.addData("Movement Stick", gamepadDrive.driveInput.movementStick);
+            telemetryMovement();
 
-            telemetry.addData("Rotation Magnitude ", gamepadDrive.driveInput.rotate);
-            telemetry.addData("Rotation Stick ", gamepadDrive.driveInput.rotationStick);
+            telemetryDPADmovement();
 
-            spinData();
+            telemetryRotation();
 
-            touchpadData();
+            telemetrySpinData();
 
-            realignButtons();
+            telemetryTouchpadData();
 
-            boostButton();
+            telemetryRealignButtons();
 
-            locker();
+            telemetryBoostButton();
 
-            speedChanger();
+            telemetryLocker();
+
+            telemetrySpeedChanger();
 
             telemetryColor();
 
             telemetry.update();
-
         }
 
     }
 
-    public void spinData() {
+    public void telemetryMovement() {
+
+        telemetry.addData("Movement Magnitude ", gamepadDrive.driveInput.magnitude);
+        telemetry.addData("Movement Angle ", Math.toDegrees(gamepadDrive.driveInput.angle));
+        telemetry.addData("Movement Stick", gamepadDrive.driveInput.movementStick);
+    }
+    public void telemetryRotation() {
+
+        telemetry.addData("Rotation Magnitude ", gamepadDrive.driveInput.rotate);
+        telemetry.addData("Rotation Stick ", gamepadDrive.driveInput.rotationStick);
+    }
+    public void telemetrySpinData() {
 
         telemetry.addData("Spin Magnitude ", gamepadDrive.driveInput.spin);
         telemetry.addData("Spin Triggers ", gamepadDrive.driveInput.spinTriggers);
     }
-    public void touchpadData() {
+    public void telemetryTouchpadData() {
 
         telemetry.addData("Touchpad Magnitude ", gamepadDrive.driveInput.magnitudeTouch);
         telemetry.addData("Touchpad Angle ", Math.toDegrees(gamepadDrive.driveInput.angleTouchpad));
         telemetry.addData("Is touched ", gamepadDrive.driveInput.touchpad);
     }
-    public void realignButtons() {
+    public void telemetryRealignButtons() {
 
         if(gamepadDrive.driveInput.memoratePosition) {
             memorate++;
@@ -83,18 +92,18 @@ public class GamepadDriveTest extends LinearOpMode {
         }
         telemetry.addData("Approach Position ", approach);
     }
-    public void boostButton() {
+    public void telemetryBoostButton() {
 
         if(gamepadDrive.driveInput.boost) {
             boost++;
         }
         telemetry.addData("Boost ", boost);
     }
-    public void locker () {
+    public void telemetryLocker () {
 
         telemetry.addData("Locked ", gamepadDrive.driveInput.locked);
     }
-    public void speedChanger() {
+    public void telemetrySpeedChanger() {
 
         if(gamepadDrive.driveInput.increment) {
             increment++;
@@ -112,6 +121,14 @@ public class GamepadDriveTest extends LinearOpMode {
         telemetry.addData("RED ", gamepadDrive.driveInput.RED);
         telemetry.addData("GREEN ", gamepadDrive.driveInput.GREEN);
         telemetry.addData("BLUE ", gamepadDrive.driveInput.BLUE);
+    }
+
+    public void telemetryDPADmovement() {
+        if(gamepadDrive.driveInput.movement_dpad) {
+            telemetry.addData("MOVEMENT DPAD ENGAGED" , true);
+            telemetry.addData("Magnitude DPAD: ", gamepadDrive.driveInput.magnitude);
+            telemetry.addData("Angle DPAD: ", gamepadDrive.driveInput.angle);
+        }
     }
 
  }
