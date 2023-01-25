@@ -1,5 +1,15 @@
 package modules.gamepad;
 
+/** CONVENTIE
+
+ MAGNITUDINILE - apartin intervalului [0,1]
+ UNGHIURILE - sunt reprezentate în radiani
+ BUTOANE - true / false
+ State - true / false
+ HUE - apartine intervalului [0,360]
+ RGB - apartine intervalului [0,1]
+
+*/
 public class Input {
 
     // Stick Movement - Angle and Magnitude
