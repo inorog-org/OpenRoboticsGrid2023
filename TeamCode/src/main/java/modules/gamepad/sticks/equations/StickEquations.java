@@ -27,7 +27,7 @@ public class StickEquations {
     // -- Ecuatii pentru Polar Stick -- //
 
     // Xbox Magnitude - BOX Mapping
-    public static final BiFunction<Double, Double,Double> SQUARE_TO_CIRCLE = (x,y) -> Math.min(Math.abs(x), Math.abs(y)); // TODO
+    public static final BiFunction<Double, Double,Double> SQUARE_TO_CIRCLE = (x,y) -> Math.max(Math.abs(x), Math.abs(y));
 
     // Playstation Magnitude - Circle Mapping - Simple Mapping
     public static final BiFunction<Double, Double,Double> CIRCLE = (x,y) -> (Math.hypot(x,y) > 1) ? 1 : Math.hypot(x,y);
