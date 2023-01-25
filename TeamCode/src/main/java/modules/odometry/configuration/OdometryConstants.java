@@ -1,5 +1,8 @@
 package modules.odometry.configuration;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 public class OdometryConstants {
 
     // --- Encoder TICKS_PER_REV --- //
@@ -12,5 +15,11 @@ public class OdometryConstants {
     public static final double leftLength    = 17.5;  // 17.5 cm
     public static final double rightLength   = 17.5;  // 17.5 cm
     public static final double centralLength = 17.25; // 17.25 cm
+
+    // --- Rotation Direction --- //
+    public static final DcMotor.Direction LEFT_ENCODER_DIR     = DcMotor.Direction.FORWARD;
+    public static final DcMotor.Direction RIGHT_ENCODER_DIR    = DcMotor.Direction.FORWARD;
+    public static final DcMotor.Direction CENTRAL_ENCODER_DIR  = DcMotor.Direction.FORWARD;
+
 
 }
