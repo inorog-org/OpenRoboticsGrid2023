@@ -6,7 +6,7 @@ public class GamepadActivation {
 
     public static ActivationInput MOVEMENT_TOUCHPAD = ActivationInput.ACTIVE;
 
-    public static ActivationInput MOVEMENT_DPAD     = ActivationInput.ACTIVE;
+    public static ActivationInput MOVEMENT_DPAD     = ActivationInput.INACTIVE;
 
     public static ActivationInput ROTATION_JOYSTICK = ActivationInput.ACTIVE;
 
@@ -16,9 +16,9 @@ public class GamepadActivation {
 
     public static ActivationInput REALIGN  = ActivationInput.ACTIVE;
 
-    public static ActivationInput BOOST    = ActivationInput.INACTIVE;
+    public static ActivationInput BOOST    = ActivationInput.ACTIVE;
 
-    public static ActivationInput SPEEDCHANGER = ActivationInput.INACTIVE;
+    public static ActivationInput SPEEDCHANGER = ActivationInput.ACTIVE;
 
     public static ActivationInput LIGHTBAR = ActivationInput.ACTIVE;
 
