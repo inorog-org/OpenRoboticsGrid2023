@@ -40,7 +40,7 @@ public class Odometry {
     private MODE odometryMode = MODE.VECTORIAL;
 
     /// --- Constructors --- ///
-    public Odometry(Heading heading, DcMotorEx leftEncoder, DcMotorEx rightEncoder,DcMotorEx centralEncoder) throws EncodersExceptions {
+    public Odometry(Heading heading, DcMotorEx leftEncoder, DcMotorEx rightEncoder, DcMotorEx centralEncoder) throws EncodersExceptions {
        this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
     }
 

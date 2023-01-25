@@ -5,11 +5,13 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.lang.reflect.InvocationTargetException;
 
 import modules.gamepad.support.GamepadSupport;
 
+@TeleOp(name = "Lunatica: Gamepad Sticks", group = "Testus")
 public class GamepadSupportTest extends LinearOpMode {
 
     private GamepadSupport gamepadSuS;

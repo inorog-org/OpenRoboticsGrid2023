@@ -5,9 +5,11 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import modules.gamepad.touchpad.TouchpadSupport;
 
+@TeleOp(name = "Lunatica: Touchpad", group = "Testus")
 public class TouchpadSupportTest extends LinearOpMode {
 
     private TouchpadSupport touchpadSuS;
