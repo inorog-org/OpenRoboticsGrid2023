@@ -79,6 +79,9 @@ public class Input {
         boost  = false;
         locked = false;
 
+        increment = false;
+        decrement = false;
+
         // Lightbar
         HUE   = 0;
         RED   = 0;
