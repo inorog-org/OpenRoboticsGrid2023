@@ -10,7 +10,7 @@ public class TouchpadEquations {
     private static int HEIGHT = 1080;
 
     /// Magnitude
-    public static final BiFunction<Double,Double,Double> MAG_MAPPING = (x,y) -> Math.min(Math.abs(x), Math.abs(y));
+    public static final BiFunction<Double,Double,Double> MAG_MAPPING = (x,y) -> Math.min(Math.abs(x), Math.abs(y)); // TODO
 
     /// Axis
     // SQUARE
