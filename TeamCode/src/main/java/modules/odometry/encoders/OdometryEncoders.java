@@ -10,6 +10,8 @@ import modules.odometry.configuration.OdometryConstants;
 public class OdometryEncoders {
 
     // --- External Encoders --- //
+
+    private Heading _heading;
     public final Encoder leftEncoder;
     public final Encoder rightEncoder;
     public final Encoder centralEncoder;
@@ -31,9 +33,11 @@ public class OdometryEncoders {
          this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
          this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
 
-         heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
+         this._heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
 
      } else {  // Cazul in care avem deja IMU sau HeadingEncoders-urile inițiate
+
+         this._heading = heading;
 
          if(leftEncoder == null && rightEncoder == null)   // Cazul în care nu avem nici un encoder lateral și nu putem inițializa nici o Odometrie
              throw new EncodersExceptions();
@@ -63,9 +67,11 @@ public class OdometryEncoders {
             this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
             this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
 
-            heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
+            this._heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
 
         } else {  // Cazul in care avem deja IMU sau HeadingEncoders-urile inițiate
+
+            this._heading = heading;
 
             if(leftEncoder == null && rightEncoder == null)   // Cazul în care nu avem nici un encoder lateral și nu putem inițializa nici o Odometrie
                 throw new EncodersExceptions();
@@ -77,6 +83,10 @@ public class OdometryEncoders {
             if(this.leftEncoder  != null)  this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
             if(this.rightEncoder != null)  this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
         }
+    }
+
+    public Heading getHeading() {
+        return _heading;
     }
 
     // getDeltaLateral

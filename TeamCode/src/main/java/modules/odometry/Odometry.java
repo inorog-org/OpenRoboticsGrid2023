@@ -23,7 +23,7 @@ public class Odometry {
     public final OdometryEncoders encoders;
 
     // --- Heading --- //
-    private final Heading heading;
+    private Heading heading;
 
     // --- Postion --- //
     private final Position startPosition;
@@ -60,6 +60,9 @@ public class Odometry {
         this.heading = heading;
 
         this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
+
+        if(heading == null)
+            this.heading = encoders.getHeading();
     }
 
     public Odometry(Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
@@ -81,6 +84,9 @@ public class Odometry {
         this.heading = heading;
 
         this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
+
+        if(heading == null)
+            this.heading = encoders.getHeading();
     }
 
     // Set Mode
