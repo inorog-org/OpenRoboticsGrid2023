@@ -1,7 +1,6 @@
 package modules.odometry.configuration;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class OdometryConstants {
 

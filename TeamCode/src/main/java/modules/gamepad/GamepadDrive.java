@@ -12,6 +12,8 @@ import modules.gamepad.configuration.ActivationInput;
 import modules.gamepad.configuration.GamepadActivation;
 import modules.gamepad.configuration.GamepadType;
 import modules.gamepad.configuration.PrioritiesGamepad;
+import modules.gamepad.configuration.buttons.ButtonInput;
+import modules.gamepad.configuration.buttons.GamepadButtons;
 import modules.gamepad.configuration.lightbar.GamepadLightbar;
 import modules.gamepad.configuration.sticks.AxisInput;
 import modules.gamepad.configuration.sticks.GamepadSticks;
@@ -142,8 +144,11 @@ public class GamepadDrive {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void movementDpad() {
-        if (GamepadActivation.MOVEMENT_DPAD == ActivationInput.ACTIVE) {
-            gamepad.getDigitalPads(driveInput);
+        if (isDPADforMovement()) {
+
+            if(!isDpadChanged()) {
+                gamepad.getDigitalPads(driveInput);
+            }
 
             driveInput.angle = Math.toRadians(convertDPADtoAngle(driveInput.dpad_right, driveInput.dpad_up, driveInput.dpad_left, driveInput.dpad_down));
             driveInput.movement_dpad = isDpadChanged();
@@ -209,7 +214,7 @@ public class GamepadDrive {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void speedchanger() {
-        if(GamepadActivation.SPEEDCHANGER == ActivationInput.ACTIVE) {
+        if(isDPADforSpeedchanger()) {
 
             if(!isDpadChanged()) {
                gamepad.getDigitalPads(driveInput);
@@ -267,6 +272,20 @@ public class GamepadDrive {
 
     private boolean isRotationChanged() {
         return driveInput.rotationStick || driveInput.spinTriggers;
+    }
+
+    private boolean isDPADforSpeedchanger() {
+        return GamepadActivation.SPEEDCHANGER == ActivationInput.ACTIVE &&
+                GamepadButtons.dpad_down == ButtonInput.STICKY_BUTTON &&
+                GamepadButtons.dpad_up == ButtonInput.STICKY_BUTTON;
+    }
+
+    private boolean isDPADforMovement() {
+        return GamepadActivation.MOVEMENT_DPAD == ActivationInput.ACTIVE &&
+                GamepadButtons.dpad_down == ButtonInput.DEFAULT &&
+                GamepadButtons.dpad_up == ButtonInput.DEFAULT &&
+                GamepadButtons.dpad_right == ButtonInput.DEFAULT &&
+                GamepadButtons.dpad_left == ButtonInput.DEFAULT;
     }
 
     private int convertDPADtoAngle(boolean dr, boolean du, boolean dl, boolean dd) {
