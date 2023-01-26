@@ -288,15 +288,15 @@ public class GamepadDrive {
                 GamepadButtons.dpad_left == ButtonInput.DEFAULT;
     }
 
-    private int convertDPADtoAngle(boolean dr, boolean du, boolean dl, boolean dd) {
-        int i_dr = boolToInteger(dr);
-        int i_du = boolToInteger(du);
-        int i_dl = boolToInteger(dl);
-        int i_dd = boolToInteger(dd);
+    private double convertDPADtoAngle(boolean dr, boolean du, boolean dl, boolean dd) {
+        float i_dr = boolToInteger(dr);
+        float i_du = boolToInteger(du);
+        float i_dl = boolToInteger(dl);
+        float i_dd = boolToInteger(dd);
 
         if (i_dr + i_du + i_dl + i_dd == 0)
             return 0;
-        else return (90 * i_du + 180 * i_dl + 270 * i_dd) / (i_dr + i_du + i_dl + i_dd);
+        else return Math.toRadians((90 * i_du + 180 * i_dl + 270 * i_dd + 360 * boolToInteger(i_dr + i_dd == 2)) / (i_dr + i_du + i_dl + i_dd));
     }
 
     private int boolToInteger(boolean value) {
