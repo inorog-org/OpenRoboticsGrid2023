@@ -20,6 +20,9 @@ public class GamepadActivation {
 
     public static ActivationInput SPEEDCHANGER = ActivationInput.ACTIVE;
 
+
+    public static ActivationInput SPEEDMULTIPLIER = ActivationInput.INACTIVE;
+
     public static ActivationInput LIGHTBAR = ActivationInput.ACTIVE;
 
 }

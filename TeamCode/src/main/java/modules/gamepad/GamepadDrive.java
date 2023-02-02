@@ -109,6 +109,7 @@ public class GamepadDrive {
         // Buttons: Locker + Boost + Memorate Position + Execute to Position + SpeedChanger
         driveInput.locked = isLocked();
         speedchanger();
+        speedMultiplierByTrigger();
         booster();
         realign();
 
@@ -170,6 +171,13 @@ public class GamepadDrive {
         if (GamepadActivation.ROTATION_TRIGGERS == ActivationInput.ACTIVE) {
             driveInput.spin = gamepad.getRightTrigger() - gamepad.getLeftTrigger();
             driveInput.spinTriggers = (gamepad.getLeftTrigger() != 0) || (gamepad.getRightTrigger() != 0);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void speedMultiplierByTrigger() {
+        if(GamepadActivation.SPEEDMULTIPLIER == ActivationInput.ACTIVE && GamepadActivation.ROTATION_TRIGGERS == ActivationInput.INACTIVE) {
+            driveInput.speedMultiplier = 1 - 0.75 * gamepad.getRightTrigger();
         }
     }
 

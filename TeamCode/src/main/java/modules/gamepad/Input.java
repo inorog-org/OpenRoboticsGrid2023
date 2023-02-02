@@ -49,6 +49,9 @@ public class Input {
     public boolean increment = false;
     public boolean decrement = false;
 
+    // Speed Multiplier
+    public double speedMultiplier = 1;
+
     // Lightbar
     public double HUE = 0;
     public double RED   = 0;
@@ -92,6 +95,9 @@ public class Input {
         // Speedchanger
         increment = false;
         decrement = false;
+
+        // Speed Multiplier
+        speedMultiplier = 1;
 
         // DPAD Movement
         movement_dpad = false;
