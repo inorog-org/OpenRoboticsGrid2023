@@ -40,8 +40,8 @@ ALGORITM - Vectorial
 
   4. Calculam valorile pentru incrementare
 
-          deltaX = deltaCentral * cos(deltaTheta) - deltaDistance * sin(deltaTheta);
-          deltaY = deltaCentral * sin(deltaTheta) + deltaDistance * cos(deltaTheta);
+          deltaX = deltaDistance * cos(deltaTheta) - deltaCentral * sin(deltaTheta);
+          deltaY = deltaDistance * sin(deltaTheta) + deltaCentral * cos(deltaTheta);
 
   5. Incrementăm Delta-urile de poziție
           currentPosition.x     += deltaX;
