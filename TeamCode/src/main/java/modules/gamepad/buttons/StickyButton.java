@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 public class StickyButton implements Button{
 
     private boolean previousState = false;
+
     private final Supplier<Boolean> condition;
 
     public StickyButton(Supplier<Boolean> button) {
@@ -19,18 +20,14 @@ public class StickyButton implements Button{
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean listen() {
 
-        if (condition.get()) {
-            if (!previousState) {
-                previousState = true;
-                   return true;
-            } else return false;
-        } else {
-            if (previousState) {
-                previousState = false;
-            }
-            return false;
+        boolean state = condition.get();
+
+        if(state && !previousState){
+            previousState = true;
+            return true;
         }
+
+        previousState = state;
+        return false;
     }
-
-
 }

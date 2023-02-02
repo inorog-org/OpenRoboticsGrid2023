@@ -20,16 +20,14 @@ public class SwitchButton implements Button {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean listen() {
 
-        if (condition.get()) {
-            if (!previousState) {
-                previousState = true;
-                state = !state;
-            }
-        } else {
-            if (previousState) {
-                previousState = false;
-            }
+        boolean statuSus = condition.get();
+
+        if(statuSus && !previousState){
+            state = !state;
         }
+
+        previousState = statuSus;
+
         return state;
     }
 
