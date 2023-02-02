@@ -9,11 +9,11 @@ public class OdometryConstants {
     public static final int ENCODER_TICKS = 8192;
 
     // --- Encoder TICKS_PER_REV --- //
-    public static final double WHEEL_DIAMETER = 4.6;
+    public static final double WHEEL_DIAMETER = 4.8;
 
     // --- Distance from Robot Center --- //
-    public static final double leftLength    = 11.2;
-    public static final double rightLength   = 11.0;
+    public static final double leftLength    = 11.7;
+    public static final double rightLength   = 10.7;
     public static final double centralLength = 3.20;
 
     // --- Rotation Direction --- //
