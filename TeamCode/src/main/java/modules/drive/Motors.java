@@ -132,7 +132,7 @@ public class Motors {
         return frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
     }
 
-    /// === The Equations of Mecanum Wheels  ~ The Masterpiece ~ === /// // TODO: Drift Equations
+    /// === The Equations of Mecanum Wheels  ~ The Masterpiece ~ === ///
     public void updateMovementPower(double angle, double magnitude) {
 
         double sinus   = Math.sin(angle);
