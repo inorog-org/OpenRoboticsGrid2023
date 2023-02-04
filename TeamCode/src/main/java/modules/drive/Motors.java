@@ -133,7 +133,7 @@ public class Motors {
     }
 
     /// === The Equations of Mecanum Wheels  ~ The Masterpiece ~ === ///
-    public void updateMovementPower(double angle, double magnitude) {
+    public void updateMovementPowerNORMAL(double angle, double magnitude) {
 
         double sinus   = Math.sin(angle);
         double cosinus = Math.cos(angle);
@@ -161,6 +161,14 @@ public class Motors {
 
         bluePower  =   (mecanumConfig_FIRSTCOEFF  * cosinus * Math.abs(cosinus)  + sinus * Math.abs(sinus)) * magnitude;
         redPower   =   (mecanumConfig_SECONDCOEFF * cosinus * Math.abs(cosinus)  + sinus * Math.abs(sinus)) * magnitude;
+    }
+
+    public void updateMovementPower(double angle, double magnitude) {
+        switch (DriveSystemConfiguration.driveMode) {
+            case DRIFT: updateMovementPowerDRIFT(angle, magnitude); return;
+            case NORMAL: updateMovementPowerNORMAL(angle, magnitude); return;
+        }
+        updateMovementPowerNORMAL(angle, magnitude);
     }
 
     public void updateRotatePower(double magnitude) {

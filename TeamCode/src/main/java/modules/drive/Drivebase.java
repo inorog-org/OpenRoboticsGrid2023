@@ -137,7 +137,7 @@ public class Drivebase {
         if (centricMode == CentricMode.FIELD_CENTRIC)
               headingField = heading.getHeading();
 
-        motors.updateMovementPower(angle - headingField, movementMagnitude); // TODO: Drift Equations
+        motors.updateMovementPower(angle - headingField, movementMagnitude);
     }
 
     // === Rotate Power Calculator for TeleOp === //
@@ -163,7 +163,7 @@ public class Drivebase {
                 break;
         }
 
-        motors.updateMovementPower(angle - headingSpin, movementMagnitude); // TODO: Drift Equations
+        motors.updateMovementPower(angle - headingSpin, movementMagnitude);
     }
 
     // === Spin Case: Field Centric === ///
