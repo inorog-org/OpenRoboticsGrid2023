@@ -199,7 +199,7 @@ public class Drivebase {
 
         if (GamepadActivation.REALIGN == ActivationInput.ACTIVE && realignMode() && rotationMagnitude == 0) {
 
-            if (gamepad.driveInput.memoratePosition && !isRealigning) { // Memorate Angle
+            if (gamepad.driveInput.memoratePosition && !isRealigning && movementMagnitude == 0) { // Memorate Angle
                     realignAngle = heading.getHeading();
             }
 
