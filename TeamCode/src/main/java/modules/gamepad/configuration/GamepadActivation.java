@@ -6,7 +6,7 @@ public class GamepadActivation {
 
     public static ActivationInput MOVEMENT_TOUCHPAD = ActivationInput.ACTIVE;
 
-    public static ActivationInput MOVEMENT_DPAD     = ActivationInput.ACTIVE;
+    public static ActivationInput MOVEMENT_DPAD     = ActivationInput.INACTIVE;
 
     public static ActivationInput ROTATION_JOYSTICK = ActivationInput.ACTIVE;
 

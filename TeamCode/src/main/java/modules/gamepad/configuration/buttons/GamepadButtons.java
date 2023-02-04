@@ -17,8 +17,8 @@ public class GamepadButtons {
 
     // Digital Pads
     public static ButtonInput dpad_down  = ButtonInput.STICKY_BUTTON;
-    public static ButtonInput dpad_right = ButtonInput.STICKY_BUTTON;
-    public static ButtonInput dpad_left  = ButtonInput.STICKY_BUTTON;
+    public static ButtonInput dpad_right = ButtonInput.DEFAULT;
+    public static ButtonInput dpad_left  = ButtonInput.DEFAULT;
     public static ButtonInput dpad_up    = ButtonInput.STICKY_BUTTON;
 
     // Bumpers
