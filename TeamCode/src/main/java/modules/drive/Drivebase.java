@@ -97,11 +97,16 @@ public class Drivebase {
 
     }
 
-    private void updateMagnitudesAndAngle() { // TODO: Ease Equations + Custom Equations + Median Value Access
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void updateMagnitudesAndAngle() {
 
         movementMagnitude = gamepad.driveInput.magnitude + gamepad.driveInput.magnitudeTouch;
 
+        movementMagnitude = DriveSystemConfiguration.alterMovementMagnitude.apply(movementMagnitude);
+
         rotationMagnitude = gamepad.driveInput.rotate + gamepad.driveInput.spin;
+
+        rotationMagnitude = DriveSystemConfiguration.alterRotationMagnitude.apply(rotationMagnitude);
 
         angle = gamepad.driveInput.angle + gamepad.driveInput.angleTouchpad;
     }

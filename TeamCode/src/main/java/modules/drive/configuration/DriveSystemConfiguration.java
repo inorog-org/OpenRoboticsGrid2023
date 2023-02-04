@@ -2,8 +2,11 @@ package modules.drive.configuration;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.util.function.Function;
+
 import modules.drive.configuration.modes.BrakingMode;
 import modules.drive.configuration.modes.CentricMode;
+import modules.drive.configuration.modes.DriveMode;
 import modules.drive.configuration.modes.MecanumWheelsConfiguration;
 import modules.drive.configuration.modes.PowerMode;
 import modules.drive.configuration.modes.RealignMode;
@@ -30,5 +33,13 @@ public class DriveSystemConfiguration {
 
     /// === Realign Mode === ///
     public static RealignMode realignMode = RealignMode.WITH_MOVEMENT;
+
+    /// === Drive Mode === ///
+    public static DriveMode driveMode = DriveMode.NORMAL;
+
+    /// === Magnitude Alteration === ///
+    public static final Function<Double, Double> alterMovementMagnitude = (x) -> x;
+
+    public static final Function<Double, Double> alterRotationMagnitude = (x) -> x;
 
 }
