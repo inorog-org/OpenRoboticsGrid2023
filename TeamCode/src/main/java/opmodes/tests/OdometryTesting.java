@@ -37,6 +37,7 @@ public class OdometryTesting extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         imu = new IMU(this, BNO055IMU.AngleUnit.RADIANS, BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC); // Init IMU
+        imu.remapAxis( 0x24, 0xc);
 
         drivebase = new Drivebase(this, imu); // Init Drivebase
 
@@ -67,7 +68,7 @@ public class OdometryTesting extends LinearOpMode {
             telemetry.addData("X-Pos", odometry.getPosition().x);
             telemetry.addData("Y-Pos", odometry.getPosition().y);
             telemetry.addLine();
-            telemetry.addData("Orientation Encoders", Math.toDegrees(odometry.getPosition().theta) * 1.019);
+            telemetry.addData("Orientation Encoders WITHOUT Calibration", Math.toDegrees(odometry.getPosition().theta));
             telemetry.addData("Orientation IMU", Math.toDegrees(imu.getHeading()));
 
             telemetry.update();
