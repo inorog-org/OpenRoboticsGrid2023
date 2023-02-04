@@ -12,6 +12,7 @@ public class MotorsConstants {
     // Digital Pad Power for Motors
     public static final double DPAD_SPEED = 0.6;
 
+    // MAX-MIN POWER
     public static final double MOTOR_MAX_POWER = 1.0;
     public static final double MOTOR_MIN_POWER = 0.2;
     public static final double MOTOR_SPEED_INCREMENT = 0.2;
