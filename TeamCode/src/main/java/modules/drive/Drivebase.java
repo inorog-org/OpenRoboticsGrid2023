@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
+import modules.drive.configuration.DriveSetup;
 import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.MotorsConstants;
 import modules.drive.configuration.modes.CentricMode;
@@ -60,10 +61,15 @@ public class Drivebase {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Drivebase(LinearOpMode opMode, Heading heading) {
+        this(opMode, heading, new Motors(opMode.hardwareMap));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Drivebase(LinearOpMode opMode, Heading heading, Motors motors) {
 
         this.opMode = opMode;
 
-        this.motors = new Motors(opMode.hardwareMap);
+        this.motors = motors;
 
         this.speedChanger = new SpeedChangerSystem();
 
@@ -72,6 +78,8 @@ public class Drivebase {
         this.gamepad = new GamepadDrive(opMode.gamepad1);
 
         this.heading = heading;
+
+        DriveSetup.initSetup();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
