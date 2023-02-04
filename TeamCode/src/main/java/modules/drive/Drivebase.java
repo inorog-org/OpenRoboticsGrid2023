@@ -51,6 +51,9 @@ public class Drivebase {
     private double headingSpin  = 0;
     private double headingField = 0;
 
+    // Locker
+    public boolean isLocked = false;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Drivebase(LinearOpMode opMode, Heading heading) {
 
@@ -70,7 +73,9 @@ public class Drivebase {
 
         gamepad.updateInput();
 
-        if(!gamepad.driveInput.locked) {
+        isLocked = gamepad.driveInput.locked;
+
+        if(!isLocked) {
 
             updateMagnitudesAndAngle();
 
