@@ -1,6 +1,7 @@
 package modules.drive;
 
 import static modules.drive.configuration.DriveSystemConfiguration.centricMode;
+import static modules.drive.configuration.DriveSystemConfiguration.realignMode;
 
 import android.os.Build;
 
@@ -52,7 +53,7 @@ public class Drivebase {
     private double headingField = 0;
 
     // Locker
-    public boolean isLocked = false;
+    public boolean isLocked = false;          /// TODO: Boost (with Timer)
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Drivebase(LinearOpMode opMode, Heading heading) {
@@ -178,7 +179,7 @@ public class Drivebase {
     // === Realign with Bumpers === //
     private void realign() {
 
-        if (GamepadActivation.REALIGN == ActivationInput.ACTIVE && movementMagnitude == 0 && rotationMagnitude == 0) {
+        if (GamepadActivation.REALIGN == ActivationInput.ACTIVE && realignMode() && rotationMagnitude == 0) {
 
             if (gamepad.driveInput.memoratePosition && !isRealigning) { // Memorate Angle
                     realignAngle = heading.getHeading();
@@ -204,6 +205,16 @@ public class Drivebase {
 
             computeRotatePower(speed);
         } else isRealigning = false;
+    }
+
+    private boolean realignMode() {
+
+        switch (realignMode) {
+            case WITH_MOVEMENT: return true;
+            case WITHOUT_MOVEMENT: return movementMagnitude == 0;
+        }
+
+        return movementMagnitude == 0;
     }
 
     // === Choose Maxim Power - Joystick or Touchpad === ///
@@ -240,6 +251,19 @@ public class Drivebase {
 
         return (movementCoefficientPower * movementLimitPower * movementWeight + rotateCoefficientPower * rotateLimitPower * rotateWeight) /
                                                                (movementWeight + rotateWeight);
+    }
+
+    public void telemetry() {
+
+        opMode.telemetry.addData("Movement Magnitude", movementMagnitude);
+        opMode.telemetry.addData("Rotation Magnitude", rotationMagnitude);
+
+        opMode.telemetry.addData("Movement Max Power", maximumMovementPower);
+        opMode.telemetry.addData("Rotation Max Power", maximumRotationPower);
+
+        opMode.telemetry.addData("Blue Power", motors.bluePower);
+        opMode.telemetry.addData("Red Power",  motors.redPower);
+
     }
 
 }

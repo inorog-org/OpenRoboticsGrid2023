@@ -6,6 +6,7 @@ import modules.drive.configuration.modes.BrakingMode;
 import modules.drive.configuration.modes.CentricMode;
 import modules.drive.configuration.modes.MecanumWheelsConfiguration;
 import modules.drive.configuration.modes.PowerMode;
+import modules.drive.configuration.modes.RealignMode;
 
 public class DriveSystemConfiguration {
 
@@ -26,5 +27,8 @@ public class DriveSystemConfiguration {
 
     /// === Mecanum Max Power Mode === ///
     public static PowerMode powerMode = PowerMode.MAXIMUM;
+
+    /// === Realign Mode === ///
+    public static RealignMode realignMode = RealignMode.WITH_MOVEMENT;
 
 }
