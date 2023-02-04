@@ -80,41 +80,44 @@ public class GamepadDrive {
         // Reset Input
         driveInput.reset();
 
-        // Movement Input: Joystick + Touchpad + Digital Pads
-        for (int i = 1; i <= 3 && !isMovementChanged(); i++) {
-            switch (i) {
-                case PrioritiesGamepad.MOVEMENT_JOYSTICK:
-                    movementJoystick();
-                    break;
-                case PrioritiesGamepad.MOVEMENT_TOUCHPAD:
-                    movementTouchpad();
-                    break;
-                case PrioritiesGamepad.MOVEMENT_DPAD:
-                    movementDpad();
-                    break;
-            }
-        }
-
-        // Rotation Input: Joystick + Triggers
-        for (int i = 1; i <= 2 && !isRotationChanged(); i++) {
-            switch (i) {
-                case PrioritiesGamepad.ROTATION_JOYSTICK:
-                    rotationJoystick();
-                    break;
-                case PrioritiesGamepad.ROTATION_TRIGGERS:
-                    rotationTriggers();
-                    break;
-            }
-        }
-        // Buttons: Locker + Boost + Memorate Position + Execute to Position + SpeedChanger
         driveInput.locked = isLocked();
-        speedchanger();
-        speedMultiplierByTrigger();
-        booster();
-        realign();
 
-        // Update Lightbar (if it is the Case) + Case for Stick and Case for Touchpad
-        updateLight();
+        if(!driveInput.locked) {
+            // Movement Input: Joystick + Touchpad + Digital Pads
+            for (int i = 1; i <= 3 && !isMovementChanged(); i++) {
+                switch (i) {
+                    case PrioritiesGamepad.MOVEMENT_JOYSTICK:
+                        movementJoystick();
+                        break;
+                    case PrioritiesGamepad.MOVEMENT_TOUCHPAD:
+                        movementTouchpad();
+                        break;
+                    case PrioritiesGamepad.MOVEMENT_DPAD:
+                        movementDpad();
+                        break;
+                }
+            }
+
+            // Rotation Input: Joystick + Triggers
+            for (int i = 1; i <= 2 && !isRotationChanged(); i++) {
+                switch (i) {
+                    case PrioritiesGamepad.ROTATION_JOYSTICK:
+                        rotationJoystick();
+                        break;
+                    case PrioritiesGamepad.ROTATION_TRIGGERS:
+                        rotationTriggers();
+                        break;
+                }
+            }
+            // Buttons: Boost + Memorate Position + Execute to Position + SpeedChanger
+            speedchanger();
+            speedMultiplierByTrigger();
+            booster();
+            realign();
+
+            // Update Lightbar (if it is the Case) + Case for Stick and Case for Touchpad
+            updateLight();
+        }
     }
 
     private void movementJoystick() {
