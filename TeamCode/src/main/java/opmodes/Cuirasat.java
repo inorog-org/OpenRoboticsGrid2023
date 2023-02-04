@@ -8,7 +8,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import modules.drive.Drivebase;
+import modules.drive.subsystems.teleop.Drivebase;
 import modules.imu.IMU;
 
 @TeleOp(name = "Concept: Mecanum Lunatica", group = "Concept")

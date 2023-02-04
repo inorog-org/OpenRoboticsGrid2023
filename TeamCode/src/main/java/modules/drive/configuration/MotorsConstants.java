@@ -2,6 +2,13 @@ package modules.drive.configuration;
 
 public class MotorsConstants {
 
+    public static double COUNTS_PER_MOTOR_REV   =  537.7;
+    public static double DRIVE_GEAR_REDUCTION   =   1.0 ;
+    public static double   WHEEL_DIAMETER_CM    =   9.6 ;
+    public static double   COUNTS_PER_CM        = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+                                                        (WHEEL_DIAMETER_CM * Math.PI);
+    public static double  MOTOR_MAX_RPM            =  312;
+
     // Powers for Motors
     public static double MAX_MOVEMENT_SPEED = 0.8;
     public static double MAX_ROTATE_SPEED   = 0.8;

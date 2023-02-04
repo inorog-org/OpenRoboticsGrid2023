@@ -1,4 +1,4 @@
-package modules.drive;
+package modules.drive.subsystems.teleop;
 
 import static modules.drive.configuration.DriveSystemConfiguration.centricMode;
 import static modules.drive.configuration.DriveSystemConfiguration.realignMode;
@@ -14,6 +14,7 @@ import modules.drive.configuration.DriveSetup;
 import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.MotorsConstants;
 import modules.drive.configuration.modes.CentricMode;
+import modules.drive.Motors;
 import modules.drive.subsystems.BoostSystem;
 import modules.drive.subsystems.SpeedChangerSystem;
 import modules.gamepad.GamepadDrive;
