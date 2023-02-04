@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.util.Range;
 import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.MotorsConstants;
 import modules.drive.configuration.modes.CentricMode;
+import modules.drive.subsystems.BoostSystem;
 import modules.drive.subsystems.SpeedChangerSystem;
 import modules.gamepad.GamepadDrive;
 import modules.gamepad.configuration.ActivationInput;
@@ -27,6 +28,8 @@ public class Drivebase {
     private final Motors motors;
 
     private final SpeedChangerSystem speedChanger;
+
+    private final BoostSystem boostSystem;
 
     private final GamepadDrive gamepad;
 
@@ -53,7 +56,7 @@ public class Drivebase {
     private double headingField = 0;
 
     // Locker
-    public boolean isLocked = false;          /// TODO: Boost (with Timer)
+    public boolean isLocked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Drivebase(LinearOpMode opMode, Heading heading) {
@@ -63,6 +66,8 @@ public class Drivebase {
         this.motors = new Motors(opMode.hardwareMap);
 
         this.speedChanger = new SpeedChangerSystem();
+
+        this.boostSystem  = new BoostSystem();
 
         this.gamepad = new GamepadDrive(opMode.gamepad1);
 
@@ -92,7 +97,7 @@ public class Drivebase {
 
     }
 
-    private void updateMagnitudesAndAngle() {
+    private void updateMagnitudesAndAngle() { // TODO: Ease Equations + Custom Equations + Median Value Access
 
         movementMagnitude = gamepad.driveInput.magnitude + gamepad.driveInput.magnitudeTouch;
 
@@ -223,12 +228,12 @@ public class Drivebase {
         if (gamepad.driveInput.touchpad) {
             maximumMovementPower = MotorsConstants.TOUCHPAD_SPEED;
         } else if (gamepad.driveInput.movementStick) {
-            maximumMovementPower = MotorsConstants.MAX_MOVEMENT_SPEED;
+            maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
         } else if (gamepad.driveInput.movement_dpad) {
             maximumMovementPower = MotorsConstants.DPAD_SPEED;
         } else if (isRealigning) {
             maximumMovementPower = 0.0;
-        } else maximumMovementPower = MotorsConstants.MAX_MOVEMENT_SPEED;
+        } else maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
 
         maximumRotationPower = MotorsConstants.MAX_ROTATE_SPEED;
 
