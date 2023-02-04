@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.MotorsConstants;
 import modules.drive.configuration.modes.CentricMode;
+import modules.drive.subsystems.SpeedChangerSystem;
 import modules.gamepad.GamepadDrive;
 import modules.gamepad.configuration.ActivationInput;
 import modules.gamepad.configuration.GamepadActivation;
@@ -24,7 +25,7 @@ public class Drivebase {
 
     private final Motors motors;
 
-    private final SpeedChanger speedChanger;
+    private final SpeedChangerSystem speedChanger;
 
     private final GamepadDrive gamepad;
 
@@ -57,7 +58,7 @@ public class Drivebase {
 
         this.motors = new Motors(opMode.hardwareMap);
 
-        this.speedChanger = new SpeedChanger();
+        this.speedChanger = new SpeedChangerSystem();
 
         this.gamepad = new GamepadDrive(opMode.gamepad1);
 
@@ -202,15 +203,16 @@ public class Drivebase {
 
     // === Choose Maxim Power - Joystick or Touchpad === ///
     private void detectSpeedType() {
+
         if (gamepad.driveInput.touchpad) {
-            maximumMovementPower = speedChanger.TOUCHPAD_SPEED;
+            maximumMovementPower = MotorsConstants.TOUCHPAD_SPEED;
+        } else if (gamepad.driveInput.movementStick) {
+            maximumMovementPower = MotorsConstants.MAX_MOVEMENT_SPEED;
+        } else if (gamepad.driveInput.movement_dpad) {
+            maximumMovementPower = MotorsConstants.DPAD_SPEED;
         } else if (isRealigning) {
             maximumMovementPower = 0.0;
-        } else {
-            maximumMovementPower = speedChanger.MAX_MOVEMENT_SPEED;
-        }
-
-        gamepad.driveInput.touchpad, gamepad.driveInput.movementStick, gamepad.driveInput.movement_dpad, isRealigning;
+        } else maximumMovementPower = MotorsConstants.MAX_MOVEMENT_SPEED;
 
         maximumRotationPower = MotorsConstants.MAX_ROTATE_SPEED;
 
@@ -220,10 +222,10 @@ public class Drivebase {
     private void applyPower() {
 
         if (rotationMagnitude + movementMagnitude > 0) {
-            motors.frontLeft.setPower(weightedPower(motors.bluePower, maximumMovementPower, movementMagnitude, motors.leftPower, maximumRotationPower, rotationMagnitude));
-            motors.frontRight.setPower(weightedPower(motors.redPower, maximumMovementPower, movementMagnitude, motors.rightPower, maximumRotationPower, rotationMagnitude));
-            motors.backRight.setPower(weightedPower(motors.bluePower, maximumMovementPower, movementMagnitude, motors.rightPower, maximumRotationPower, rotationMagnitude));
-            motors.backLeft.setPower(weightedPower(motors.redPower, maximumMovementPower, movementMagnitude, motors.leftPower, maximumRotationPower, rotationMagnitude));
+            motors.frontLeft.setPower(weightedPower(motors.bluePower, maximumMovementPower, movementMagnitude, motors.leftPower, maximumRotationPower, rotationMagnitude) * gamepad.driveInput.speedMultiplier);
+            motors.frontRight.setPower(weightedPower(motors.redPower, maximumMovementPower, movementMagnitude, motors.rightPower, maximumRotationPower, rotationMagnitude) * gamepad.driveInput.speedMultiplier);
+            motors.backRight.setPower(weightedPower(motors.bluePower, maximumMovementPower, movementMagnitude, motors.rightPower, maximumRotationPower, rotationMagnitude) * gamepad.driveInput.speedMultiplier);
+            motors.backLeft.setPower(weightedPower(motors.redPower, maximumMovementPower, movementMagnitude, motors.leftPower, maximumRotationPower, rotationMagnitude) * gamepad.driveInput.speedMultiplier);
         } else motors.stopPower();
     }
 

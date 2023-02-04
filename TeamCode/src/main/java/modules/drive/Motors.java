@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 import modules.drive.configuration.modes.ControlMode;
 import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.modes.MecanumWheelsConfiguration;
+import modules.drive.subsystems.BrakeSystem;
 
 /**
  *  Aceasta este clasa care face Handle la motoarele pentru Mecanum

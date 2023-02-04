@@ -1,4 +1,4 @@
-package modules.drive;
+package modules.drive.subsystems;
 
 import com.qualcomm.robotcore.util.Range;
 
@@ -6,7 +6,7 @@ import modules.drive.configuration.MotorsConstants;
 import modules.gamepad.configuration.ActivationInput;
 import modules.gamepad.configuration.GamepadActivation;
 
-public class SpeedChanger {
+public class SpeedChangerSystem {
 
     public void execute(boolean increment, boolean decrement) {
         if (GamepadActivation.SPEEDCHANGER == ActivationInput.ACTIVE) {
