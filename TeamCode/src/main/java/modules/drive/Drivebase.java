@@ -228,18 +228,24 @@ public class Drivebase {
     // === Choose Maxim Power - Joystick or Touchpad === ///
     private void detectSpeedType() {
 
-        if (gamepad.driveInput.touchpad) {
-            maximumMovementPower = MotorsConstants.TOUCHPAD_SPEED;
-        } else if (gamepad.driveInput.movementStick) {
-            maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
-        } else if (gamepad.driveInput.movement_dpad) {
-            maximumMovementPower = MotorsConstants.DPAD_SPEED;
-        } else if (isRealigning) {
-            maximumMovementPower = 0.0;
-        } else maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
-
         maximumRotationPower = MotorsConstants.MAX_ROTATE_SPEED;
 
+        if (gamepad.driveInput.movementStick) {
+            maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
+            return;
+        }
+
+        if (gamepad.driveInput.touchpad) {
+            maximumMovementPower = MotorsConstants.TOUCHPAD_SPEED;
+            return;
+        }
+
+        if (gamepad.driveInput.movement_dpad) {
+            maximumMovementPower = MotorsConstants.DPAD_SPEED;
+            return;
+        }
+
+        maximumMovementPower = boostSystem.execute(gamepad.driveInput.boost);
     }
 
     // === Apply Powers for TeleOp === ///
