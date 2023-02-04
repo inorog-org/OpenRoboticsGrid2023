@@ -1,11 +1,11 @@
-package modules.drive.subsystems.autonomous;
+package modules.drive.subsystems.kinematic;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import modules.drive.configuration.MotorsConstants;
-import modules.drive.Motors;
+import modules.drive.main.Motors;
 
 
 /**
@@ -52,16 +52,16 @@ public class AccelerationSystem {
 
         setMotorColorPowers(power);
 
+        //  midStage(power);
+
+        //  decelerationStage(power);
+
         while(motors.motorsAreBusy() && opMode.opModeIsActive() && !opMode.isStopRequested());
 
         if(opMode.isStopRequested() && !opMode.opModeIsActive()) {
             motors.stopPower();
             opMode.terminateOpModeNow();
         }
-
-        //  midStage(power);
-
-        //  decelerationStage(power);
 
     }
 

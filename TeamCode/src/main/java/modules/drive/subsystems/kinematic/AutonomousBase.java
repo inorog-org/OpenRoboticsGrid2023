@@ -1,4 +1,4 @@
-package modules.drive.subsystems.autonomous;
+package modules.drive.subsystems.kinematic;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import modules.drive.configuration.MotorsConstants;
-import modules.drive.Motors;
+import modules.drive.main.Motors;
 import modules.imu.AngleArithmetic;
 import modules.odometry.Heading;
 

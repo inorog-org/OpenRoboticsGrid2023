@@ -7,11 +7,12 @@ import androidx.annotation.RequiresApi;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import modules.drive.configuration.modes.ControlMode;
-import modules.drive.subsystems.autonomous.AutonomousBase;
+import modules.drive.main.Motors;
+import modules.drive.subsystems.kinematic.AutonomousBase;
 import modules.drive.subsystems.teleop.Drivebase;
 import modules.odometry.Heading;
 
-public class Mecanum {
+public class MecanumHandler {
 
   private LinearOpMode opMode;
 
@@ -22,7 +23,7 @@ public class Mecanum {
   private AutonomousBase autonomousBase;
 
   @RequiresApi(api = Build.VERSION_CODES.N)
-  public Mecanum(LinearOpMode opMode, Heading heading, ControlMode controlMode) {
+  public MecanumHandler(LinearOpMode opMode, Heading heading, ControlMode controlMode) {
 
       this.opMode = opMode;
 

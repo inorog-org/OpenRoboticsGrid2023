@@ -1,4 +1,4 @@
-package modules.drive.subsystems;
+package modules.drive.subsystems.teleop;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
