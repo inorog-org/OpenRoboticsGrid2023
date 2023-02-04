@@ -202,13 +202,11 @@ public class Drivebase {
             if (isRealigning) {
                 sendRealignPowers();
             }
-        }
-
-        isRealigning = false;
+        } else isRealigning = false;
     }
 
     private void sendRealignPowers() {
-        double degrees = AngleArithmetic.getShortestAngleDEGREES(Math.toDegrees(realignAngle), Math.toDegrees(heading.getHeading()));
+        double degrees = AngleArithmetic.getShortestAngleDEGREES(Math.toDegrees(heading.getHeading()), Math.toDegrees(realignAngle));
 
         if (Math.abs(degrees) > 0.1f) {
             double speed = Math.signum(-degrees) * Range.clip(Math.abs(degrees) / 90.0f, 0.15f, 1.0f); // Will be transformed to graduated acceleration - deceleration

@@ -154,7 +154,7 @@ public class GamepadDrive {
                 gamepad.getDigitalPads(driveInput);
             }
 
-            driveInput.angle = Math.toRadians(convertDPADtoAngle(driveInput.dpad_right, driveInput.dpad_up, driveInput.dpad_left, driveInput.dpad_down));
+            driveInput.angle = convertDPADtoAngle(driveInput.dpad_right, driveInput.dpad_up, driveInput.dpad_left, driveInput.dpad_down);
             driveInput.movement_dpad = isDpadChanged();
             driveInput.magnitude = boolToInteger(driveInput.movement_dpad);
         }
