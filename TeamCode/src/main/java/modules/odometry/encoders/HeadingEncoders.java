@@ -17,7 +17,7 @@ public class HeadingEncoders implements Heading {
 
     @Override
     public double getHeading() {
-        angle += (rightEncoder.getDeltaDistance() - leftEncoder.getDeltaDistance()) / (OdometryConstants.leftLength + OdometryConstants.rightLength);
+        angle += (rightEncoder.getDeltaDistance() - leftEncoder.getDeltaDistance()) / ((OdometryConstants.leftLength + OdometryConstants.rightLength) * OdometryConstants.LATERAL_MULTIPLIER);
 
         return  angle;
     }

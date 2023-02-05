@@ -39,9 +39,9 @@ public class OdometryEncoders {
              throw new EncodersExceptions();
 
          // Cazul in care avem cel puțin un Encoder + Heading
-         if(leftEncoder   != null) { this.leftEncoder    = new Encoder(leftEncoder, OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR) ;  this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR); } // Init Left Encoder
+         if(leftEncoder   != null)  this.leftEncoder    = new Encoder(leftEncoder, OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR) ;  // Init Left Encoder
          else this.leftEncoder = null;
-         if(rightEncoder  != null) { this.rightEncoder   = new Encoder(rightEncoder, OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);  this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR); }// Init Right Encoder
+         if(rightEncoder  != null)  this.rightEncoder   = new Encoder(rightEncoder, OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR); // Init Right Encoder
          else this.rightEncoder = null;
      }
 

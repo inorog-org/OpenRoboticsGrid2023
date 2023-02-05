@@ -1,7 +1,6 @@
 package modules.odometry.configuration;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class OdometryConstants {
 
@@ -25,8 +24,8 @@ public class OdometryConstants {
     public static double LEFT_MULTIPLIER     = 1;   // Coeficient de calibrare pentru Encoder Left
     public static double RIGHT_MULTIPLIER    = 1;   // Coeficient de calibrare pentru Encoder Right
     public static double CENTRAL_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Encoder Central
-    public static double LATERAL_DISTANCE    = 1;   // Coeficient de calibrare pentru Lateral Distance
-    public static double FORWARD_OFFSET      = 1;   // Coeficient de calibrare pentru Central Length
+    public static double LATERAL_MULTIPLIER    = 1;   // Coeficient de calibrare pentru Lateral Distance
+    public static double FORWARD_MULTIPLIER    = 1;   // Coeficient de calibrare pentru Central Length
 
 
 }
