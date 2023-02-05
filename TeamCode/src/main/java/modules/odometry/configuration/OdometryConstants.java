@@ -22,9 +22,11 @@ public class OdometryConstants {
     public static final DcMotor.Direction CENTRAL_ENCODER_DIR  = DcMotor.Direction.REVERSE;
 
     // --- Coeficienti de calibrare --- // * idee luată de pe RoadRunner *
-    public static double X_MULTIPLIER      = 1;   // Coeficient de calibrare pentru Axa X
-    public static double Y_MULTIPLIER      = 1;   // Coeficient de calibrare pentru Axa Y
-    public static double LATERAL_DISTANCE  = 1;   // Coeficient de calibrare pentru Encoderele Heading - Calibrăm Raza
-    public static double FORWARD_OFFSET    = 1;   // Coeficient de calibrarea pentru mersul înainte
+    public static double LEFT_MULTIPLIER     = 1;   // Coeficient de calibrare pentru Encoder Left
+    public static double RIGHT_MULTIPLIER    = 1;   // Coeficient de calibrare pentru Encoder Right
+    public static double CENTRAL_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Encoder Central
+    public static double LATERAL_DISTANCE    = 1;   // Coeficient de calibrare pentru Lateral Distance
+    public static double FORWARD_OFFSET      = 1;   // Coeficient de calibrare pentru Central Length
+
 
 }

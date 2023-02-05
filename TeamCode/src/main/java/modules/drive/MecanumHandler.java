@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import modules.drive.configuration.modes.ControlMode;
 import modules.drive.main.Motors;
-import modules.drive.subsystems.kinematic.AutonomousBase;
+import modules.drive.subsystems.kinematic.KinematicBase;
 import modules.drive.subsystems.teleop.Drivebase;
 import modules.odometry.Heading;
 
@@ -20,7 +20,7 @@ public class MecanumHandler {
   private Heading heading;
 
   private Drivebase drivebase;
-  private AutonomousBase autonomousBase;
+  private KinematicBase kinematicBase;
 
   @RequiresApi(api = Build.VERSION_CODES.N)
   public MecanumHandler(LinearOpMode opMode, Heading heading, ControlMode controlMode) {
@@ -42,10 +42,10 @@ public class MecanumHandler {
                 this.drivebase = new Drivebase(opMode, heading);
                 break;
             case AUTONOMOUS:
-                this.autonomousBase = new AutonomousBase(motors, opMode, heading);
+                this.kinematicBase = new KinematicBase(motors, opMode, heading);
             case BOTH:
                 this.drivebase      = new Drivebase(opMode, heading);
-                this.autonomousBase = new AutonomousBase(motors, opMode, heading);
+                this.kinematicBase = new KinematicBase(motors, opMode, heading);
                 break;
         }
     }
@@ -74,20 +74,20 @@ public class MecanumHandler {
     /// === Autonomous Period === ///
 // 0-Fata   90-Stanga  180-Spate   270-Dreapta
     public void setMovement2D(double distance, double angle, double speed){
-        if(autonomousBase != null)
-            autonomousBase.setMovement2D(distance, angle, speed);
+        if(kinematicBase != null)
+            kinematicBase.setMovement2D(distance, angle, speed);
         else mecanumAutonomousNotInit();
     }
 
     public void setRotationFromCurrentHeading(double angle ,double speed){
-        if(autonomousBase != null)
-            autonomousBase.setRotationFromCurrentHeading(angle, speed);
+        if(kinematicBase != null)
+            kinematicBase.setRotationFromCurrentHeading(angle, speed);
         else mecanumAutonomousNotInit();
     }
 
     public void setRotationFromStartHeading(double angle ,double speed){
-        if(autonomousBase != null)
-            autonomousBase.setRotationFromStartHeading(angle, speed);
+        if(kinematicBase != null)
+            kinematicBase.setRotationFromStartHeading(angle, speed);
         else mecanumAutonomousNotInit();
     }
 

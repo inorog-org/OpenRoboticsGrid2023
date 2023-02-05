@@ -19,19 +19,15 @@ public class OdometryEncoders {
     // --- Constructors --- //
     public OdometryEncoders(DcMotorEx leftEncoder, DcMotorEx rightEncoder, @NonNull DcMotorEx centralEncoder, Heading heading) throws EncodersExceptions {
 
-     this.centralEncoder = new Encoder(centralEncoder); // Encoderul Central va fi obligatoriu dacă dorim Odometrie cu Encodere
-     this.centralEncoder.setDirection(OdometryConstants.CENTRAL_ENCODER_DIR);
+     this.centralEncoder = new Encoder(centralEncoder, OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR); // Encoderul Central va fi obligatoriu dacă dorim Odometrie cu Encodere
 
      if (heading == null) {  // Cazul in care nu avem deja IMU sau HeadingEncoders-urile inițiate
 
          if(leftEncoder == null || rightEncoder == null) // Verificăm dacă avem ambele encodere laterale
              throw new EncodersExceptions();
 
-         this.leftEncoder    = new Encoder(leftEncoder);   // Init Left Encoder
-         this.rightEncoder   = new Encoder(rightEncoder);  // Init Right Encoder
-
-         this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
-         this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
+         this.leftEncoder    = new Encoder(leftEncoder, OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR);   // Init Left Encoder
+         this.rightEncoder   = new Encoder(rightEncoder, OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);  // Init Right Encoder
 
          this._heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
 
@@ -43,9 +39,9 @@ public class OdometryEncoders {
              throw new EncodersExceptions();
 
          // Cazul in care avem cel puțin un Encoder + Heading
-         if(leftEncoder   != null) { this.leftEncoder    = new Encoder(leftEncoder) ;  this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR); } // Init Left Encoder
+         if(leftEncoder   != null) { this.leftEncoder    = new Encoder(leftEncoder, OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR) ;  this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR); } // Init Left Encoder
          else this.leftEncoder = null;
-         if(rightEncoder  != null) { this.rightEncoder   = new Encoder(rightEncoder);  this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR); }// Init Right Encoder
+         if(rightEncoder  != null) { this.rightEncoder   = new Encoder(rightEncoder, OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);  this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR); }// Init Right Encoder
          else this.rightEncoder = null;
      }
 
@@ -54,7 +50,6 @@ public class OdometryEncoders {
     public OdometryEncoders(Encoder leftEncoder, Encoder rightEncoder, @NonNull Encoder centralEncoder, Heading heading) throws EncodersExceptions {
 
         this.centralEncoder = centralEncoder; // Encoderul Central va fi obligatoriu dacă dorim Odometrie cu Encodere
-        this.centralEncoder.setDirection(OdometryConstants.CENTRAL_ENCODER_DIR);
 
         if (heading == null) {  // Cazul in care nu avem deja IMU sau HeadingEncoders-urile inițiate
 
@@ -63,9 +58,6 @@ public class OdometryEncoders {
 
             this.leftEncoder    = leftEncoder;   // Init Left Encoder
             this.rightEncoder   = rightEncoder;  // Init Right Encoder
-
-            this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
-            this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
 
             this._heading = new HeadingEncoders(this.leftEncoder, this.rightEncoder); // Init Heading by Encoders
 
@@ -80,8 +72,6 @@ public class OdometryEncoders {
             this.leftEncoder    = leftEncoder;  // Init Left Encoder
             this.rightEncoder   = rightEncoder; // Init Right Encoder
 
-            if(this.leftEncoder  != null)  this.leftEncoder.setDirection(OdometryConstants.LEFT_ENCODER_DIR);
-            if(this.rightEncoder != null)  this.rightEncoder.setDirection(OdometryConstants.RIGHT_ENCODER_DIR);
         }
     }
 

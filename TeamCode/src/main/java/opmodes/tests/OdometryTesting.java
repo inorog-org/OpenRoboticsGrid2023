@@ -13,6 +13,7 @@ import modules.drive.subsystems.teleop.Drivebase;
 import modules.imu.IMU;
 import modules.odometry.Heading;
 import modules.odometry.Odometry;
+import modules.odometry.configuration.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.HeadingEncoders;
@@ -54,9 +55,9 @@ public class OdometryTesting extends LinearOpMode {
         drivebase = new Drivebase(this, imu); // Init Drivebase
 
         // Init Encoders
-        centralEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "central"));
-        leftEncoder    = new Encoder(hardwareMap.get(DcMotorEx.class, "left"));
-        rightEncoder   = new Encoder(hardwareMap.get(DcMotorEx.class, "right"));
+        centralEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);
+        leftEncoder    = new Encoder(hardwareMap.get(DcMotorEx.class, "left"), OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR);
+        rightEncoder   = new Encoder(hardwareMap.get(DcMotorEx.class, "right"), OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);
 
         // Init Heading
         heading = new HeadingEncoders(leftEncoder, rightEncoder);

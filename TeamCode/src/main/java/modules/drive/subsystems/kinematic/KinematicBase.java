@@ -15,7 +15,7 @@ import modules.odometry.Heading;
  *  Această clasă se folosește de Kinematică inversă pentru a face robotul să se miște în timpul Autonomiei.
  *
  * */
-public class AutonomousBase {
+public class KinematicBase {
 
     public LinearOpMode opMode;
 
@@ -28,7 +28,7 @@ public class AutonomousBase {
     private double coefficientBlue;
     private double coefficientRed;
 
-    public AutonomousBase(Motors motors, LinearOpMode opMode, Heading heading){
+    public KinematicBase(Motors motors, LinearOpMode opMode, Heading heading){
         this.motors = motors;
 
         this.accelerationSystem = new AccelerationSystem(opMode, motors, 1000, 1200, new ElapsedTime());

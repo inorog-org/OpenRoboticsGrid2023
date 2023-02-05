@@ -15,9 +15,16 @@ public class Encoder extends DcMotorImplEx {
 
     private double deltaPosition = 0.0;
 
-    public Encoder(DcMotorEx encoder){
+    private double MULTIPLIER = 1.0;
+
+    private int DIRECTION_COEFF = 1;
+
+    public Encoder(DcMotorEx encoder, double multiplier, DcMotorSimple.Direction direction){
 
         super(encoder.getController(), encoder.getPortNumber());
+
+        this.MULTIPLIER = multiplier;
+        this.DIRECTION_COEFF = (direction == Direction.FORWARD) ? 1 : -1;
 
         setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -33,12 +40,12 @@ public class Encoder extends DcMotorImplEx {
 
     public double getDeltaDistance() {
 
-        return deltaPosition * TICKS_TO_CM;
+        return deltaPosition * TICKS_TO_CM * MULTIPLIER * DIRECTION_COEFF;
     }
 
     public double getGlobalDistance() {
 
-        return encoderPosition * TICKS_TO_CM;
+        return encoderPosition * TICKS_TO_CM * MULTIPLIER * DIRECTION_COEFF;
     }
 
 }
