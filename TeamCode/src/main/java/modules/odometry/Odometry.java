@@ -117,6 +117,7 @@ public class Odometry {
         switch (odometryMode) {
             case COMMUNITY:   communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral); break;
             case VECTORIAL:   vectorialOdometryEquation(currentPosition.theta, deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta)); break;
+            case VECTORIAL_EXPONENTIAL: vectorialOdometryEquationExponentials(currentPosition.theta, deltaTheta,deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta));
         }
 
         // Update Inertials - X & Y Axis
@@ -202,7 +203,8 @@ public class Odometry {
 
     public enum MODE {
         COMMUNITY,
-        VECTORIAL
+        VECTORIAL,
+        VECTORIAL_EXPONENTIAL
     }
 
 }
