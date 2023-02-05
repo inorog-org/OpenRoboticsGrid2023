@@ -113,7 +113,7 @@ public class OdometryEncoders {
 
     public double getDeltaDistance(double deltaTheta) {
         if(rightEncoder != null && leftEncoder != null)
-            return (leftEncoder.getDeltaDistance() * OdometryConstants.rightLength + rightEncoder.getDeltaDistance() * OdometryConstants.leftLength) / (OdometryConstants.leftLength + OdometryConstants.rightLength);
+            return (leftEncoder.getDeltaDistance()  + rightEncoder.getDeltaDistance()) / 2;
 
         if(rightEncoder != null)
             return rightEncoder.getDeltaDistance() - OdometryConstants.rightLength * deltaTheta;

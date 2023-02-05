@@ -1,5 +1,7 @@
 package modules.odometry;
 
+import android.renderscript.Matrix2f;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import modules.odometry.configuration.OdometryConstants;
@@ -114,7 +116,7 @@ public class Odometry {
 
         switch (odometryMode) {
             case COMMUNITY:   communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral); break;
-            case VECTORIAL:   vectorialOdometryEquation(deltaTheta, deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta)); break;
+            case VECTORIAL:   vectorialOdometryEquation(currentPosition.theta, deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta)); break;
         }
 
         // Update Inertials - X & Y Axis
@@ -163,10 +165,25 @@ public class Odometry {
 
     }
 
-    private void vectorialOdometryEquation(double deltaTheta, double deltaCentral, double deltaDistance) {
+    private void vectorialOdometryEquation(double theta, double deltaCentral, double deltaDistance) {
 
-        deltaX = deltaDistance * Math.cos(deltaTheta) - deltaCentral * Math.sin(deltaTheta);
-        deltaY = deltaDistance * Math.sin(deltaTheta) + deltaCentral * Math.cos(deltaTheta);
+        deltaX = deltaDistance * Math.cos(theta) - deltaCentral * Math.sin(theta);
+        deltaY = deltaDistance * Math.sin(theta) + deltaCentral * Math.cos(theta);
+    }
+
+    private void vectorialOdometryEquationExponentials(double theta, double deltaTheta, double deltaCentral, double deltaDistance) {
+
+        double cosT = Math.cos(theta);
+        double sinT = Math.sin(theta);
+
+        double cosDT = Math.cos(deltaTheta);
+        double sinDT = Math.sin(deltaTheta);
+
+        double a = cosT * sinDT + sinT * cosDT - sinT;
+        double b = cosT * cosDT - sinT * sinDT - cosT;
+
+        deltaX = ( deltaDistance * a + deltaCentral * b) / deltaTheta;
+        deltaY = (-deltaDistance * b + deltaCentral * a) / deltaTheta;
     }
 
     // Getters

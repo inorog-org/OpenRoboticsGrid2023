@@ -9,7 +9,7 @@ public class PrioritiesGamepad {
 
     public final static int MOVEMENT_TOUCHPAD =  2;
 
-    public final static int MOVEMENT_DPAD     =  3;
+    public final static int MOVEMENT_DPAD     =  0;
 
     public final static int ROTATION_JOYSTICK = 1;
 
