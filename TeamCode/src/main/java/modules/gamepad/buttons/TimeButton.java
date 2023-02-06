@@ -6,12 +6,14 @@ import androidx.annotation.RequiresApi;
 
 import java.util.function.Supplier;
 
+import modules.gamepad.configuration.buttons.GamepadButtons;
+
 public class TimeButton implements Button {
     private final Supplier<Boolean> condition;
     private boolean previousState = false;
     private boolean state = false;
     private long startingTime = 0;
-    private final int time_in_ms = 1000;
+    private final int time_in_ms = GamepadButtons.TIME_FOR_LOCK;
 
     public TimeButton(Supplier<Boolean> button) {
 
@@ -27,6 +29,7 @@ public class TimeButton implements Button {
                 startingTime  = System.currentTimeMillis();
             } else {
                 long timePressed = System.currentTimeMillis() - startingTime;
+                GamepadButtons.TIME_PRESSED = timePressed;
 
                 if (timePressed >= time_in_ms) {
                     state = !state;

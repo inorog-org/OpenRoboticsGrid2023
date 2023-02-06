@@ -14,6 +14,8 @@ public class GamepadActivation {
 
     public static ActivationInput LOCKER   = ActivationInput.ACTIVE;
 
+    public static ActivationInput LOADINGBAR = ActivationInput.ACTIVE;
+
     public static ActivationInput REALIGN  = ActivationInput.ACTIVE;
 
     public static ActivationInput BOOST    = ActivationInput.ACTIVE;

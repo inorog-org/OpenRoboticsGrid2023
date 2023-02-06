@@ -15,9 +15,11 @@ import modules.drive.configuration.DriveSystemConfiguration;
 import modules.drive.configuration.MotorsConstants;
 import modules.drive.configuration.modes.CentricMode;
 import modules.drive.main.Motors;
+import modules.drive.subsystems.utils.LoadingBar;
 import modules.gamepad.GamepadDrive;
 import modules.gamepad.configuration.ActivationInput;
 import modules.gamepad.configuration.GamepadActivation;
+import modules.gamepad.configuration.buttons.GamepadButtons;
 import modules.imu.AngleArithmetic;
 import modules.odometry.Heading;
 
@@ -57,6 +59,9 @@ public class Drivebase {
 
     // Locker
     public boolean isLocked = false;
+    // Loading Bar
+    private LoadingBar<Integer> loadingBar;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Drivebase(LinearOpMode opMode, Heading heading) {
@@ -77,6 +82,8 @@ public class Drivebase {
         this.gamepad = new GamepadDrive(opMode.gamepad1);
 
         this.heading = heading;
+
+        this.loadingBar = new LoadingBar<>(GamepadButtons.TIME_FOR_LOCK, 20);
 
         DriveSetup.initSetup();
     }
@@ -285,6 +292,12 @@ public class Drivebase {
         opMode.telemetry.addData("Blue Power", motors.bluePower);
         opMode.telemetry.addData("Red Power",  motors.redPower);
 
+        if(GamepadActivation.LOCKER == ActivationInput.ACTIVE) {
+            opMode.telemetry.addLine("Press B or CIRCLE for " + GamepadButtons.TIME_FOR_LOCK / 1000.0 + " seconds to " + ((isLocked) ? "unlock" : "lock") + " the robot!!!");
+
+            if(GamepadActivation.LOADINGBAR == ActivationInput.ACTIVE)
+                opMode.telemetry.addLine(loadingBar.getASCIIBar((int) GamepadButtons.TIME_PRESSED) + "| " + (int) (loadingBar.percent * 100) + "%");
+        }
     }
 
 }

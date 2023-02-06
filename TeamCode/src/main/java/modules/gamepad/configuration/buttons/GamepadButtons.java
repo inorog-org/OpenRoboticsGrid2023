@@ -25,6 +25,9 @@ public class GamepadButtons {
     public static ButtonInput bumper_right = ButtonInput.STICKY_BUTTON;
     public static ButtonInput bumper_left  = ButtonInput.STICKY_BUTTON;
 
+    public static int TIME_FOR_LOCK = 1000;
+    public static long TIME_PRESSED  = 0;
+
     public static Class<? extends Button> getButtonType(ButtonInput button) {
 
         switch(button) {
