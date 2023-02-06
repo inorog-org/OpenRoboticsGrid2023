@@ -22,6 +22,7 @@ public class Cuirasat extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         imu = new IMU(this, BNO055IMU.AngleUnit.RADIANS, BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC);
+        imu.remapAxis( 0x24, 0xc);
 
         drivebase = new Drivebase(this, imu);
 

@@ -4,6 +4,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,6 +16,7 @@ import modules.drive.subsystems.teleop.Drivebase;
 import modules.imu.IMU;
 import modules.odometry.Heading;
 import modules.odometry.Odometry;
+import modules.odometry.OdometryHandler;
 import modules.odometry.configuration.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
@@ -23,73 +27,52 @@ public class OdometryTesting extends LinearOpMode {
 
     private Drivebase drivebase;
     private IMU imu;
-
-    private Heading heading;
-
-    private Odometry odometry;
-
-    private Encoder centralEncoder;
-    private Encoder leftEncoder;
-    private Encoder rightEncoder;
-
-    private TelemetryPacket packet;
+    private OdometryHandler odometryHandler;
     private FtcDashboard dashboard;
+    private TelemetryPacket packet;
+    private double headingIMU;
 
-    private double headingIMU, headingEncoder;
+    private double X0 = convertToInches(89.0);
+    private double Y0 = convertToInches(-157.0);
 
-    private double X0 =  35.0; // INCH
-    private double Y0 = -61.8; // INCH
-
-    private double WIDTH  = 40.5 / 2.54;
-    private double HEIGHT = 42.5 / 2.54;
+    private double WIDTH  = convertToInches(40.5);
+    private double HEIGHT = convertToInches(42.5);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void runOpMode() throws InterruptedException {
 
-        dashboard = FtcDashboard.getInstance();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        dashboard = FtcDashboard.getInstance();  // Init Dashboard
+        dashboard.setTelemetryTransmissionInterval(100);
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry()); // Init Telemetry
 
         imu = new IMU(this, BNO055IMU.AngleUnit.RADIANS, BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC); // Init IMU
         imu.remapAxis( 0x24, 0xc);
 
         drivebase = new Drivebase(this, imu); // Init Drivebase
 
-        // Init Encoders
-        centralEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);
-        leftEncoder    = new Encoder(hardwareMap.get(DcMotorEx.class, "left"), OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR);
-        rightEncoder   = new Encoder(hardwareMap.get(DcMotorEx.class, "right"), OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);
+        odometryHandler = new OdometryHandler(this, imu); // Init Odometry Handler
+        odometryHandler.odometry.setOdometryMode(Odometry.MODE.VECTORIAL); // Init Vectorial
 
-        // Init Heading
-        heading = new HeadingEncoders(leftEncoder, rightEncoder);
-
-        try {
-            odometry = new Odometry(heading, leftEncoder, rightEncoder, centralEncoder); // Init Odometry
-        } catch (EncodersExceptions e) {
-            throw new RuntimeException(e);
-        }
-
-        odometry.setOdometryMode(Odometry.MODE.VECTORIAL); // Init Vectorial
+        packet = new TelemetryPacket();
+        sendFieldData();
 
         waitForStart();
 
         while (opModeIsActive()) {
 
-            odometry.updatePosition();
+            odometryHandler.odometry.updatePosition();
 
             drivebase.control();
 
-            telemetry.addData("X-Pos", odometry.getPosition().x);
-            telemetry.addData("Y-Pos", odometry.getPosition().y);
+            telemetry.addData("X-Pos", odometryHandler.odometry.getPosition().x);
+            telemetry.addData("Y-Pos", odometryHandler.odometry.getPosition().y);
 
-            headingEncoder = Math.toDegrees(odometry.getPosition().theta);
             headingIMU = Math.toDegrees(imu.getHeading());
-
-            telemetry.addData("Orientation Encoders", headingEncoder);
             telemetry.addData("Orientation IMU", headingIMU);
 
-            telemetry.addData("Encoder Right", rightEncoder.getCurrentPosition());
-            telemetry.addData("Encoder Left", leftEncoder.getCurrentPosition());
-            telemetry.addData("Encoder Central", centralEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Right", odometryHandler.rightEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Left", odometryHandler.leftEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Central", odometryHandler.centralEncoder.getCurrentPosition());
 
             sendFieldData();
 
@@ -98,12 +81,16 @@ public class OdometryTesting extends LinearOpMode {
         }
     }
 
-    public double convertToInches(double distance) {
+    private static double convertToInches(double distance) {
         return distance * 0.390625;
     }
 
     public void sendFieldData() {
-        packet.fieldOverlay().setFill("blue").fillRect(X0 + convertToInches(odometry.getPosition().x) - WIDTH/2, Y0 + convertToInches(odometry.getPosition().y) - HEIGHT/2, WIDTH, HEIGHT);
+        packet.fieldOverlay()
+              .strokeRect(X0 + convertToInches(odometryHandler.odometry.getPosition().x) - WIDTH  / 2,
+                          Y0 + convertToInches(odometryHandler.odometry.getPosition().y) - HEIGHT / 2,
+                             WIDTH, HEIGHT)
+              .setStroke("blue");
         dashboard.sendTelemetryPacket(packet);
     }
 }

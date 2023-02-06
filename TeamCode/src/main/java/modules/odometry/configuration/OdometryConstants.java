@@ -13,7 +13,7 @@ public class OdometryConstants {
     // --- Distance from Robot Center --- //
     public static final double leftLength    = 11.7;
     public static final double rightLength   = 10.7;
-    public static final double centralLength = 3.20;
+    public static final double centralLength = 3.20 * OdometryConstants.FORWARD_MULTIPLIER;
 
     // --- Rotation Direction --- //
     public static final DcMotor.Direction LEFT_ENCODER_DIR     = DcMotor.Direction.REVERSE;
