@@ -1,4 +1,4 @@
 package modules.drive.subsystems.pursuit.splines;
 
-public class ReedsSheppPath {
+public class Line implements Path {
 }

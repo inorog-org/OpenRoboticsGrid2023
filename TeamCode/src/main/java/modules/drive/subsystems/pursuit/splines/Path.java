@@ -1,4 +1,4 @@
 package modules.drive.subsystems.pursuit.splines;
 
-public class DubinsPath {
+public interface Path {
 }
