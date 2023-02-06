@@ -30,13 +30,7 @@ public class OdometryTesting extends LinearOpMode {
     private OdometryHandler odometryHandler;
     private FtcDashboard dashboard;
     private TelemetryPacket packet;
-    private double headingIMU;
 
-    private double X0 = convertToInches(89.0);
-    private double Y0 = convertToInches(-157.0);
-
-    private double WIDTH  = convertToInches(40.5);
-    private double HEIGHT = convertToInches(42.5);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void runOpMode() throws InterruptedException {
@@ -53,7 +47,7 @@ public class OdometryTesting extends LinearOpMode {
         odometryHandler = new OdometryHandler(this, imu); // Init Odometry Handler
         odometryHandler.odometry.setOdometryMode(Odometry.MODE.VECTORIAL); // Init Vectorial
 
-        packet = new TelemetryPacket();
+        packet = new TelemetryPacket();  // Init Packet
         sendFieldData();
 
         waitForStart();
@@ -67,7 +61,7 @@ public class OdometryTesting extends LinearOpMode {
             telemetry.addData("X-Pos", odometryHandler.odometry.getPosition().x);
             telemetry.addData("Y-Pos", odometryHandler.odometry.getPosition().y);
 
-            headingIMU = Math.toDegrees(imu.getHeading());
+            double headingIMU = Math.toDegrees(imu.getHeading());
             telemetry.addData("Orientation IMU", headingIMU);
 
             telemetry.addData("Encoder Right", odometryHandler.rightEncoder.getCurrentPosition());
@@ -93,4 +87,10 @@ public class OdometryTesting extends LinearOpMode {
               .setStroke("blue");
         dashboard.sendTelemetryPacket(packet);
     }
+
+    private double X0 = convertToInches(89.0);
+    private double Y0 = convertToInches(-157.0);
+    private double WIDTH  = convertToInches(40.5);
+    private double HEIGHT = convertToInches(42.5);
 }
+

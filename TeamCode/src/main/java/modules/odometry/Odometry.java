@@ -156,7 +156,7 @@ public class Odometry {
 
             double s = 2 * Math.sin(absoluteTheta / 2);
 
-            double x   = s * (deltaCentral / deltaTheta   + OdometryConstants.centralLength * OdometryConstants.FORWARD_MULTIPLIER);
+            double x   = s * (deltaCentral / deltaTheta   + OdometryConstants.centralLength);
             double y   = s * encoders.getLateralRadius(deltaTheta);
 
             double cos = Math.cos(absoluteTheta + deltaTheta / 2);
