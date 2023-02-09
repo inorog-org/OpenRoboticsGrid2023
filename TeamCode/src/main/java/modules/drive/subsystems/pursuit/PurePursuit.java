@@ -31,8 +31,6 @@ public class PurePursuit {
         do {
             path.updatePathData(odometryHandler.odometry.updatePosition());
             motors.updateMovementPowerNORMAL(path.getOrientation(), 1.0);
-            opMode.telemetry.addData("Distance", path.getDistance());
-            opMode.telemetry.update();
             // setMagnitude(totalDistance - path.getDistance(), totalDistance);
             movementMagnitude = 0.3;
             setPowerMotors();
