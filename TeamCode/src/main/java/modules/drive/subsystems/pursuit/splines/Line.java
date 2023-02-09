@@ -85,7 +85,7 @@ public class Line implements Path {
         else {
 
             double xm = (- a * c) / (a * a + 1);
-            double ym = c * (1 - a * a) / (a * a + 1);
+            double ym = c / (a * a + 1);
 
             orientation = Math.atan2(ym, xm);
             distance = D + Math.pow(xm - newStart.x, 2) + Math.pow(ym - newStart.y,2);
@@ -95,11 +95,11 @@ public class Line implements Path {
 
     private void findP12ForNonEqualX(double a, double c, Position newStart, Position newFinish) {
 
-        double delta = 2 * a * a * c * c - 4 * (a * a + 1) * (c * c - PurePursuit.PURSUIT_DISTANCE * PurePursuit.PURSUIT_DISTANCE);
+        double square_delta = 2 * Math.sqrt(PurePursuit.PURSUIT_DISTANCE * PurePursuit.PURSUIT_DISTANCE * (a * a + 1) - c * c);
 
 
-        double x1 = (-2 * a * c - Math.sqrt(delta)) / (2 * (a * a + 1));
-        double x2 = (-2 * a * c + Math.sqrt(delta)) / (2 * (a * a + 1));
+        double x1 = (-2 * a * c - square_delta) / (2 * (a * a + 1));
+        double x2 = (-2 * a * c + square_delta) / (2 * (a * a + 1));
 
         double f1 = a * x1 + c;
         double f2 = a * x2 + c;
