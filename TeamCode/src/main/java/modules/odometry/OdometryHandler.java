@@ -53,4 +53,21 @@ public class OdometryHandler {
         }
     }
 
+    public OdometryHandler(LinearOpMode opMode, Heading heading) {
+
+        // Init Encoders
+        centralEncoder = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);
+        leftEncoder    = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "left"), OdometryConstants.LEFT_MULTIPLIER, OdometryConstants.LEFT_ENCODER_DIR);
+        rightEncoder   = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "right"), OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);
+
+        // Init Heading
+        this.heading = heading;
+
+        try {
+            odometry = new Odometry(heading, leftEncoder, rightEncoder, centralEncoder); // Init Odometry
+        } catch (EncodersExceptions e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

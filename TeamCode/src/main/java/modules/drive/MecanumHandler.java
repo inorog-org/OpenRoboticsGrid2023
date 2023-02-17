@@ -9,8 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import modules.drive.configuration.modes.ControlMode;
 import modules.drive.main.Motors;
 import modules.drive.subsystems.kinematic.KinematicBase;
+import modules.drive.subsystems.pursuit.PurePursuit;
 import modules.drive.subsystems.teleop.Drivebase;
 import modules.odometry.Heading;
+import modules.odometry.OdometryHandler;
 
 public class MecanumHandler {
 
@@ -21,6 +23,8 @@ public class MecanumHandler {
 
   private Drivebase drivebase;
   private KinematicBase kinematicBase;
+
+  private PurePursuit purePursuit;
 
   @RequiresApi(api = Build.VERSION_CODES.N)
   public MecanumHandler(LinearOpMode opMode, Heading heading, ControlMode controlMode) {
@@ -41,11 +45,10 @@ public class MecanumHandler {
             case DRIVE:
                 this.drivebase = new Drivebase(opMode, heading);
                 break;
-            case AUTONOMOUS:
+            case AUTONOMOUS_KINEMATIC:
                 this.kinematicBase = new KinematicBase(motors, opMode, heading);
-            case BOTH:
-                this.drivebase      = new Drivebase(opMode, heading);
-                this.kinematicBase = new KinematicBase(motors, opMode, heading);
+            case AUTONOMOUS_PURSUIT:
+                purePursuit = new PurePursuit(opMode, motors, new OdometryHandler(opMode, heading));
                 break;
         }
     }

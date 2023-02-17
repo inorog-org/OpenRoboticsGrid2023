@@ -2,6 +2,6 @@ package modules.drive.configuration.modes;
 
 public enum ControlMode {
     DRIVE,
-    AUTONOMOUS,
-    BOTH
+    AUTONOMOUS_KINEMATIC,
+    AUTONOMOUS_PURSUIT
 }
