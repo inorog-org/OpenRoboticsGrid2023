@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import modules.drive.configuration.modes.ControlMode;
+import modules.configuration.drive.modes.ControlMode;
 import modules.drive.main.Motors;
 import modules.drive.subsystems.kinematic.KinematicBase;
 import modules.drive.subsystems.pursuit.PurePursuit;
@@ -23,7 +23,6 @@ public class MecanumHandler {
 
   private Drivebase drivebase;
   private KinematicBase kinematicBase;
-
   private PurePursuit purePursuit;
 
   @RequiresApi(api = Build.VERSION_CODES.N)

@@ -2,8 +2,7 @@ package modules.odometry;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import modules.drive.configuration.MotorsConstants;
-import modules.odometry.configuration.OdometryConstants;
+import modules.configuration.odometry.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.OdometryEncoders;

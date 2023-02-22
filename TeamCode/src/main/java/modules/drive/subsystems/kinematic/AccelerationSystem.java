@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.MotorsConstants;
+import modules.configuration.drive.MotorsConstants;
 import modules.drive.main.Motors;
 
 

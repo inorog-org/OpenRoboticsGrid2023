@@ -2,7 +2,7 @@ package modules.drive.subsystems.teleop;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import modules.drive.configuration.modes.BrakingMode;
+import modules.configuration.drive.modes.BrakingMode;
 
 public class BrakeSystem {
 

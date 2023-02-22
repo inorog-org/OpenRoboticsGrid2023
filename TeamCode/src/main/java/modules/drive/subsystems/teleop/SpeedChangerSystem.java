@@ -2,9 +2,9 @@ package modules.drive.subsystems.teleop;
 
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.MotorsConstants;
-import modules.gamepad.configuration.ActivationInput;
-import modules.gamepad.configuration.GamepadActivation;
+import modules.configuration.drive.MotorsConstants;
+import modules.configuration.gamepad.ActivationInput;
+import modules.configuration.gamepad.GamepadActivation;
 
 public class SpeedChangerSystem {
 

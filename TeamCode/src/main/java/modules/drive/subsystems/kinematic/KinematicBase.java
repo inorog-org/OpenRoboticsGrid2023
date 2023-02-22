@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.MotorsConstants;
+import modules.configuration.drive.MotorsConstants;
 import modules.drive.main.Motors;
 import modules.imu.AngleArithmetic;
 import modules.odometry.Heading;

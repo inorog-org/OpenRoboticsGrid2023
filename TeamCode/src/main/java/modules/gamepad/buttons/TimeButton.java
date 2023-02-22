@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.function.Supplier;
 
-import modules.gamepad.configuration.buttons.GamepadButtons;
+import modules.configuration.gamepad.buttons.GamepadButtons;
 
 public class TimeButton implements Button {
     private final Supplier<Boolean> condition;

@@ -1,6 +1,6 @@
 package modules.drive.subsystems.teleop;
 
-import modules.drive.configuration.MotorsConstants;
+import modules.configuration.drive.MotorsConstants;
 
 public class BoostSystem {
 

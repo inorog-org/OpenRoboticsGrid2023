@@ -2,7 +2,7 @@ package modules.gamepad.lightbar;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import modules.gamepad.configuration.lightbar.GamepadLightbar;
+import modules.configuration.gamepad.lightbar.GamepadLightbar;
 import modules.gamepad.lightbar.color.Color;
 import modules.gamepad.lightbar.color.RGB;
 

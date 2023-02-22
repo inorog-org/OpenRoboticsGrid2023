@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.modes.ControlMode;
-import modules.drive.configuration.DriveSystemConfiguration;
-import modules.drive.configuration.modes.MecanumWheelsConfiguration;
+import modules.configuration.drive.modes.ControlMode;
+import modules.configuration.drive.DriveSystemConfiguration;
+import modules.configuration.drive.modes.MecanumWheelsConfiguration;
 import modules.drive.subsystems.teleop.BrakeSystem;
 
 /**
@@ -109,7 +109,8 @@ public class Motors {
     /// === Setting Encoders Mode by Control Mode === ///
     public void setupEncoders(ControlMode controlMode) {
         switch (controlMode) {
-            case AUTONOMOUS:
+            case AUTONOMOUS_KINEMATIC:
+            case AUTONOMOUS_PURSUIT:
                 setupEncoders(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 setupEncoders(DcMotor.RunMode.RUN_USING_ENCODER);
                 break;

@@ -3,7 +3,7 @@ package modules.drive.subsystems.pursuit;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.MotorsConstants;
+import modules.configuration.drive.MotorsConstants;
 import modules.drive.main.Motors;
 import modules.drive.subsystems.pursuit.splines.Line;
 import modules.odometry.OdometryHandler;

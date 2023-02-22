@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-import modules.gamepad.configuration.sticks.GamepadSticks;
+import modules.configuration.gamepad.sticks.GamepadSticks;
 import modules.gamepad.sticks.equations.PolarCoordinates;
 
 public class PolarStick implements Stick {

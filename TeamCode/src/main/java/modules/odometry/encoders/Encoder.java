@@ -1,11 +1,10 @@
 package modules.odometry.encoders;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import modules.odometry.configuration.OdometryConstants;
+import modules.configuration.odometry.OdometryConstants;
 
 public class Encoder extends DcMotorImplEx {
 

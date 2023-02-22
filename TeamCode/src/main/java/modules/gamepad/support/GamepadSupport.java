@@ -1,7 +1,6 @@
 package modules.gamepad.support;
 
 import android.os.Build;
-import android.util.Base64DataException;
 
 import androidx.annotation.RequiresApi;
 
@@ -13,9 +12,9 @@ import java.util.function.Supplier;
 
 import modules.gamepad.Input;
 import modules.gamepad.buttons.Button;
-import modules.gamepad.configuration.buttons.GamepadButtons;
-import modules.gamepad.configuration.sticks.GamepadSticks;
-import modules.gamepad.configuration.triggers.GamepadTriggers;
+import modules.configuration.gamepad.buttons.GamepadButtons;
+import modules.configuration.gamepad.sticks.GamepadSticks;
+import modules.configuration.gamepad.triggers.GamepadTriggers;
 import modules.gamepad.sticks.Stick;
 import modules.gamepad.sticks.equations.PolarCoordinates;
 import modules.gamepad.triggers.Trigger;

@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.function.Supplier;
 
-import modules.gamepad.configuration.touchpad.GamepadTouchpad;
+import modules.configuration.gamepad.touchpad.GamepadTouchpad;
 import modules.gamepad.touchpad.equations.TouchpadEquations;
 
 public class TouchpadSupport {

@@ -1,7 +1,7 @@
 package modules.drive.subsystems.teleop;
 
-import static modules.drive.configuration.DriveSystemConfiguration.centricMode;
-import static modules.drive.configuration.DriveSystemConfiguration.realignMode;
+import static modules.configuration.drive.DriveSystemConfiguration.centricMode;
+import static modules.configuration.drive.DriveSystemConfiguration.realignMode;
 
 import android.os.Build;
 
@@ -10,16 +10,16 @@ import androidx.annotation.RequiresApi;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
-import modules.drive.configuration.DriveSetup;
-import modules.drive.configuration.DriveSystemConfiguration;
-import modules.drive.configuration.MotorsConstants;
-import modules.drive.configuration.modes.CentricMode;
+import modules.configuration.drive.DriveSetup;
+import modules.configuration.drive.DriveSystemConfiguration;
+import modules.configuration.drive.MotorsConstants;
+import modules.configuration.drive.modes.CentricMode;
 import modules.drive.main.Motors;
 import modules.drive.subsystems.utils.LoadingBar;
 import modules.gamepad.GamepadDrive;
-import modules.gamepad.configuration.ActivationInput;
-import modules.gamepad.configuration.GamepadActivation;
-import modules.gamepad.configuration.buttons.GamepadButtons;
+import modules.configuration.gamepad.ActivationInput;
+import modules.configuration.gamepad.GamepadActivation;
+import modules.configuration.gamepad.buttons.GamepadButtons;
 import modules.imu.AngleArithmetic;
 import modules.odometry.Heading;
 

@@ -8,15 +8,15 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.lang.reflect.InvocationTargetException;
 
-import modules.gamepad.configuration.ActivationInput;
-import modules.gamepad.configuration.GamepadActivation;
-import modules.gamepad.configuration.GamepadType;
-import modules.gamepad.configuration.PrioritiesGamepad;
-import modules.gamepad.configuration.buttons.ButtonInput;
-import modules.gamepad.configuration.buttons.GamepadButtons;
-import modules.gamepad.configuration.lightbar.GamepadLightbar;
-import modules.gamepad.configuration.sticks.AxisInput;
-import modules.gamepad.configuration.sticks.GamepadSticks;
+import modules.configuration.gamepad.ActivationInput;
+import modules.configuration.gamepad.GamepadActivation;
+import modules.configuration.gamepad.GamepadType;
+import modules.configuration.gamepad.PrioritiesGamepad;
+import modules.configuration.gamepad.buttons.ButtonInput;
+import modules.configuration.gamepad.buttons.GamepadButtons;
+import modules.configuration.gamepad.lightbar.GamepadLightbar;
+import modules.configuration.gamepad.sticks.AxisInput;
+import modules.configuration.gamepad.sticks.GamepadSticks;
 import modules.gamepad.lightbar.LightbarSupport;
 import modules.gamepad.sticks.equations.PolarCoordinates;
 import modules.gamepad.support.GamepadSupport;

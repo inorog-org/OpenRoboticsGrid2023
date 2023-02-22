@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import modules.odometry.Heading;
-import modules.odometry.configuration.OdometryConstants;
+import modules.configuration.odometry.OdometryConstants;
 
 public class OdometryEncoders {
 

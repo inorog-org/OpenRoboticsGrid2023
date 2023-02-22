@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import modules.imu.IMU;
-import modules.odometry.configuration.OdometryConstants;
+import modules.configuration.odometry.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.HeadingEncoders;

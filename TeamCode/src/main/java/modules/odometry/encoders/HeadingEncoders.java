@@ -1,7 +1,7 @@
 package modules.odometry.encoders;
 
 import modules.odometry.Heading;
-import modules.odometry.configuration.OdometryConstants;
+import modules.configuration.odometry.OdometryConstants;
 
 public class HeadingEncoders implements Heading {
 
