@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
+import modules.configuration.drive.MotorsConstants;
 import modules.configuration.drive.modes.ControlMode;
 import modules.configuration.drive.DriveSystemConfiguration;
 import modules.configuration.drive.modes.MecanumWheelsConfiguration;
@@ -141,14 +142,14 @@ public class Motors {
 
         double denominator = maxPowerMovement(cosinus, sinus);
 
-        bluePower  =   ((mecanumConfig_FIRSTCOEFF  * cosinus  + sinus) / denominator) * magnitude;
-        redPower   =   ((mecanumConfig_SECONDCOEFF * cosinus  + sinus) / denominator) * magnitude;
+        bluePower  =   ((mecanumConfig_FIRSTCOEFF  * cosinus * MotorsConstants.ROLLER_COEFF + sinus) / denominator) * magnitude;
+        redPower   =   ((mecanumConfig_SECONDCOEFF * cosinus * MotorsConstants.ROLLER_COEFF + sinus) / denominator) * magnitude;
     }
 
     private double maxPowerMovement(double cos, double sin) {
         switch (DriveSystemConfiguration.powerMode) {
             case MAXIMUM:
-                return Math.abs(cos)  + Math.abs(sin);
+                return Math.abs(cos) * MotorsConstants.ROLLER_COEFF + Math.abs(sin);
             case CONSTANT:
                 return Math.sqrt(2);
         }
@@ -160,8 +161,8 @@ public class Motors {
         double sinus   = Math.sin(angle);
         double cosinus = Math.cos(angle);
 
-        bluePower  =   (mecanumConfig_FIRSTCOEFF  * cosinus * Math.abs(cosinus)  + sinus * Math.abs(sinus)) * magnitude;
-        redPower   =   (mecanumConfig_SECONDCOEFF * cosinus * Math.abs(cosinus)  + sinus * Math.abs(sinus)) * magnitude;
+        bluePower  =   (mecanumConfig_FIRSTCOEFF  * cosinus * Math.abs(cosinus) * MotorsConstants.ROLLER_COEFF + sinus * Math.abs(sinus)) * magnitude;
+        redPower   =   (mecanumConfig_SECONDCOEFF * cosinus * Math.abs(cosinus) * MotorsConstants.ROLLER_COEFF + sinus * Math.abs(sinus)) * magnitude;
     }
 
     public void updateMovementPower(double angle, double magnitude) {

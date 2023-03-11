@@ -71,8 +71,8 @@ public class KinematicBase {
         double sinus   = Math.sin(angle);
         double cosinus = Math.cos(angle);
 
-        coefficientBlue = motors.mecanumConfig_FIRSTCOEFF  * cosinus + sinus;
-        coefficientRed  = motors.mecanumConfig_SECONDCOEFF * cosinus + sinus;
+        coefficientBlue = motors.mecanumConfig_FIRSTCOEFF  * cosinus * MotorsConstants.ROLLER_COEFF + sinus;
+        coefficientRed  = motors.mecanumConfig_SECONDCOEFF * cosinus * MotorsConstants.ROLLER_COEFF + sinus;
     }
 
     // === Rotation === ///
