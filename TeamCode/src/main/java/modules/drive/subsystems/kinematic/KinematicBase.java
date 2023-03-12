@@ -126,5 +126,13 @@ public class KinematicBase {
         motors.stopPower();
     }
 
+    public void rotateRobotByArc(double x, double y, double degrees) {
+
+        //double frontLeft  = ;
+        //double frontRight = ;
+        //double backLeft   = ;
+        //double backRight  = ;
+
+    }
 
 }
