@@ -288,26 +288,25 @@ public class GamepadDrive {
     private boolean isDPADforSpeedchanger() {
         return GamepadActivation.SPEEDCHANGER == ActivationInput.ACTIVE &&
                 GamepadButtons.dpad_down == ButtonInput.STICKY_BUTTON &&
-                GamepadButtons.dpad_up == ButtonInput.STICKY_BUTTON;
+                GamepadButtons.dpad_up   == ButtonInput.STICKY_BUTTON;
     }
 
     private boolean isDPADforMovement() {
         return GamepadActivation.MOVEMENT_DPAD == ActivationInput.ACTIVE &&
-                GamepadButtons.dpad_down == ButtonInput.DEFAULT &&
-                GamepadButtons.dpad_up == ButtonInput.DEFAULT &&
+                GamepadButtons.dpad_down  == ButtonInput.DEFAULT &&
+                GamepadButtons.dpad_up    == ButtonInput.DEFAULT &&
                 GamepadButtons.dpad_right == ButtonInput.DEFAULT &&
-                GamepadButtons.dpad_left == ButtonInput.DEFAULT;
+                GamepadButtons.dpad_left  == ButtonInput.DEFAULT;
     }
 
     private double convertDPADtoAngle(boolean dr, boolean du, boolean dl, boolean dd) {
-        float i_dr = boolToInteger(dr);
-        float i_du = boolToInteger(du);
-        float i_dl = boolToInteger(dl);
-        float i_dd = boolToInteger(dd);
 
-        if (i_dr + i_du + i_dl + i_dd == 0)
-            return 0;
-        else return Math.toRadians((90 * i_du + 180 * i_dl + 270 * i_dd + 360 * boolToInteger(i_dr + i_dd == 2)) / (i_dr + i_du + i_dl + i_dd));
+        float X = boolToInteger(dr) - boolToInteger(dl);
+        float Y = boolToInteger(du) - boolToInteger(dd);
+
+        if(X == 0 && Y == 0)
+            return  0;
+        return Math.atan2(Y, X);
     }
 
     private int boolToInteger(boolean value) {

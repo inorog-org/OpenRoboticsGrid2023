@@ -94,7 +94,7 @@ public class MecanumHandler {
         else mecanumAutonomousNotInit();
     }
 
-    /// === Telemtry for Motors === ///
+    /// === Telemetry for Motors === ///
 
     public void telemetryTeleOpMotors(){
 
