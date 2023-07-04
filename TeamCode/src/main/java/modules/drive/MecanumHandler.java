@@ -46,6 +46,7 @@ public class MecanumHandler {
                 break;
             case AUTONOMOUS_KINEMATIC:
                 this.kinematicBase = new KinematicBase(motors, opMode, heading);
+                break;
             case AUTONOMOUS_PURSUIT:
                 purePursuit = new PurePursuit(opMode, motors, new OdometryHandler(opMode, heading));
                 break;
