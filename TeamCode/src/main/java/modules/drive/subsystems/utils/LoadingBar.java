@@ -1,6 +1,10 @@
 package modules.drive.subsystems.utils;
 
 import com.qualcomm.robotcore.util.Range;
+import com.sun.tools.javac.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class LoadingBar<V extends Number> {
 
@@ -22,7 +26,7 @@ public class LoadingBar<V extends Number> {
 
     public String getASCIIBar(V value) {
 
-        String loadingBar = "";
+        StringBuilder loadingBar = new StringBuilder();
 
         percent = Range.clip(value.doubleValue() / maxValue.doubleValue(), 0.0, 1.0);
 
@@ -32,8 +36,8 @@ public class LoadingBar<V extends Number> {
 
             int bigBlackBlocks = (int) blockPercent;
 
-            loadingBar += new String(new char[bigBlackBlocks]).replace("\0", blockSymbol);
-
+            for(int i = 1; i <= bigBlackBlocks; i++)
+                loadingBar.append(blockSymbol);
 
             int bigWhiteSpaces = barLength - bigBlackBlocks - 1;
 
@@ -43,9 +47,12 @@ public class LoadingBar<V extends Number> {
 
                 int fractionBlockIndex = (int) (fractionBlockPercent * 8);
 
-                loadingBar += fractionSymbols.charAt(fractionBlockIndex) + new String(new char[bigWhiteSpaces]).replace("\0", "\u2800");
+                loadingBar.append(fractionSymbols.charAt(fractionBlockIndex));
+
+                for(int i = 1; i <= bigWhiteSpaces; i++)
+                    loadingBar.append("\u2800");
             }
         }
 
-        return loadingBar;
+        return loadingBar.toString();
     }}

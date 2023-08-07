@@ -147,13 +147,18 @@ public class Motors {
     }
 
     private double maxPowerMovement(double cos, double sin) {
+
         switch (DriveSystemConfiguration.powerMode) {
             case MAXIMUM:
                 return Math.abs(cos) * MotorsConstants.ROLLER_COEFF + Math.abs(sin);
-            case CONSTANT:
-                return Math.sqrt(2);
+            case CONSTANT: {
+                double angle = Math.atan(1 / MotorsConstants.ROLLER_COEFF);
+                return Math.abs(Math.cos(angle)) * MotorsConstants.ROLLER_COEFF + Math.abs(Math.sin(angle));
+            }
         }
-        return Math.sqrt(2);
+
+        double angle = Math.atan(1 / MotorsConstants.ROLLER_COEFF);
+        return Math.abs(Math.cos(angle)) * MotorsConstants.ROLLER_COEFF + Math.abs(Math.sin(angle));
     }
 
     public void updateMovementPowerDRIFT(double angle, double magnitude) {

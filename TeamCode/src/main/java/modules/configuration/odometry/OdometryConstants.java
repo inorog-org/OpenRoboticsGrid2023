@@ -11,9 +11,13 @@ public class OdometryConstants {
     public static final double WHEEL_DIAMETER = 4.8;
 
     // --- Distance from Robot Center --- //
-    public static final double leftLength    = 11.7 * OdometryConstants.LATERAL_MULTIPLIER;
-    public static final double rightLength   = 10.7 * OdometryConstants.LATERAL_MULTIPLIER;
-    public static final double centralLength = 3.20 * OdometryConstants.FORWARD_MULTIPLIER;
+    public static final double leftLength    = OdometryConstants.measuredLeftLength    * OdometryConstants.LATERAL_MULTIPLIER;
+    public static final double rightLength   = OdometryConstants.measuredRightLength   * OdometryConstants.LATERAL_MULTIPLIER;
+    public static final double centralLength = OdometryConstants.measuredCentralLength * OdometryConstants.FORWARD_MULTIPLIER;
+
+    private static final double measuredLeftLength    = 11.7;
+    private static final double measuredRightLength   = 10.7;
+    private static final double measuredCentralLength = 3.20;
 
     // --- Rotation Direction --- //
     public static final DcMotor.Direction LEFT_ENCODER_DIR     = DcMotor.Direction.REVERSE;

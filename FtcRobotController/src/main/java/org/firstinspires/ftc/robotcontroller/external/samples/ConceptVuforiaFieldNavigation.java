@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -49,7 +50,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGR
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 /**
  * This OpMode illustrates using the Vuforia localizer to determine positioning and orientation of
@@ -81,7 +81,7 @@ public class ConceptVuforiaFieldNavigation extends LinearOpMode {
     // 1) Camera Source.  Valid choices are:  BACK (behind screen) or FRONT (selfie side)
     // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT = false (landscape)
 
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    private static final BuiltinCameraDirection CAMERA_CHOICE = BuiltinCameraDirection.BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
 
     /*
@@ -183,7 +183,7 @@ public class ConceptVuforiaFieldNavigation extends LinearOpMode {
          */
 
         // We need to rotate the camera around its long axis to bring the correct camera forward.
-        if (CAMERA_CHOICE == BACK) {
+        if (CAMERA_CHOICE == BuiltinCameraDirection.BACK) {
             phoneYRotate = -90;
         } else {
             phoneYRotate = 90;

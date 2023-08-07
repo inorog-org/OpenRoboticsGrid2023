@@ -33,11 +33,12 @@ public class TouchpadSupport {
         x = xAxis.get();
         y = yAxis.get();
         magnitude = TouchpadEquations.MAG_MAPPING.apply(x, y);
-        x = GamepadTouchpad.getMappingEquation(GamepadTouchpad.TOUCHPAD_MAPPING, "X").apply(x);
-        y = GamepadTouchpad.getMappingEquation(GamepadTouchpad.TOUCHPAD_MAPPING, "Y").apply(y);;
+        x = GamepadTouchpad.getMappingEquation(GamepadTouchpad.TOUCHPAD_MAPPING, Axis.X).apply(x);
+        y = GamepadTouchpad.getMappingEquation(GamepadTouchpad.TOUCHPAD_MAPPING, Axis.Y).apply(y);;
         angle = Math.atan2(y,x);
         isTouched = touchpad.get();
     }
 
+    public enum Axis { X, Y }
 
 }
