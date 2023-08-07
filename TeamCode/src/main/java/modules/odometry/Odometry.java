@@ -10,9 +10,9 @@ import modules.odometry.encoders.OdometryEncoders;
 /**
 
  Clasa poate da handle la următoarele tipuri de Odometrii:
-   - 2 Encodere + IMU (Community/Vectorial)
-   - 2 Encodere + Heading inițiat separat cu Encodere - practic inițiere cu 3 Encodere (Community/Vectorial)
-   - 3 Encodere (Community/Vectorial)
+   - 2 Encodere + IMU (Vectorial)
+   - 2 Encodere + Heading inițiat separat cu Encodere - practic inițiere cu 3 Encodere (Vectorial)
+   - 3 Encodere (Vectorial)
 
  * */
 
@@ -113,8 +113,6 @@ public class Odometry {
         currentAbsoluteTheta = absoluteTheta;
 
         switch (odometryMode) {
-            case COMMUNITY:
-                communityOdometryEquation(absoluteTheta, deltaTheta, deltaCentral); break;
             case VECTORIAL:
                 vectorialOdometryEquation(currentPosition.theta, deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta)); break;
             case VECTORIAL_EXPONENTIAL:
@@ -138,35 +136,6 @@ public class Odometry {
     private double deltaY = 0;
 
     // Ecuatii de Odometrie
-    private void communityOdometryEquation(double absoluteTheta, double deltaTheta, double deltaCentral) {
-
-        // Compute Incremental Values for Position Update
-        if(deltaTheta == 0) {
-
-            double y = encoders.getDeltaLateral();
-
-            double cos = Math.cos(absoluteTheta);
-            double sin = Math.sin(absoluteTheta);
-
-            deltaX = deltaCentral * cos - y * sin;
-            deltaY = deltaCentral * sin + y * cos;
-
-        } else {
-
-            double s = 2 * Math.sin(absoluteTheta / 2);
-
-            double x   = s * (deltaCentral / deltaTheta   + OdometryConstants.centralLength);
-            double y   = s * encoders.getLateralRadius(deltaTheta);
-
-            double cos = Math.cos(absoluteTheta + deltaTheta / 2);
-            double sin = Math.sin(absoluteTheta + deltaTheta / 2);
-
-            deltaX = x * cos - y * sin;
-            deltaY = x * sin + y * cos;
-        }
-
-    }
-
     private void vectorialOdometryEquation(double theta, double deltaCentral, double deltaDistance) {
 
         deltaX = deltaDistance * Math.cos(theta) - deltaCentral * Math.sin(theta);
@@ -203,7 +172,6 @@ public class Odometry {
     }
 
     public enum MODE {
-        COMMUNITY,
         VECTORIAL,
         VECTORIAL_EXPONENTIAL
     }

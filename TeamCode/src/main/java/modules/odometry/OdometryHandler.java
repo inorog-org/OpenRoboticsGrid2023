@@ -18,7 +18,6 @@ public class OdometryHandler {
     public final Encoder leftEncoder;
     public final Encoder rightEncoder;
 
-
     public OdometryHandler(LinearOpMode opMode) {
 
         // Init Encoders

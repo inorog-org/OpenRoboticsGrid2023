@@ -157,7 +157,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
     }
 
     @Override
-    public void initPositionTracker() {
+    public void initPositionTracker(Position initalPosition, Velocity initialVelocity, int msPollInterval) {
+          startAccelerationIntegration(initalPosition, initialVelocity, msPollInterval);
     }
 
     public Position getCoordinates() {
