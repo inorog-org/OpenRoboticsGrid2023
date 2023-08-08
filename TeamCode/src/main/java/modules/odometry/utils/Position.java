@@ -26,7 +26,6 @@ public class Position {
         this.theta = position.theta;
     }
 
-
     public void updatePosition(double x, double y, double theta) {
         this.x = x;
         this.y = y;

@@ -33,13 +33,21 @@ public class Odometry {
     private final Position currentPosition;
 
     // --- Previous Heading --- //
-    private double currentAbsoluteTheta;
+    private double lastTheta;
 
     // --- Inertial --- //
     public final Inertials headingInertials;
     public final Inertials xAxisInertials;
     public final Inertials yAxisInertials;
     public final Inertials positionInertials;
+
+    // --- Matrici --- //
+    private Matrix rotatie;
+    private Matrix exponentiala;
+    private Matrix produsMatrix;
+    private MatrixColumn displacement;
+    private MatrixColumn delta;
+
 
     private MODE odometryMode = MODE.VECTORIAL;
 
@@ -53,12 +61,18 @@ public class Odometry {
         this.startPosition   = startPosition;
         this.currentPosition = new Position();
 
-        this.headingInertials = new Inertials();
-        this.xAxisInertials   = new Inertials();
-        this.yAxisInertials   = new Inertials();
+        this.headingInertials  = new Inertials();
+        this.xAxisInertials    = new Inertials();
+        this.yAxisInertials    = new Inertials();
         this.positionInertials = new Inertials();
 
-        this.currentAbsoluteTheta = startPosition.theta;
+        this.rotatie      = new Matrix();
+        this.exponentiala = new Matrix();
+        this.produsMatrix = new Matrix();
+        this.displacement  = new MatrixColumn();
+        this.delta         = new MatrixColumn();
+
+        this.lastTheta = startPosition.theta;
 
         this.heading = heading;
 
@@ -73,12 +87,18 @@ public class Odometry {
         this.startPosition   = startPosition;
         this.currentPosition = new Position();
 
-        this.headingInertials = new Inertials();
-        this.xAxisInertials   = new Inertials();
-        this.yAxisInertials   = new Inertials();
+        this.headingInertials  = new Inertials();
+        this.xAxisInertials    = new Inertials();
+        this.yAxisInertials    = new Inertials();
         this.positionInertials = new Inertials();
 
-        this.currentAbsoluteTheta = startPosition.theta;
+        this.rotatie      = new Matrix();
+        this.exponentiala = new Matrix();
+        this.produsMatrix = new Matrix();
+        this.displacement  = new MatrixColumn();
+        this.delta         = new MatrixColumn();
+
+        this.lastTheta = startPosition.theta;
 
         this.heading = heading;
 
@@ -108,56 +128,54 @@ public class Odometry {
 
         // Get Heading + Update Inertials
         double headingValue  = heading.getHeading();
-        double absoluteTheta = startPosition.theta + headingValue;
+        double currentTheta  = startPosition.theta + headingValue;
         headingInertials.updateInertials(headingValue);
 
         // Compute Delta Theta & Remember Absolute Theta for next Iterations
-        double deltaTheta = absoluteTheta - currentAbsoluteTheta;
-        currentAbsoluteTheta = absoluteTheta;
+        double phi = currentTheta - lastTheta;
+        lastTheta  = currentTheta;
+
+        // Compute Displacement
+        double centralDisplacement     = encoders.getDeltaDistance(phi);
+        double horizontalDisplacement  = deltaCentral - phi * OdometryConstants.centralLength;
 
         switch (odometryMode) {
             case VECTORIAL:
-                vectorialOdometryEquation(currentPosition.theta, deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta)); break;
+                vectorialOdometryEquation(currentPosition.theta, horizontalDisplacement, centralDisplacement); break;
             case VECTORIAL_EXPONENTIAL:
-                vectorialOdometryEquationExponentials(currentPosition.theta, deltaTheta,deltaCentral - deltaTheta * OdometryConstants.centralLength, encoders.getDeltaDistance(deltaTheta));
+                vectorialOdometryEquationExponentials(currentPosition.theta, phi, horizontalDisplacement, centralDisplacement);
         }
 
         // Update Inertials - X & Y Axis
-        xAxisInertials.updateInertials(deltaX);
-        yAxisInertials.updateInertials(deltaY);
-        positionInertials.updateInertials(Math.hypot(deltaX, deltaY));
+        xAxisInertials.updateInertials(delta.R1);
+        yAxisInertials.updateInertials(delta.R2);
+        positionInertials.updateInertials(Math.hypot(delta.R1, delta.R2));
 
         // Update Position
-        currentPosition.incrementPosition(deltaX, deltaY);
-        currentPosition.theta  = absoluteTheta;
+        currentPosition.incrementPosition(delta.R1, delta.R2);
+        currentPosition.theta  = currentTheta;
 
         return currentPosition;
     }
 
-    // Values for Increment
-    private double deltaX = 0;
-    private double deltaY = 0;
-
     // Ecuatii de Odometrie
-    private void vectorialOdometryEquation(double theta, double deltaCentral, double deltaDistance) {
+    private void vectorialOdometryEquation(double theta, double horizontalDisplacement, double centralDisplacement) {
 
-        deltaX = deltaDistance * Math.cos(theta) - deltaCentral * Math.sin(theta);
-        deltaY = deltaDistance * Math.sin(theta) + deltaCentral * Math.cos(theta);
+        rotatie.createRotationMatrix(theta);
+        displacement.setValues(horizontalDisplacement, centralDisplacement);
+
+        MatrixColumn.multiply(rotatie, displacement, delta);
     }
 
-    private void vectorialOdometryEquationExponentials(double theta, double deltaTheta, double deltaCentral, double deltaDistance) {
+    private void vectorialOdometryEquationExponentials(double theta, double phi, double horizontalDisplacement, double centralDisplacement) {
 
-        double cosT = Math.cos(theta);
-        double sinT = Math.sin(theta);
+        rotatie.createRotationMatrix(theta);
+        exponentiala.createExponentialMatrix(phi);
+        displacement.setValues(horizontalDisplacement, centralDisplacement);
 
-        double cosDT = Math.cos(deltaTheta);
-        double sinDT = Math.sin(deltaTheta);
+        Matrix.multiply(rotatie, exponentiala, produsMatrix);
 
-        double a = cosT * sinDT + sinT * cosDT - sinT;
-        double b = cosT * cosDT - sinT * sinDT - cosT;
-
-        deltaX = ( deltaDistance * a + deltaCentral * b) / deltaTheta;
-        deltaY = (-deltaDistance * b + deltaCentral * a) / deltaTheta;
+        MatrixColumn.multiply(produsMatrix, displacement, delta);
     }
 
     // Getters
@@ -169,6 +187,49 @@ public class Odometry {
     public enum MODE {
         VECTORIAL,
         VECTORIAL_EXPONENTIAL
+    }
+
+    static class Matrix {
+        public double E11 = 0, E12 = 0 , E21 = 0, E22 = 0;
+
+        public void createRotationMatrix(double theta) {
+            this.E11 =  Math.cos(theta);
+            this.E12 = -Math.sin(theta);
+            this.E21 =  Math.sin(theta);
+            this.E22 =  Math.cos(theta);
+        }
+
+        public void createExponentialMatrix(double phi) {
+            this.E11 =     Math.sin(phi)   / phi;
+            this.E12 = (Math.cos(phi) - 1) / phi;
+            this.E21 = - this.E12;
+            this.E22 =   this.E11;
+        }
+
+        public static void multiply(Matrix first, Matrix second, Matrix result) {
+
+            result.E11 = first.E11 * second.E11 + first.E12 * second.E21;
+            result.E12 = first.E11 * second.E12 + first.E12 * second.E22;
+            result.E21 = first.E21 * second.E11 + first.E22 * second.E21;
+            result.E22 = first.E21 * second.E12 + first.E22 * second.E22;
+
+        }
+    }
+
+    static class MatrixColumn {
+        public double R1 = 0, R2 = 0;
+
+        public void setValues(double firstRow, double secondRow) {
+            this.R1 = firstRow;
+            this.R2 = secondRow;
+        }
+
+        public static void multiply(Matrix matrix, MatrixColumn column, MatrixColumn result) {
+
+            result.R1 = matrix.E11 * column.R1 + matrix.E12 * column.R2;
+            result.R2 = matrix.E21 * column.R1 + matrix.E22 * column.R2;
+
+        }
     }
 
 }
