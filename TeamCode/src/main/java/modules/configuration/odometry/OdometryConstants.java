@@ -7,6 +7,8 @@ public class OdometryConstants {
     // --- Encoder TICKS_PER_REV --- //
     public static final int ENCODER_TICKS = 8192;
 
+    public static final double TICKS_TO_CM = (Math.PI * OdometryConstants.WHEEL_DIAMETER) / OdometryConstants.ENCODER_TICKS;
+
     // --- Encoder TICKS_PER_REV --- //
     public static final double WHEEL_DIAMETER = 4.8;
 

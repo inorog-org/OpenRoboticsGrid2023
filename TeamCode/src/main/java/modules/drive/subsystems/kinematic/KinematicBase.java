@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 import modules.configuration.drive.MotorsConstants;
 import modules.drive.main.Motors;
 import modules.imu.AngleArithmetic;
-import modules.odometry.Heading;
+import modules.odometry.utils.Heading;
 
 
 /**

@@ -11,8 +11,8 @@ import modules.drive.main.Motors;
 import modules.drive.subsystems.kinematic.KinematicBase;
 import modules.drive.subsystems.pursuit.PurePursuit;
 import modules.drive.subsystems.teleop.Drivebase;
-import modules.odometry.Heading;
-import modules.odometry.OdometryHandler;
+import modules.odometry.utils.Heading;
+import modules.odometry.OdometryBuilder;
 
 public class MecanumHandler {
 
@@ -48,7 +48,7 @@ public class MecanumHandler {
                 this.kinematicBase = new KinematicBase(motors, opMode, heading);
                 break;
             case AUTONOMOUS_PURSUIT:
-                purePursuit = new PurePursuit(opMode, motors, new OdometryHandler(opMode, heading));
+                purePursuit = new PurePursuit(opMode, motors, new OdometryBuilder(opMode, heading));
                 break;
         }
     }

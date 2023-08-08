@@ -5,7 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import modules.configuration.odometry.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
-import modules.odometry.encoders.OdometryEncoders;
+import modules.odometry.encoders.EncodersHandler;
+import modules.odometry.utils.Heading;
+import modules.odometry.utils.Inertials;
+import modules.odometry.utils.Position;
 
 /**
 
@@ -19,8 +22,8 @@ import modules.odometry.encoders.OdometryEncoders;
 
 public class Odometry {
 
-    // --- Odometry Encoders --- //
-    public final OdometryEncoders encoders;
+    // --- Handler pentru Encodere --- //
+    public final EncodersHandler encoders;
 
     // --- Heading --- //
     private Heading heading;
@@ -59,14 +62,10 @@ public class Odometry {
 
         this.heading = heading;
 
-        this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
+        this.encoders = new EncodersHandler(leftEncoder, rightEncoder, centralEncoder, heading);
 
         if(heading == null)
             this.heading = encoders.getHeading();
-    }
-
-    public Odometry(Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
-        this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
     }
 
     public Odometry(Position startPosition, Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
@@ -83,10 +82,14 @@ public class Odometry {
 
         this.heading = heading;
 
-        this.encoders = new OdometryEncoders(leftEncoder, rightEncoder, centralEncoder, heading);
+        this.encoders = new EncodersHandler(leftEncoder, rightEncoder, centralEncoder, heading);
 
         if(heading == null)
             this.heading = encoders.getHeading();
+    }
+
+    public Odometry(Heading heading, Encoder leftEncoder, Encoder rightEncoder, Encoder centralEncoder) throws EncodersExceptions {
+        this(new Position(), heading, leftEncoder, rightEncoder, centralEncoder);
     }
 
     // Set Mode
@@ -161,14 +164,6 @@ public class Odometry {
     public Position getPosition() {
 
         return currentPosition;
-    }
-
-    public double getDistanceFromOrigin() {
-
-        double dX = currentPosition.x - startPosition.x;
-        double dY = currentPosition.y - startPosition.y;
-
-        return Math.sqrt(dX * dX + dY * dY);
     }
 
     public enum MODE {

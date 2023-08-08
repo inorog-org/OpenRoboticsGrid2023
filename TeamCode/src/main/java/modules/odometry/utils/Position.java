@@ -1,4 +1,4 @@
-package modules.odometry;
+package modules.odometry.utils;
 
 public class Position {
 

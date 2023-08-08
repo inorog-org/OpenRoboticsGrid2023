@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-import modules.odometry.Coordinates;
-import modules.odometry.Heading;
+import modules.odometry.utils.Coordinates;
+import modules.odometry.utils.Heading;
 
 public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, Heading, Coordinates {
 

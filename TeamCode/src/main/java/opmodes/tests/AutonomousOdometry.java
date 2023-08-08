@@ -11,15 +11,15 @@ import modules.drive.main.Motors;
 import modules.drive.subsystems.pursuit.PurePursuit;
 import modules.drive.subsystems.pursuit.splines.Line;
 import modules.imu.IMU;
-import modules.odometry.OdometryHandler;
-import modules.odometry.Position;
+import modules.odometry.OdometryBuilder;
+import modules.odometry.utils.Position;
 
 @TeleOp(name = "Odometry: Autonomous", group = "Testus")
 public class AutonomousOdometry extends LinearOpMode {
 
     private Motors motors;
     private IMU imu;
-    private OdometryHandler odometryHandler;
+    private OdometryBuilder odometryBuilder;
 
     private PurePursuit pursuit;
 
@@ -41,9 +41,9 @@ public class AutonomousOdometry extends LinearOpMode {
         imu = new IMU(this, BNO055IMU.AngleUnit.RADIANS, BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC);
         imu.remapAxis( 0x24, 0xc);
 
-        odometryHandler = new OdometryHandler(this, imu);
+        odometryBuilder = new OdometryBuilder(this, imu);
 
-        pursuit = new PurePursuit(this, motors, odometryHandler);
+        pursuit = new PurePursuit(this, motors, odometryBuilder);
 
         waitForStart();
 

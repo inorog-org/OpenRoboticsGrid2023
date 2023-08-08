@@ -21,7 +21,7 @@ import modules.configuration.gamepad.ActivationInput;
 import modules.configuration.gamepad.GamepadActivation;
 import modules.configuration.gamepad.buttons.GamepadButtons;
 import modules.imu.AngleArithmetic;
-import modules.odometry.Heading;
+import modules.odometry.utils.Heading;
 
 public class Drivebase {
 

@@ -8,8 +8,13 @@ import modules.configuration.odometry.OdometryConstants;
 import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.EncodersExceptions;
 import modules.odometry.encoders.HeadingEncoders;
+import modules.odometry.utils.Heading;
 
-public class OdometryHandler {
+/**
+*    Clasa OdometryBuilder are drept scop inițializarea rapidă a unei odometrii cu 3 Encodere (+IMU/Heading).
+* */
+
+public class OdometryBuilder {
 
     public final Odometry odometry;
 
@@ -18,7 +23,7 @@ public class OdometryHandler {
     public final Encoder leftEncoder;
     public final Encoder rightEncoder;
 
-    public OdometryHandler(LinearOpMode opMode) {
+    public OdometryBuilder(LinearOpMode opMode) {
 
         // Init Encoders
         centralEncoder = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);
@@ -26,7 +31,7 @@ public class OdometryHandler {
         rightEncoder   = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "right"), OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);
 
         // Init Heading
-        heading = new HeadingEncoders(leftEncoder, rightEncoder);;
+        heading = new HeadingEncoders(leftEncoder, rightEncoder);
 
         try {
             odometry = new Odometry(heading, leftEncoder, rightEncoder, centralEncoder); // Init Odometry
@@ -35,7 +40,7 @@ public class OdometryHandler {
         }
     }
 
-    public OdometryHandler(LinearOpMode opMode, IMU imu) {
+    public OdometryBuilder(LinearOpMode opMode, IMU imu) {
 
         // Init Encoders
         centralEncoder = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);
@@ -52,7 +57,7 @@ public class OdometryHandler {
         }
     }
 
-    public OdometryHandler(LinearOpMode opMode, Heading heading) {
+    public OdometryBuilder(LinearOpMode opMode, Heading heading) {
 
         // Init Encoders
         centralEncoder = new Encoder(opMode.hardwareMap.get(DcMotorEx.class, "central"), OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR);

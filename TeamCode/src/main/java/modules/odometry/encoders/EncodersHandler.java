@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import modules.odometry.Heading;
+import modules.odometry.utils.Heading;
 import modules.configuration.odometry.OdometryConstants;
 
-public class OdometryEncoders {
+public class EncodersHandler {
 
     // --- External Encoders --- //
 
@@ -17,7 +17,9 @@ public class OdometryEncoders {
     public final Encoder centralEncoder;
 
     // --- Constructors --- //
-    public OdometryEncoders(DcMotorEx leftEncoder, DcMotorEx rightEncoder, @NonNull DcMotorEx centralEncoder, Heading heading) throws EncodersExceptions {
+
+    /// --------- Constructor cu DcMotorEx --------- ///
+    public EncodersHandler(DcMotorEx leftEncoder, DcMotorEx rightEncoder, @NonNull DcMotorEx centralEncoder, Heading heading) throws EncodersExceptions {
 
      this.centralEncoder = new Encoder(centralEncoder, OdometryConstants.CENTRAL_MULTIPLIER, OdometryConstants.CENTRAL_ENCODER_DIR); // Encoderul Central va fi obligatoriu dacă dorim Odometrie cu Encodere
 
@@ -47,7 +49,8 @@ public class OdometryEncoders {
 
     }
 
-    public OdometryEncoders(Encoder leftEncoder, Encoder rightEncoder, @NonNull Encoder centralEncoder, Heading heading) throws EncodersExceptions {
+    /// --------- Constructor cu Encodere --------- ///
+    public EncodersHandler(Encoder leftEncoder, Encoder rightEncoder, @NonNull Encoder centralEncoder, Heading heading) throws EncodersExceptions {
 
         this.centralEncoder = centralEncoder; // Encoderul Central va fi obligatoriu dacă dorim Odometrie cu Encodere
 
@@ -74,13 +77,14 @@ public class OdometryEncoders {
 
         }
     }
+    //----------------------------------------------------------------------------------------------------------------------//
 
     public Heading getHeading() {
         return _heading;
     }
 
-    // getDeltaLateral
-    public double getDeltaLateral() {
+    // Funcția returnează distanța parcursă de encoderul lateral - Configurație 2 Encodere
+    private double getDeltaLateral() {
 
         if(rightEncoder != null)
             return rightEncoder.getDeltaDistance();
@@ -91,6 +95,7 @@ public class OdometryEncoders {
         return 0;
     }
 
+    // Funcția returnează lungimea razei a encoderului lateral - Configurație 2 Encodere
     public double getLateralRadius(double deltaTheta) {
         if(rightEncoder != null)
             return getDeltaLateral() / deltaTheta + OdometryConstants.rightLength;
@@ -101,6 +106,7 @@ public class OdometryEncoders {
         return 0;
     }
 
+    // Funcția returnează distanța parcursă de encoderele laterale - Central Displacement
     public double getDeltaDistance(double deltaTheta) {
         if(rightEncoder != null && leftEncoder != null)
             return (leftEncoder.getDeltaDistance()  + rightEncoder.getDeltaDistance()) / 2;

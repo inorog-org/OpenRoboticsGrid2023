@@ -14,14 +14,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import modules.drive.subsystems.teleop.Drivebase;
 import modules.imu.IMU;
 import modules.odometry.Odometry;
-import modules.odometry.OdometryHandler;
+import modules.odometry.OdometryBuilder;
 
 @TeleOp(name = "Lunatica: Odometry", group = "Testus")
 public class OdometryTesting extends LinearOpMode {
 
     private Drivebase drivebase;
     private IMU imu;
-    private OdometryHandler odometryHandler;
+    private OdometryBuilder odometryBuilder;
     private FtcDashboard dashboard;
     private TelemetryPacket packet;
 
@@ -38,8 +38,8 @@ public class OdometryTesting extends LinearOpMode {
 
         drivebase = new Drivebase(this, imu); // Init Drivebase
 
-        odometryHandler = new OdometryHandler(this, imu); // Init Odometry Handler
-        odometryHandler.odometry.setOdometryMode(Odometry.MODE.VECTORIAL); // Init Vectorial
+        odometryBuilder = new OdometryBuilder(this, imu); // Init Odometry Handler
+        odometryBuilder.odometry.setOdometryMode(Odometry.MODE.VECTORIAL); // Init Vectorial
 
         packet = new TelemetryPacket();  // Init Packet
         sendFieldData();
@@ -48,19 +48,19 @@ public class OdometryTesting extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            odometryHandler.odometry.updatePosition();
+            odometryBuilder.odometry.updatePosition();
 
             drivebase.control();
 
-            telemetry.addData("X-Pos", odometryHandler.odometry.getPosition().x);
-            telemetry.addData("Y-Pos", odometryHandler.odometry.getPosition().y);
+            telemetry.addData("X-Pos", odometryBuilder.odometry.getPosition().x);
+            telemetry.addData("Y-Pos", odometryBuilder.odometry.getPosition().y);
 
             double headingIMU = Math.toDegrees(imu.getHeading());
             telemetry.addData("Orientation IMU", headingIMU);
 
-            telemetry.addData("Encoder Right", odometryHandler.rightEncoder.getCurrentPosition());
-            telemetry.addData("Encoder Left", odometryHandler.leftEncoder.getCurrentPosition());
-            telemetry.addData("Encoder Central", odometryHandler.centralEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Right", odometryBuilder.rightEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Left", odometryBuilder.leftEncoder.getCurrentPosition());
+            telemetry.addData("Encoder Central", odometryBuilder.centralEncoder.getCurrentPosition());
 
             sendFieldData();
 
@@ -75,8 +75,8 @@ public class OdometryTesting extends LinearOpMode {
 
     public void sendFieldData() {
         packet.fieldOverlay()
-              .strokeRect(X0 + convertToInches(odometryHandler.odometry.getPosition().x) - WIDTH  / 2,
-                          Y0 + convertToInches(odometryHandler.odometry.getPosition().y) - HEIGHT / 2,
+              .strokeRect(X0 + convertToInches(odometryBuilder.odometry.getPosition().x) - WIDTH  / 2,
+                          Y0 + convertToInches(odometryBuilder.odometry.getPosition().y) - HEIGHT / 2,
                              WIDTH, HEIGHT)
               .setStroke("blue");
         dashboard.sendTelemetryPacket(packet);

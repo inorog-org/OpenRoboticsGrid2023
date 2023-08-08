@@ -17,7 +17,7 @@ public class EncoderCalibration extends LinearOpMode {
     private FtcDashboard dashboard;
 
     private double TARGET_CM = 300.0;
-    private double TARGET_TICKS = TARGET_CM / Encoder.TICKS_TO_CM;
+    private double TARGET_TICKS = TARGET_CM / OdometryConstants.TICKS_TO_CM;
 
     private double LEFT_COEFF  = 0.9905;
     private double RIGHT_COEFF = 0.9821; // Nu uita sa modifici coeff

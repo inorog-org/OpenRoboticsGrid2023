@@ -1,4 +1,4 @@
-package modules.odometry;
+package modules.odometry.utils;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;

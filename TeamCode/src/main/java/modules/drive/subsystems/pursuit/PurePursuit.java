@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 import modules.configuration.drive.MotorsConstants;
 import modules.drive.main.Motors;
 import modules.drive.subsystems.pursuit.splines.Line;
-import modules.odometry.OdometryHandler;
+import modules.odometry.OdometryBuilder;
 
 public class PurePursuit {
 
@@ -14,14 +14,14 @@ public class PurePursuit {
 
     public static final double PURSUIT_DISTANCE = 10.0;
     private Motors motors;
-    private OdometryHandler odometryHandler;
+    private OdometryBuilder odometryBuilder;
 
     private double movementMagnitude = 0;
 
-    public PurePursuit(LinearOpMode opMode,Motors motors, OdometryHandler odometryHandler) {
+    public PurePursuit(LinearOpMode opMode,Motors motors, OdometryBuilder odometryBuilder) {
         this.opMode = opMode;
         this.motors = motors;
-        this.odometryHandler = odometryHandler;
+        this.odometryBuilder = odometryBuilder;
     }
 
     public void handleTrajectory(Line path) {
@@ -29,7 +29,7 @@ public class PurePursuit {
         double totalDistance = Math.sqrt(Math.pow(path.start.x - path.finish.x, 2) + Math.pow(path.start.y - path.finish.y, 2));
 
         do {
-            path.updatePathData(odometryHandler.odometry.updatePosition());
+            path.updatePathData(odometryBuilder.odometry.updatePosition());
             motors.updateMovementPowerNORMAL(path.getOrientation(), 1.0);
             // setMagnitude(totalDistance - path.getDistance(), totalDistance);
             movementMagnitude = 0.3;

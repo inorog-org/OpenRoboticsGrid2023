@@ -1,7 +1,7 @@
 package modules.drive.subsystems.pursuit.splines;
 
 import modules.drive.subsystems.pursuit.PurePursuit;
-import modules.odometry.Position;
+import modules.odometry.utils.Position;
 
 public class Line implements Path {
 
