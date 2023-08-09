@@ -13,8 +13,8 @@ public class OdometryConstants {
     public static final double WHEEL_DIAMETER = 4.8;
 
     // --- Distance from Robot Center --- //
-    public static final double leftLength    = OdometryConstants.measuredLeftLength    * OdometryConstants.LATERAL_MULTIPLIER;
-    public static final double rightLength   = OdometryConstants.measuredRightLength   * OdometryConstants.LATERAL_MULTIPLIER;
+    public static final double leftLength    = OdometryConstants.measuredLeftLength    * OdometryConstants.LATERAL_LEFT_MULTIPLIER;
+    public static final double rightLength   = OdometryConstants.measuredRightLength   * OdometryConstants.LATERAL_RIGHT_MULTIPLIER;
     public static final double centralLength = OdometryConstants.measuredCentralLength * OdometryConstants.FORWARD_MULTIPLIER;
 
     private static final double measuredLeftLength    = 11.7;
@@ -30,7 +30,8 @@ public class OdometryConstants {
     public static double LEFT_MULTIPLIER     = 1;   // Coeficient de calibrare pentru Encoder Left
     public static double RIGHT_MULTIPLIER    = 1;   // Coeficient de calibrare pentru Encoder Right
     public static double CENTRAL_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Encoder Central
-    public static double LATERAL_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Lateral Distance
+    public static double LATERAL_LEFT_MULTIPLIER   = 1;   // Coeficient de calibrare pentru Lateral Distance
+    public static double LATERAL_RIGHT_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Lateral Distance
     public static double FORWARD_MULTIPLIER  = 1;   // Coeficient de calibrare pentru Central Length
 
 

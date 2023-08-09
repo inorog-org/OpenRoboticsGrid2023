@@ -69,7 +69,7 @@ public class ForwardLengthCalibrationOpMode extends LinearOpMode {
 
         while(!gamepad1.b) {
 
-            telemetry.addData("Forward Ration is ", angleOnEncoders / angleOnIMU);
+            telemetry.addData("Forward Ratio is ", angleOnEncoders / angleOnIMU);
 
             telemetry.update();
         }
