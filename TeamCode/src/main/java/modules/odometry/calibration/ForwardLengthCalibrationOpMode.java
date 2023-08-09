@@ -60,9 +60,9 @@ public class ForwardLengthCalibrationOpMode extends LinearOpMode {
             angleOnEncoders = (centralEncoder.getGlobalDistance() - firstGlobalDistance) / (Math.PI * OdometryConstants.centralLength * FORWARD_MULTIPLIER) * 180.0;
             angleOnIMU = imu.getHeading() - firstAngleOnIMU;
 
-            telemetry.addData("Forward Degrees Made",  angleOnEncoders);
+            telemetry.addData("Forward Degrees Made",  angleOnEncoders * Math.PI / 180.0);
 
-            telemetry.addData("IMU Degrees Made", angleOnIMU);
+            telemetry.addData("IMU Degrees Made", angleOnIMU * Math.PI / 180.0);
 
             telemetry.update();
         }

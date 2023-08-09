@@ -10,16 +10,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import modules.configuration.odometry.OdometryConstants;
 import modules.imu.IMU;
 import modules.odometry.encoders.Encoder;
-import modules.odometry.encoders.HeadingEncoders;
 
 @TeleOp(name = "Odometry: INDIVIDUAL LATERAL LENGTH CALIBRATION", group = "Testus")
 public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
     private IMU imu;
-
     private Encoder leftEncoder;
     private Encoder rightEncoder;
-    private HeadingEncoders headingEncoder;
     private FtcDashboard dashboard;
     private double TARGET_ROTATIONS = 10.0;
     private double LATERAL_LEFT_MULTIPLIER  = 1.0;
@@ -38,8 +35,6 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
         leftEncoder   = new Encoder(hardwareMap.get(DcMotorEx.class, "left"),  OdometryConstants.LEFT_MULTIPLIER,  OdometryConstants.LEFT_ENCODER_DIR);
         rightEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "right"), OdometryConstants.RIGHT_MULTIPLIER, OdometryConstants.RIGHT_ENCODER_DIR);
-
-        headingEncoder  = new HeadingEncoders(leftEncoder, rightEncoder);
 
         waitForStart();
 
@@ -74,11 +69,13 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
             telemetry.addData("Left Target Ticks", TARGET_LEFT_TICKS);
 
+            telemetry.addData("Percent Ticks: ", deltaLeftTicks / TARGET_LEFT_TICKS * 100);
+
             telemetry.addData("Left Ticks Ratio", deltaLeftTicks / TARGET_LEFT_TICKS);
 
             angleLeftOnEncoders = (leftEncoder.getGlobalDistance() - firstLeftGlobalDistance) / (Math.PI * OdometryConstants.leftLength * LATERAL_LEFT_MULTIPLIER) * 180.0;
 
-            telemetry.addData("Left Degrees Made",  angleLeftOnEncoders);
+            telemetry.addData("Left Degrees Made",  angleLeftOnEncoders * Math.PI / 180.0);
 
              // ---------------- Right ------------------ //
 
@@ -90,17 +87,19 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
             telemetry.addData("Right Target Ticks", TARGET_RIGHT_TICKS);
 
+            telemetry.addData("Percent Ticks: ", deltaRightTicks / TARGET_RIGHT_TICKS * 100);
+
             telemetry.addData("Right Ticks Ratio", deltaRightTicks / TARGET_RIGHT_TICKS);
 
             angleRightOnEncoders = (rightEncoder.getGlobalDistance() - firstRightGlobalDistance) / (Math.PI * OdometryConstants.rightLength * LATERAL_RIGHT_MULTIPLIER) * 180.0;
 
-            telemetry.addData("Right Degrees Made",  angleRightOnEncoders);
+            telemetry.addData("Right Degrees Made",  angleRightOnEncoders * Math.PI / 180.0);
 
              // ----------------- IMU ---------------- //
 
             angleOnIMU = imu.getHeading() - firstAngleOnIMU;
 
-            telemetry.addData("IMU Degrees Made", angleOnIMU);
+            telemetry.addData("IMU Degrees Made", angleOnIMU * Math.PI / 180.0);
 
             telemetry.update();
         }
@@ -108,7 +107,7 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
         while(!gamepad1.b) {
 
             telemetry.addData("Left Ratio is ", angleLeftOnEncoders  / angleOnIMU);
-            telemetry.addData("Left Ratio is ", angleRightOnEncoders / angleOnIMU);
+            telemetry.addData("Right Ratio is ",angleRightOnEncoders / angleOnIMU);
 
             telemetry.update();
         }
