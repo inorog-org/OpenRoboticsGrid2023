@@ -75,7 +75,7 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
             angleLeftOnEncoders = (leftEncoder.getGlobalDistance() - firstLeftGlobalDistance) / (Math.PI * OdometryConstants.leftLength * LATERAL_LEFT_MULTIPLIER) * 180.0;
 
-            telemetry.addData("Left Degrees Made",  angleLeftOnEncoders * Math.PI / 180.0);
+            telemetry.addData("Left Degrees Made",  angleLeftOnEncoders);
 
              // ---------------- Right ------------------ //
 
@@ -93,7 +93,7 @@ public class IndividualLateralLengthCalibrationOpMode extends LinearOpMode {
 
             angleRightOnEncoders = (rightEncoder.getGlobalDistance() - firstRightGlobalDistance) / (Math.PI * OdometryConstants.rightLength * LATERAL_RIGHT_MULTIPLIER) * 180.0;
 
-            telemetry.addData("Right Degrees Made",  angleRightOnEncoders * Math.PI / 180.0);
+            telemetry.addData("Right Degrees Made",  angleRightOnEncoders);
 
              // ----------------- IMU ---------------- //
 

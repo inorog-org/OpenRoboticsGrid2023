@@ -58,7 +58,7 @@ public class GeneralLateralLengthCalibrationOpMode extends LinearOpMode {
 
             telemetry.addData("Angle On IMU ", angleOnIMU * Math.PI / 180.0);
             telemetry.addData("Angle On Lateral ", angleOnLateral * Math.PI / 180.0);
-            telemetry.addData("Percent to Target", angleOnIMU / (TARGET_ROTATIONS * 2 * Math.PI) * 100);
+            telemetry.addData("Percent to Target", angleOnIMU / (TARGET_ROTATIONS * Math.PI) * 50.0);
 
             telemetry.update();
         }

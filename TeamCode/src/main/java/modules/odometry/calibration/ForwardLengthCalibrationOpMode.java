@@ -57,12 +57,12 @@ public class ForwardLengthCalibrationOpMode extends LinearOpMode {
 
             telemetry.addData("Ticks Ratio", deltaTicks / TARGET_TICKS);
 
-            angleOnEncoders = (centralEncoder.getGlobalDistance() - firstGlobalDistance) / (Math.PI * OdometryConstants.centralLength * FORWARD_MULTIPLIER) * 180.0;
+            angleOnEncoders = (centralEncoder.getGlobalDistance() - firstGlobalDistance) / (OdometryConstants.centralLength * FORWARD_MULTIPLIER) ;
             angleOnIMU = imu.getHeading() - firstAngleOnIMU;
 
-            telemetry.addData("Forward Degrees Made",  angleOnEncoders * Math.PI / 180.0);
+            telemetry.addData("Forward Degrees Made",  angleOnEncoders * 180.0 / Math.PI);
 
-            telemetry.addData("IMU Degrees Made", angleOnIMU * Math.PI / 180.0);
+            telemetry.addData("IMU Degrees Made", angleOnIMU * 180.0 / Math.PI);
 
             telemetry.update();
         }
