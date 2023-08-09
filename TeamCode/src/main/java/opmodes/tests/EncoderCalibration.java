@@ -35,7 +35,7 @@ public class EncoderCalibration extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            leftEncoder.updateValues();;
+            leftEncoder.updateValues();
             rightEncoder.updateValues();
 
             telemetry.addData("Left Encoder Ticks", leftEncoder.getCurrentPosition());
