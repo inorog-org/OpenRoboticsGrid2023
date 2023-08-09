@@ -19,6 +19,8 @@ public class Encoder extends DcMotorImplEx {
     private int DIRECTION;      // Coeficientul de Direcție
 
     // Poziție
+
+    public int currentPosition;
     private int lastPosition;
     private int deltaPosition;
 
@@ -64,7 +66,7 @@ public class Encoder extends DcMotorImplEx {
      */
     public void updateValues() {
 
-        int currentPosition = getCurrentPosition() *  DIRECTION;
+        currentPosition = getCurrentPosition() *  DIRECTION;
 
         if (currentPosition != lastPosition) {
 
