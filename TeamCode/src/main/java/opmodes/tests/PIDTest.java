@@ -17,7 +17,7 @@ import modules.configuration.drive.MotorsConstants;
 @Config
 public class PIDTest extends LinearOpMode {
 
-    public static double Kp = 1, Kd = 0, Ki = 0, TARGET = 300, POWER = 0;
+    public static double Kp = 1, Kd = 0, Ki = 0, TARGET = 300;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -45,12 +45,3 @@ public class PIDTest extends LinearOpMode {
         }
     }
 }
-/*
-
-   Ticks/s ................... Rotations per second ..... Rotations per minute
-
-
-
-
-
-*/
