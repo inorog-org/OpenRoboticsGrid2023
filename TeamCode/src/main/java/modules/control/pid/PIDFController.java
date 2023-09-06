@@ -4,7 +4,7 @@ public class PIDFController {
 
     private double kProportional, kDerivative, kIntegral, kFeedforward, kFilter;
 
-    private double target, currentError, lastError = 0, lastTimeStamp = 0, lastDerivative = 0, integralError = 0, period = 0;
+    private double target, lastError = 0, lastTimeStamp = 0, lastDerivative = 0, integralError = 0;
 
     private double minIntegral = -1.0;
     private double maxIntegral =  1.0;
@@ -43,6 +43,9 @@ public class PIDFController {
 
     public void setTarget(double target) {
         this.target = target;
+        this.integralError  = 0;
+        this.lastTimeStamp  = 0;
+        this.lastDerivative = 0;
     }
 
     public void setDerivativeTolerance(double derivativeTolerance) {
@@ -59,21 +62,21 @@ public class PIDFController {
     }
 
     public void setIntegralBounds(double minIntegral, double maxIntegral) {
-        this.minIntegral = minIntegral;
+        this.minIntegral  = minIntegral;
         this.maxIntegral  = maxIntegral;
     }
 
     public double compute(double currentValue) {
 
         // Error
-        currentError  = target - currentValue;
+        double currentError  = target - currentValue;
 
         // Derivative
         double currentTimeStamp = System.nanoTime() / 1E9;
 
         if(lastTimeStamp == 0) lastTimeStamp = currentTimeStamp; // Ca să nu o ia derivative-ul la vale
 
-        period = currentTimeStamp - lastTimeStamp;
+        double period = currentTimeStamp - lastTimeStamp;
         lastTimeStamp = currentTimeStamp;
         double derivative;
 
@@ -83,7 +86,14 @@ public class PIDFController {
 
         lastError = currentError;
 
+        // Low Pass Filter
+        double savedDerivative = derivative;
+        derivative = derivative * kFilter  + (1 - kFilter) * lastDerivative;
+        lastDerivative = savedDerivative;
+
         // Integral
+        integralError += period * currentError;
+        integralError  = integralError < minIntegral ? minIntegral : Math.min(maxIntegral, integralError); // Integral Bounds
 
         // return Value
         return kProportional * currentError + kIntegral * integralError + kDerivative * derivative + kFeedforward * target;
