@@ -57,7 +57,6 @@ public class GamepadDriveTest extends LinearOpMode {
 
             telemetry.update();
         }
-
     }
 
     public void telemetryMovement() {
