@@ -55,6 +55,9 @@ public class Intake {
         glider.setPower(gamepad.right_trigger - gamepad.left_trigger);
     }
 
-    public void setAspirator() {}
+    public void setAspirator(boolean activate) {
+        if(activate) aspirator.setPower(1.0);
+         else aspirator.setPower(0.0);
+    }
 
 }
