@@ -2,8 +2,8 @@ package opmodes;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -12,8 +12,8 @@ import modules.drive.subsystems.teleop.Drivebase;
 import modules.gamepad.buttons.Button;
 import modules.gamepad.buttons.StickyButton;
 import modules.imu.IMU;
-import modules.odometry.utils.Position;
 
+@TeleOp(name = "Timisoara - TeleOp", group = "Concept")
 public class Timisoara extends LinearOpMode {
 
     private Drivebase drivebase;
@@ -35,6 +35,7 @@ public class Timisoara extends LinearOpMode {
 
             drivebase.control();
             intake.teleOpIntake();
+            arm.teleOpArm();
 
             drivebase.telemetry();
             telemetry.update();
@@ -47,9 +48,9 @@ class Arm {
     private Gamepad gamepad;
     private Servo claw;
     private DcMotor elevator;
-    private double CLOSE_CLAW = 1.0;
-    private double OPEN_CLAW  = 0.0;
-    private double SPEED = 0.8;
+    private double CLOSE_CLAW = 0.4;
+    private double OPEN_CLAW  = 0.7;
+    private double SPEED = 0.6;
 
     private Button clawButton;
     private State clawState;
@@ -81,5 +82,6 @@ class Arm {
                claw.setPosition(OPEN_CLAW);
             }
         }
+
     }
 }
