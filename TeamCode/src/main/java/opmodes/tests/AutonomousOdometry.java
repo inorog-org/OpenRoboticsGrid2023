@@ -50,6 +50,5 @@ public class AutonomousOdometry extends LinearOpMode {
         waitForStart();
 
         pursuit.handleTrajectory(path);
-
     }
 }

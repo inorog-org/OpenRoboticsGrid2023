@@ -35,6 +35,5 @@ public class Cuirasat extends LinearOpMode {
             telemetry.update();
 
         }
-
     }
 }

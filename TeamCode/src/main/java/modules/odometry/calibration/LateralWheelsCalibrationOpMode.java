@@ -52,6 +52,5 @@ public class LateralWheelsCalibrationOpMode extends LinearOpMode {
 
             telemetry.update();
         }
-
     }
 }

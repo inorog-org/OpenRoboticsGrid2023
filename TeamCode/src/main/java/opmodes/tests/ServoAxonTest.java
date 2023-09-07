@@ -25,6 +25,5 @@ public class ServoAxonTest extends LinearOpMode {
             axon.setPosition(gamepad1.left_stick_x);
         }
 
-
     }
 }
