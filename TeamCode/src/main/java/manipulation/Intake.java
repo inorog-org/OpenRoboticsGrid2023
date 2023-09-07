@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import modules.gamepad.buttons.Button;
+import modules.gamepad.buttons.StickyButton;
+
 public class Intake {
 
     private Gamepad gamepad;
@@ -20,14 +23,18 @@ public class Intake {
 
     private State currentState = State.DEPOZITARE;
 
+    private Button intakeButton;
+
     public Intake(HardwareMap hardwareMap, Gamepad gamepad) {
 
-        upper_right = hardwareMap.get(Servo.class, "upper_right");
-        upper_left  = hardwareMap.get(Servo.class, "upper_left");
+        upper_right  = hardwareMap.get(Servo.class, "upper_right");
+        upper_left   = hardwareMap.get(Servo.class, "upper_left");
 
-        aspirator   = hardwareMap.get(CRServo.class, "aspirator");
+        aspirator    = hardwareMap.get(CRServo.class, "aspirator");
 
-        glider      = hardwareMap.get(CRServo.class, "glider");
+        glider       = hardwareMap.get(CRServo.class, "glider");
+
+        intakeButton = new StickyButton(()-> gamepad.a);
     }
 
     enum State {
@@ -66,6 +73,16 @@ public class Intake {
 
         manualGlider();
 
+        if(intakeButton.listen())
+            if (currentState == State.ASPIRATOR) {
+                currentState = State.DEPOZITARE;
+                setUpperDepozitare();
+                setAspirator(false);
+            } else {
+                currentState = State.ASPIRATOR;
+                setUpperAspirator();
+                setAspirator(true);
+            }
 
     }
 
