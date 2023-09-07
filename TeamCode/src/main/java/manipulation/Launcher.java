@@ -2,6 +2,7 @@ package manipulation;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PDController;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -19,9 +20,6 @@ public class Launcher {
     private DcMotorEx flywheel;
     private PDController pdController;
     private Servo limba;
-
-    private double kP = 1.0;
-    private double kD = 1.0;
 
     private double COUNTS_PER_MOTOR_REV = 28.0;
     private double MAX_THEORETICAL_RPM = 6000.0;
@@ -46,10 +44,15 @@ public class Launcher {
 
     private long launcherTimeStamp;
 
+    public static double Kp = 0.00001, Kd = 0, Ki = 0;
+
+    private PIDController pidController;
+    private double pidVal;
+
     public Launcher(HardwareMap hardwareMap, Gamepad gamepad) {
 
         flywheel = (DcMotorEx) hardwareMap.get(DcMotor.class, "launcher");
-        pdController = new PDController(kP, kD);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         limba = hardwareMap.get(Servo.class, "limba");
         limba.setPosition(LIMBA_REPAUS);
@@ -59,6 +62,10 @@ public class Launcher {
 
         flywheelButton = new StickyButton(()-> gamepad.y);
         launcherButton = new StickyButton(()-> gamepad.x);
+
+        pidController = new PIDController(Kp, Ki, Kd);
+
+        pidVal = pidController.calculate(getRPM(), TARGET_RPM);
     }
 
     enum State {
@@ -74,17 +81,21 @@ public class Launcher {
         if(flywheelButton.listen()) {
             if (stateFlywheel == State.INACTIVE) {
                 stateFlywheel = State.ACTIVE;
-                flywheel.setVelocity(pdController.calculate(RPM, TARGET_RPM));
+                pidVal += pidController.calculate(RPM, TARGET_RPM);
+                flywheel.setVelocity(pidVal);
             }
             else {
                 stateFlywheel = State.INACTIVE;
                 flywheel.setPower(0.0);
-                pdController.reset();
+                pidController.reset();
+                pidVal = 0;
             }
         }
 
-        if(stateFlywheel == State.ACTIVE)
-            flywheel.setVelocity(pdController.calculate(RPM));
+        if(stateFlywheel == State.ACTIVE) {
+            pidVal += pidController.calculate(RPM);
+            flywheel.setVelocity(pidVal);
+        }
 
         // Limba
         if(launcherButton.listen()) {
