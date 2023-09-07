@@ -29,7 +29,9 @@ public class Intake {
 
         glider       = hardwareMap.get(CRServo.class, "glider");
 
-        intakeButton = new StickyButton(()-> gamepad.a);
+        this.gamepad = gamepad;
+
+        intakeButton = new StickyButton(()-> this.gamepad.cross);
     }
 
     enum State {
@@ -55,7 +57,7 @@ public class Intake {
 
         manualGlider();
 
-        if(intakeButton.listen())
+        if(intakeButton.listen()) {
             if (currentState == State.ASPIRATOR) {
                 currentState = State.DEPOZITARE;
                 setAspirator(false);
@@ -63,6 +65,8 @@ public class Intake {
                 currentState = State.ASPIRATOR;
                 setAspirator(true);
             }
+        }
+
     }
 
 

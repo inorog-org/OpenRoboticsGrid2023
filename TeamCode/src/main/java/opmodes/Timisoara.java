@@ -60,9 +60,10 @@ class Arm {
         elevator = opMode.hardwareMap.get(DcMotor.class, "elevator");
 
         claw.setPosition(OPEN_CLAW);
+        clawState = State.OPEN;
 
-        clawButton = new StickyButton(()-> gamepad.triangle);
         gamepad = opMode.gamepad2;
+        clawButton = new StickyButton(()-> gamepad.y);
     }
 
     enum State {
