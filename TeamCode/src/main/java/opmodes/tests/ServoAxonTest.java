@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Lunatica: Axon TEST", group = "Testus")
-@Disabled
+// @Disabled
 public class ServoAxonTest extends LinearOpMode {
 
     private Servo axon;
