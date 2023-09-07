@@ -21,7 +21,7 @@ import modules.configuration.drive.MotorsConstants;
 @Config
 public class PIDTest extends LinearOpMode {
 
-    public static double Kp = 1, Kd = 0, Ki = 0, TARGET = 300;
+    public static double Kp = 0.00001, Kd = 0, Ki = 0, TARGET = 300;
 
     private DcMotorEx motor;
     @Override
@@ -34,7 +34,7 @@ public class PIDTest extends LinearOpMode {
 
         PIDController pid = new PIDController(Kp, Ki, Kd);
 
-        DcMotorEx motor = hardwareMap.get(DcMotorEx.class, "motor");
+        motor = (DcMotorEx) hardwareMap.get(DcMotor.class, "motor");
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         double pidVal = pid.calculate(getRPM(), oldTarget);
@@ -47,11 +47,11 @@ public class PIDTest extends LinearOpMode {
 
             pid.setPID(Kp, Ki, Kd);
             double RPM = getRPM();
-            pidVal = pid.calculate(RPM);
+            pidVal += pid.calculate(RPM);
 
             if(oldTarget != TARGET) {
                 oldTarget = TARGET;
-                pid.calculate(RPM, oldTarget);
+                pidVal += pid.calculate(RPM, oldTarget);
             }
 
             telemetry.addData("RPM: ", RPM);
