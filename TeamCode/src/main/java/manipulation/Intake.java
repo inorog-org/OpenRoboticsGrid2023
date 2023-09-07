@@ -18,6 +18,8 @@ public class Intake {
     private CRServo aspirator; // Axon
     private CRServo glider;    // Axon
 
+    private State currentState = State.DEPOZITARE;
+
     public Intake(HardwareMap hardwareMap, Gamepad gamepad) {
 
         upper_right = hardwareMap.get(Servo.class, "upper_right");
@@ -59,5 +61,13 @@ public class Intake {
         if(activate) aspirator.setPower(1.0);
          else aspirator.setPower(0.0);
     }
+
+    public void teleOpIntake() {
+
+        manualGlider();
+
+
+    }
+
 
 }
