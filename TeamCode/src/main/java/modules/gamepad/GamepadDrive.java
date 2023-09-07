@@ -75,7 +75,7 @@ public class GamepadDrive {
     public void updateInput() {
 
         // Detect Gamepad Type
-        gamepadType = detectGamepadType();
+        gamepadType = GamepadType.DUALSHOCK; // detectGamepadType();
 
         // Reset Input
         driveInput.reset();

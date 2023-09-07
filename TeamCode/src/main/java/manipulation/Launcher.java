@@ -27,7 +27,7 @@ public class Launcher {
     private double DISTANCE = 200.0; // cm
     private double ANGLE    = 20.0;  // grade
     private double HEIGHT   = 10.0;  // cm
-    private double WHEEL_RADIUS = 10.0; // cm
+    private double WHEEL_RADIUS = 4.0; // cm
 
     private double LIMBA_REPAUS = 0.0;
     private double LIMBA_LAUNCH = 1.0;
@@ -122,7 +122,7 @@ public class Launcher {
     }
 
     public double getTargetRPM() {
-        double velocity = Math.sqrt( GRAVITY * (DISTANCE * DISTANCE + 2 * HEIGHT * Math.cos(ANGLE) * Math.cos(ANGLE)) / 2 * DISTANCE * Math.sin(2 * ANGLE));
+        double velocity = Math.sqrt( GRAVITY * (DISTANCE * DISTANCE + 2 * HEIGHT * Math.cos(ANGLE) * Math.cos(ANGLE)) / (2 * DISTANCE * Math.sin(2 * ANGLE)));
         return velocity * 30 / (Math.PI * WHEEL_RADIUS);
     }
 

@@ -6,14 +6,14 @@ public class MotorsConstants {
     public static double WIDTH   = 10.0;
     public static double HEIGHT  = 10.0;
 
-    public static double COUNTS_PER_MOTOR_REV   =  537.7;
+    public static double COUNTS_PER_MOTOR_REV   =  384.5;
     public static double DRIVE_GEAR_REDUCTION   =   1.0 ;
     public static double   WHEEL_DIAMETER_CM    =   9.6 ;
     public static double   COUNTS_PER_CM        = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                         (WHEEL_DIAMETER_CM * Math.PI);
 
     public static double   ROLLER_COEFF            = 10.0 / 9.0;  // Este egală cu ctg(alpha) unde alpha este unghiul la care sunt dispuse rollerele de pe Mecanum
-    public static double  MOTOR_MAX_RPM            =  312; // In fisa tehnica asa scrie
+    public static double  MOTOR_MAX_RPM            =  435; // In fisa tehnica asa scrie
 
     // Powers for Motors
     public static double MAX_MOVEMENT_SPEED = 0.8;

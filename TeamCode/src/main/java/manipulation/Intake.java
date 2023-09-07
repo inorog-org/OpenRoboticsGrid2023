@@ -63,7 +63,6 @@ public class Intake {
                 currentState = State.ASPIRATOR;
                 setAspirator(true);
             }
-
     }
 
 
