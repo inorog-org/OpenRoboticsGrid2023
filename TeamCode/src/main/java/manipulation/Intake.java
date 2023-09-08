@@ -18,7 +18,7 @@ public class Intake {
     private CRServo aspirator_femei_2;  // Axon
     private CRServo glider;    // Axon
 
-    private State currentState = State.DEPOZITARE;
+    public State currentState;
 
     private Button intakeButton;
 
@@ -31,7 +31,9 @@ public class Intake {
 
         this.gamepad = gamepad;
 
-        intakeButton = new StickyButton(()-> this.gamepad.cross);
+        intakeButton = new StickyButton(()-> (this.gamepad.a));
+
+        currentState = State.DEPOZITARE;
     }
 
     enum State {
@@ -61,7 +63,7 @@ public class Intake {
             if (currentState == State.ASPIRATOR) {
                 currentState = State.DEPOZITARE;
                 setAspirator(false);
-            } else {
+            } else if(currentState == State.DEPOZITARE){
                 currentState = State.ASPIRATOR;
                 setAspirator(true);
             }
