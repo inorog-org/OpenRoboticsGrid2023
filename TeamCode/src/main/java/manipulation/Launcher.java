@@ -18,7 +18,6 @@ public class Launcher {
     private Gamepad gamepad;
 
     private DcMotorEx flywheel;
-    private PDController pdController;
     private Servo limba;
 
     private double COUNTS_PER_MOTOR_REV = 28.0;
@@ -37,16 +36,17 @@ public class Launcher {
     private double TARGET_RPM = 6000; // RPM
     private double TOLERANCE  = 100; // RPM
 
-    private State stateFlywheel;
-    private State stateLauncher;
+    public State stateFlywheel;
+    public State stateLauncher;
     private Button flywheelButton;
     private Button launcherButton;
 
     private long launcherTimeStamp;
 
-    public static double Kp = 0.00001, Kd = 0, Ki = 0;
+    public static double Kp = 0.00001, Kd = 0.00001, Ki = 0;
+    public static double kF = 2800;
 
-    private PIDController pidController;
+    public PIDController pidController;
     private double pidVal;
 
     public Launcher(HardwareMap hardwareMap, Gamepad gamepad) {
@@ -65,7 +65,7 @@ public class Launcher {
 
         pidController = new PIDController(Kp, Ki, Kd);
 
-        pidVal = pidController.calculate(getRPM(), TARGET_RPM);
+        pidVal =  kF + pidController.calculate(getRPM(), TARGET_RPM);
     }
 
     enum State {
@@ -73,7 +73,7 @@ public class Launcher {
         INACTIVE
     }
 
-    public void teleOpLauncher() {
+    public double teleOpLauncher() {
 
         double RPM = getRPM();
 
@@ -88,7 +88,7 @@ public class Launcher {
                 stateFlywheel = State.INACTIVE;
                 flywheel.setPower(0.0);
                 pidController.reset();
-                pidVal = 0;
+                pidVal = kF;
             }
         }
 
@@ -114,7 +114,7 @@ public class Launcher {
             stateLauncher = State.INACTIVE;
             limba.setPosition(LIMBA_REPAUS);
         }
-
+       return RPM;
     }
 
     public double getRPM() {

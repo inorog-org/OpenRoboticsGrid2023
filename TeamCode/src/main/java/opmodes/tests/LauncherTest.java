@@ -25,7 +25,13 @@ public class LauncherTest extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            launcher.teleOpLauncher();
+            double RPM =  launcher.teleOpLauncher();
+            launcher.pidController.setPID(Launcher.Kp, Launcher.Ki, Launcher.Kd);
+
+            telemetry.addData("RPM", RPM);
+            telemetry.addData("Flywheel State", launcher.stateFlywheel);
+            telemetry.addData("Limba State", launcher.stateLauncher);
+            telemetry.update();
         }
 
     }
