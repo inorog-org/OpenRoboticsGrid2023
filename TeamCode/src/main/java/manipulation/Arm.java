@@ -151,4 +151,8 @@ public class Arm {
         double power = -opMode.gamepad2.right_stick_y * SPEED;
         motor.setPower(power);
     }
+    public void teleOpArm() {
+        actionArm();
+        primitive();
+    }
 }
