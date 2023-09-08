@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import modules.control.pid.PIDFController;
 import modules.gamepad.buttons.Button;
 import modules.gamepad.buttons.StickyButton;
 
@@ -43,11 +44,12 @@ public class Launcher {
 
     private long launcherTimeStamp;
 
-    public static double Kp = 0.00001, Kd = 0.00001, Ki = 0;
+    public static double Kp = 0.00001, Kd = 12, Ki = 0;
     public static double kF = 2800;
 
     public PIDController pidController;
-    private double pidVal;
+    public PIDFController pidfController;
+    public double pidVal;
 
     public Launcher(HardwareMap hardwareMap, Gamepad gamepad) {
 
@@ -64,8 +66,11 @@ public class Launcher {
         launcherButton = new StickyButton(()-> gamepad.x);
 
         pidController = new PIDController(Kp, Ki, Kd);
+        pidfController = new PIDFController(Kp,Ki,Kd, 0.0, 0.5);
 
-        pidVal =  kF + pidController.calculate(getRPM(), TARGET_RPM);
+        //pidController.setSetPoint(TARGET_RPM);
+        pidfController.setTarget(TARGET_RPM);
+        pidVal =  kF;
     }
 
     enum State {
@@ -81,19 +86,22 @@ public class Launcher {
         if(flywheelButton.listen()) {
             if (stateFlywheel == State.INACTIVE) {
                 stateFlywheel = State.ACTIVE;
-                pidVal += pidController.calculate(RPM, TARGET_RPM);
+                //pidVal += pidController.calculate(RPM, TARGET_RPM);
+                pidVal += pidfController.calculate(RPM);
                 flywheel.setVelocity(pidVal);
             }
             else {
                 stateFlywheel = State.INACTIVE;
                 flywheel.setPower(0.0);
-                pidController.reset();
+                // pidController.reset();
+                pidfController.setTarget(TARGET_RPM);
                 pidVal = kF;
             }
         }
 
         if(stateFlywheel == State.ACTIVE) {
-            pidVal += pidController.calculate(RPM);
+            //pidVal += pidController.calculate(RPM - kF);
+            pidVal += pidfController.calculate(RPM);
             flywheel.setVelocity(pidVal);
         }
 

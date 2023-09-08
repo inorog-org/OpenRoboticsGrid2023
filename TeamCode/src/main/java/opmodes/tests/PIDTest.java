@@ -19,9 +19,10 @@ import modules.configuration.drive.MotorsConstants;
 
 @TeleOp(name = "Lunatica: PID", group = "Testus")
 @Config
+@Disabled
 public class PIDTest extends LinearOpMode {
 
-    public static double Kp = 0.00001, Kd = 0, Ki = 0, TARGET = 300;
+    public static double Kp = 0.00001, Kd = 0.0001, Ki = 0, TARGET = 6000, kF = 2800;
 
     private DcMotorEx motor;
     @Override
@@ -34,10 +35,10 @@ public class PIDTest extends LinearOpMode {
 
         PIDController pid = new PIDController(Kp, Ki, Kd);
 
-        motor = (DcMotorEx) hardwareMap.get(DcMotor.class, "motor");
+        motor = (DcMotorEx) hardwareMap.get(DcMotor.class, "launcher");
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        double pidVal = pid.calculate(getRPM(), oldTarget);
+        double pidVal = pid.calculate(getRPM(), oldTarget) + kF;
 
         waitForStart();
 
