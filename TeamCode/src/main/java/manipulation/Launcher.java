@@ -68,8 +68,8 @@ public class Launcher {
         pidController = new PIDController(Kp, Ki, Kd);
         pidfController = new PIDFController(Kp,Ki,Kd, 0.0, 0.5);
 
-        //pidController.setSetPoint(TARGET_RPM);
-        pidfController.setTarget(TARGET_RPM);
+        pidController.setSetPoint(TARGET_RPM);
+        //pidfController.setTarget(TARGET_RPM);
         pidVal =  kF;
     }
 
@@ -86,22 +86,22 @@ public class Launcher {
         if(flywheelButton.listen()) {
             if (stateFlywheel == State.INACTIVE) {
                 stateFlywheel = State.ACTIVE;
-                //pidVal += pidController.calculate(RPM, TARGET_RPM);
-                pidVal += pidfController.calculate(RPM);
+                pidVal += pidController.calculate(RPM, TARGET_RPM);
+               // pidVal += pidfController.calculate(RPM);
                 flywheel.setVelocity(pidVal);
             }
             else {
                 stateFlywheel = State.INACTIVE;
                 flywheel.setPower(0.0);
-                // pidController.reset();
-                pidfController.setTarget(TARGET_RPM);
+                 pidController.reset();
+               // pidfController.setTarget(TARGET_RPM);
                 pidVal = kF;
             }
         }
 
         if(stateFlywheel == State.ACTIVE) {
-            //pidVal += pidController.calculate(RPM - kF);
-            pidVal += pidfController.calculate(RPM);
+            pidVal += pidController.calculate(RPM);
+            //pidVal += pidfController.calculate(RPM);
             flywheel.setVelocity(pidVal);
         }
 

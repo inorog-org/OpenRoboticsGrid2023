@@ -3,6 +3,7 @@ package modules.odometry.calibration;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,6 +14,7 @@ import modules.odometry.encoders.Encoder;
 import modules.odometry.encoders.HeadingEncoders;
 
 @TeleOp(name = "Odometry: GENERAL LATERAL LENGTH CALIBRATION", group = "Testus")
+@Disabled
 public class GeneralLateralLengthCalibrationOpMode extends LinearOpMode {
 
     private IMU imu;

@@ -16,6 +16,7 @@ public class Intake {
 
     private CRServo aspirator_femei_1; // Axon
     private CRServo aspirator_femei_2;  // Axon
+    private CRServo aspirator_femei_3;  // Axon
     private CRServo glider;    // Axon
 
     public State currentState;
@@ -26,6 +27,7 @@ public class Intake {
 
         aspirator_femei_1  = hardwareMap.get(CRServo.class, "aspirator_1");
         aspirator_femei_2  = hardwareMap.get(CRServo.class, "aspirator_2");
+        aspirator_femei_3  = hardwareMap.get(CRServo.class, "aspirator_3");
 
         glider       = hardwareMap.get(CRServo.class, "glider");
 
@@ -49,9 +51,11 @@ public class Intake {
         if(activate) {
             aspirator_femei_1.setPower(POWER_ASPIRATOR_ON);
             aspirator_femei_2.setPower(POWER_ASPIRATOR_ON);
+            aspirator_femei_3.setPower(POWER_ASPIRATOR_ON);
         } else {
          aspirator_femei_1.setPower(POWER_ASPIRATOR_OFF);
          aspirator_femei_2.setPower(POWER_ASPIRATOR_OFF);
+         aspirator_femei_3.setPower(POWER_ASPIRATOR_OFF);
         }
     }
 
