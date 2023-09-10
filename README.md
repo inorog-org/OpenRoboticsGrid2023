@@ -1,13 +1,3 @@
-# Project Lunatica
+# Open Robotics Grid 2023 - Timisoara
 
-**Un fel de Manhattan Project doar că ăsta distruge roboți de Internațională. :alien::heart::smiling_imp:**
-
-## Status Report
-
-- [x] Odometry
-- [x] Gamepad
-- [x] Drive System
-- [ ] HyperDrive Control
-- [ ] Project Gravitron **#TOP-SECRET**
-- [ ] Project **OZeNeu**
-- [ ] Stage *OCULT Performance* :call_me_hand: :car::police_car::smiling_imp::smiling_imp::smiling_imp: 
+**Acest repository conține codul folosit în tabăra organizată de CSH Team din Timișoara unde am avut de construit și de programat un robot care să lanseze la țintă și să pună mingi în balanțe.**
