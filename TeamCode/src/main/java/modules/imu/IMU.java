@@ -1,13 +1,20 @@
 package modules.imu;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.NavUtil.meanIntegrate;
+import static org.firstinspires.ftc.robotcore.external.navigation.NavUtil.plus;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.bosch.NaiveAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -49,6 +56,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
 
         parametersInit(angleUnit, accelUnit);
 
+       // this.setSensorMode(SensorMode.ACCONLY);
+
         remapAxis(DEFAULT_AXIS_MAP_BYTE, DEFAULT_SIGN_MAP_BYTE);
     }
 
@@ -58,7 +67,7 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
         Parameters parameters = new Parameters();
 
         // Sensor Mode
-        parameters.mode = SensorMode.IMU; // Sau cu NDOF dacă vrem o calibrare mai bună cu Magnetometrul
+        parameters.mode = SensorMode.NDOF; // Sau cu NDOF dacă vrem o calibrare mai bună cu Magnetometrul
 
         // Units
         parameters.temperatureUnit = TempUnit.CELSIUS;
@@ -84,7 +93,8 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // Fișier cu calibrarea
 
         // Algoritm
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+       //parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+       parameters.accelerationIntegrationAlgorithm = new NaiveAccelerationIntegratorMAX();
 
         // Logging
         parameters.loggingEnabled = true;
@@ -166,3 +176,4 @@ public class IMU extends BNO055IMUImpl implements IMUInterface, IMURemapAxis, He
 
     }
 }
+

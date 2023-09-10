@@ -8,6 +8,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,6 +18,7 @@ import modules.odometry.Odometry;
 import modules.odometry.OdometryBuilder;
 
 @TeleOp(name = "Lunatica: Odometry", group = "Testus")
+@Disabled
 public class OdometryTesting extends LinearOpMode {
 
     private Drivebase drivebase;

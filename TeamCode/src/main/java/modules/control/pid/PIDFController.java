@@ -66,7 +66,7 @@ public class PIDFController {
         this.maxIntegral  = maxIntegral;
     }
 
-    public double compute(double currentValue) {
+    public double calculate(double currentValue) {
 
         // Error
         double currentError  = target - currentValue;

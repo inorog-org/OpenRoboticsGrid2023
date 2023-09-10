@@ -3,6 +3,7 @@ package opmodes.tests;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,6 +16,7 @@ import modules.odometry.OdometryBuilder;
 import modules.odometry.utils.Position;
 
 @TeleOp(name = "Odometry: Autonomous", group = "Testus")
+@Disabled
 public class AutonomousOdometry extends LinearOpMode {
 
     private Motors motors;
@@ -48,6 +50,5 @@ public class AutonomousOdometry extends LinearOpMode {
         waitForStart();
 
         pursuit.handleTrajectory(path);
-
     }
 }
