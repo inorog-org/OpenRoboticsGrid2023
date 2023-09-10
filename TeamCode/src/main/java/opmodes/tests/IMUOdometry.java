@@ -3,6 +3,7 @@ package opmodes.tests;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import modules.imu.IMU;
 
 @TeleOp(name = "Concept: Odoemtry IMU", group = "Concept")
+@Disabled
 public class IMUOdometry extends LinearOpMode {
 
     private IMU imu;

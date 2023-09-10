@@ -1,6 +1,7 @@
 package opmodes.tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import modules.imu.IMU;
 import modules.imu.dedicated.CalibrateIMU;
 
 @TeleOp(name = "Lunatica: Calib IMU", group = "Testus")
+@Disabled
 public class TimisCalibIMU extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

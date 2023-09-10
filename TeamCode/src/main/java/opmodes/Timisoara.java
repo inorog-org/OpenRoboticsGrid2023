@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import manipulation.Intake;
+import manipulation.Launcher;
 import modules.drive.subsystems.teleop.Drivebase;
 import modules.gamepad.buttons.Button;
 import modules.gamepad.buttons.StickyButton;
@@ -25,6 +26,8 @@ public class Timisoara extends LinearOpMode {
 
     private Intake intake;
     private Arm arm;
+
+    private Launcher launcher;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -35,6 +38,7 @@ public class Timisoara extends LinearOpMode {
         drivebase = new Drivebase(this, imu);
         intake = new Intake(hardwareMap, gamepad2);
         arm = new Arm(this);
+        launcher = new Launcher(hardwareMap, gamepad2);
 
         waitForStart();
 
@@ -43,10 +47,12 @@ public class Timisoara extends LinearOpMode {
             drivebase.control();
             intake.teleOpIntake();
             arm.teleOpArm();
+            double RPM = launcher.teleOpLauncher();
 
             drivebase.telemetry();
 
             telemetry.addData("Aspirator", intake.currentState);
+            telemetry.addData("RPM ", RPM);
             telemetry.update();
         }
     }
@@ -75,7 +81,7 @@ class Arm {
         clawState = State.OPEN;
 
         gamepad = opMode.gamepad2;
-        clawButton = new StickyButton(()-> gamepad.y);
+        clawButton = new StickyButton(()-> gamepad.right_bumper);
 
         this.telemetry = opMode.telemetry;
     }
@@ -86,7 +92,7 @@ class Arm {
     }
 
     public void teleOpArm() {
-        elevator.setPower(-gamepad.left_stick_y * SPEED);
+        elevator.setPower(gamepad.right_stick_y * SPEED);
 
         if(clawButton.listen()) {
             if(clawState == State.OPEN) {

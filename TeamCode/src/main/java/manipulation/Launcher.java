@@ -63,7 +63,7 @@ public class Launcher {
         stateLauncher = State.INACTIVE;
 
         flywheelButton = new StickyButton(()-> gamepad.y);
-        launcherButton = new StickyButton(()-> gamepad.x);
+        launcherButton = new StickyButton(()-> gamepad.a);
 
         pidController = new PIDController(Kp, Ki, Kd);
         pidfController = new PIDFController(Kp,Ki,Kd, 0.0, 0.5);
