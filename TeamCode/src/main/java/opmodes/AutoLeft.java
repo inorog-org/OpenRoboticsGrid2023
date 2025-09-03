@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Autonomous(name = "Autonomia Oficiala Left", group = "Autonomie")
 @Disabled
 public class AutoLeft extends LinearOpMode {
-  //  public Robot robot;
+    public Robot robot;
 
     private FtcDashboard dashboard;
     @Override
@@ -25,7 +26,6 @@ public class AutoLeft extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
     /*    robot = new Robot(this, Robot.ControlMode.AUTONOMOUS);
         Detection.Circles circles = Detection.Circles.UNKNOWN;
 
